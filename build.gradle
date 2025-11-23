@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.11-SNAPSHOT'
+    id 'fabric-loom' version "${loom_version}"
     id 'maven-publish'
 }
 
@@ -55,7 +55,7 @@ repositories {
 
         modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-        modImplementation("software.bernie.geckolib:geckolib-fabric-${minecraft_version}:4.7.4")
+        modImplementation("software.bernie.geckolib:geckolib-fabric-${minecraft_version}:4.8.2")
         implementation("com.eliotlash.mclib:mclib:20")
 
         modImplementation "org.ladysnake:satin:1.14.0"
