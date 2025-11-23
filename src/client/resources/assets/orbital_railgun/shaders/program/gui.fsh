@@ -1,4 +1,4 @@
-#version 330 compatibility
+#version 150 compatibility
 #define STEPS 500
 #define MIN_DIST 0.001
 #define MAX_DIST 250.
