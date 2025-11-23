@@ -1,19 +1,11 @@
 package io.github.mishkis.orbital_railgun.item;
 
-import io.github.mishkis.orbital_railgun.OrbitalRailgun;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.s2c.play.CooldownUpdateS2CPacket;
-import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.mutable.MutableObject;
 import software.bernie.geckolib.animatable.GeoItem;

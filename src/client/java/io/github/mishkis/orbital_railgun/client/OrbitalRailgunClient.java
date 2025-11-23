@@ -6,7 +6,6 @@ import io.github.mishkis.orbital_railgun.client.rendering.OrbitalRailgunGuiShade
 import io.github.mishkis.orbital_railgun.client.rendering.OrbitalRailgunShader;
 import io.github.mishkis.orbital_railgun.item.OrbitalRailgunItems;
 import ladysnake.satin.api.event.PostWorldRenderCallback;
-import ladysnake.satin.api.event.ShaderEffectRenderCallback;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
