@@ -4,17 +4,18 @@
   "version": "${version}",
   "name": "Orbital Railgun",
   "description": "Adds an Orbital Railgun to the game!",
-  "authors": ["Mishkis"],
+  "authors": ["KingIronMan2011"],
+  "contributors": ["Mishkis"],
   "contact": {},
   "license": "MIT",
   "icon": "assets/orbital_railgun/icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [
-      "io.github.mishkis.orbital_railgun.client.OrbitalRailgunClient"
+      "io.github.kingironman2011.orbital_railgun.client.OrbitalRailgunClient"
     ],
     "main": [
-      "io.github.mishkis.orbital_railgun.OrbitalRailgun"
+      "io.github.kingironman2011.orbital_railgun.OrbitalRailgun"
     ]
   },
   "mixins": [

@@ -1,10 +1,10 @@
-package io.github.mishkis.orbital_railgun.client;
+package io.github.kingironman2011.orbital_railgun.client;
 
-import io.github.mishkis.orbital_railgun.OrbitalRailgun;
-import io.github.mishkis.orbital_railgun.client.item.OrbitalRailgunRenderer;
-import io.github.mishkis.orbital_railgun.client.rendering.OrbitalRailgunGuiShader;
-import io.github.mishkis.orbital_railgun.client.rendering.OrbitalRailgunShader;
-import io.github.mishkis.orbital_railgun.item.OrbitalRailgunItems;
+import io.github.kingironman2011.orbital_railgun.OrbitalRailgun;
+import io.github.kingironman2011.orbital_railgun.client.item.OrbitalRailgunRenderer;
+import io.github.kingironman2011.orbital_railgun.client.rendering.OrbitalRailgunGuiShader;
+import io.github.kingironman2011.orbital_railgun.client.rendering.OrbitalRailgunShader;
+import io.github.kingironman2011.orbital_railgun.item.OrbitalRailgunItems;
 import ladysnake.satin.api.event.PostWorldRenderCallback;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;

@@ -1,4 +1,4 @@
-package io.github.mishkis.orbital_railgun.item;
+package io.github.kingironman2011.orbital_railgun.item;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.player.PlayerEntity;

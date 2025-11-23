@@ -1,6 +1,6 @@
-package io.github.mishkis.orbital_railgun.client.rendering;
+package io.github.kingironman2011.orbital_railgun.client.rendering;
 
-import io.github.mishkis.orbital_railgun.OrbitalRailgun;
+import io.github.kingironman2011.orbital_railgun.OrbitalRailgun;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
 import net.minecraft.registry.RegistryKey;

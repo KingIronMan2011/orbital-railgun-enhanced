@@ -1,7 +1,7 @@
-package io.github.mishkis.orbital_railgun.client.item;
+package io.github.kingironman2011.orbital_railgun.client.item;
 
-import io.github.mishkis.orbital_railgun.OrbitalRailgun;
-import io.github.mishkis.orbital_railgun.item.OrbitalRailgunItem;
+import io.github.kingironman2011.orbital_railgun.OrbitalRailgun;
+import io.github.kingironman2011.orbital_railgun.item.OrbitalRailgunItem;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib.model.DefaultedItemGeoModel;
 import software.bernie.geckolib.renderer.GeoItemRenderer;

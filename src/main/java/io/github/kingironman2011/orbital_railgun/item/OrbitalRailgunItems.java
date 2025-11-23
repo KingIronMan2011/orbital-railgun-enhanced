@@ -1,6 +1,6 @@
-package io.github.mishkis.orbital_railgun.item;
+package io.github.kingironman2011.orbital_railgun.item;
 
-import io.github.mishkis.orbital_railgun.OrbitalRailgun;
+import io.github.kingironman2011.orbital_railgun.OrbitalRailgun;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;

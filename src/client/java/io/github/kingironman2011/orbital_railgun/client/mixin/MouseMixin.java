@@ -1,7 +1,7 @@
-package io.github.mishkis.orbital_railgun.client.mixin;
+package io.github.kingironman2011.orbital_railgun.client.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import io.github.mishkis.orbital_railgun.item.OrbitalRailgunItem;
+import io.github.kingironman2011.orbital_railgun.item.OrbitalRailgunItem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
 import org.spongepowered.asm.mixin.Final;

@@ -1,6 +1,6 @@
-package io.github.mishkis.orbital_railgun.util;
+package io.github.kingironman2011.orbital_railgun.util;
 
-import io.github.mishkis.orbital_railgun.OrbitalRailgun;
+import io.github.kingironman2011.orbital_railgun.OrbitalRailgun;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
