@@ -1,7 +1,6 @@
 package io.github.mishkis.orbital_railgun.client.rendering;
 
 import ladysnake.satin.api.event.PostWorldRenderCallback;
-import ladysnake.satin.api.event.ShaderEffectRenderCallback;
 import ladysnake.satin.api.experimental.ReadableDepthFramebuffer;
 import ladysnake.satin.api.managed.ManagedShaderEffect;
 import ladysnake.satin.api.managed.ShaderEffectManager;

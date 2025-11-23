@@ -3,11 +3,9 @@ package io.github.mishkis.orbital_railgun.client.rendering;
 import io.github.mishkis.orbital_railgun.OrbitalRailgun;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
-import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import org.joml.Vector3f;
 
 public class OrbitalRailgunShader extends AbstractOrbitalRailgunShader {
