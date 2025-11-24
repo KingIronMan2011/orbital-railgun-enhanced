@@ -12,7 +12,7 @@ import io.github.kingironman2011.orbital_railgun_enhanced.config.ServerConfig;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 public class PlayerAreaListener {
-    private static final Logger LOGGER = LoggerFactory.getLogger("orbital_railgun_enhanced");
+    private static final Logger LOGGER = LoggerFactory.getLogger("OrbitalRailgunEnhanced");
     private static final Map<UUID, AreaState> playerStates = new ConcurrentHashMap<>();
     private static Consumer<AreaChangeEvent> areaChangeCallback = null;
 
@@ -103,14 +103,14 @@ public class PlayerAreaListener {
 
         if (ServerConfig.INSTANCE.isDebugMode()) {
             if (isNewLocation) {
-                LOGGER.info("New laser location: ({}, {}) for player {} at time {}", laserX, laserZ, player.getName().getString(), timestamp);
+                LOGGER.debug("[AREA] New laser location: ({}, {}) for player {} at time {}", laserX, laserZ, player.getName().getString(), timestamp);
             }
             if (!wasInside && currentlyInside) {
                 long elapsedMs = System.currentTimeMillis() - timestamp;
-                LOGGER.info("Player {} entered sound range at ({}, {}) - elapsed: {}ms", 
+                LOGGER.debug("[AREA] Player {} entered sound range at ({}, {}) - elapsed: {}ms", 
                     player.getName().getString(), laserX, laserZ, elapsedMs);
             } else if (wasInside && !currentlyInside) {
-                LOGGER.info("Player {} left sound range at ({}, {})", 
+                LOGGER.debug("[AREA] Player {} left sound range at ({}, {})", 
                     player.getName().getString(), laserX, laserZ);
             }
         }
@@ -147,6 +147,11 @@ public class PlayerAreaListener {
         boolean currentlyInside = isPlayerInRange(player, state.lastLaserX, state.lastLaserZ);
 
         if (state.isInside != currentlyInside) {
+            if (ServerConfig.INSTANCE.isDebugMode()) {
+                LOGGER.debug("[AREA] Player {} position changed relative to laser at ({}, {})", 
+                    player.getName().getString(), state.lastLaserX, state.lastLaserZ);
+            }
+            
             AreaCheckResult result = handlePlayerAreaCheck(player, state.lastLaserX, state.lastLaserZ);
             
             if (areaChangeCallback != null && result.hasStateChanged()) {

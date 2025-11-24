@@ -1,5 +1,8 @@
 package io.github.kingironman2011.orbital_railgun_enhanced.client.handler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.github.kingironman2011.orbital_railgun_enhanced.client.OrbitalRailgunClient;
 import io.github.kingironman2011.orbital_railgun_enhanced.registry.SoundsRegistry;
 import io.netty.buffer.Unpooled;
@@ -16,6 +19,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 
 public class SoundsHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger("OrbitalRailgunEnhanced");
     private static final Identifier ORBITAL_RAILGUN_ITEM_ID = new Identifier("orbital_railgun_enhanced", "orbital_railgun");
 
     private boolean wasUsing = false;
@@ -28,6 +32,7 @@ public class SoundsHandler {
     public void initializeClient() {
         railgunItem = Registries.ITEM.get(ORBITAL_RAILGUN_ITEM_ID);
         ClientTickEvents.END_CLIENT_TICK.register(this::onEndTick);
+        LOGGER.info("Client sounds handler initialized");
     }
 
     private void onEndTick(MinecraftClient client) {

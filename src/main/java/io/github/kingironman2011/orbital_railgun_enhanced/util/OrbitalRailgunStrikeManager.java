@@ -1,6 +1,10 @@
 package io.github.kingironman2011.orbital_railgun_enhanced.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.github.kingironman2011.orbital_railgun_enhanced.OrbitalRailgun;
+import io.github.kingironman2011.orbital_railgun_enhanced.config.ServerConfig;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
@@ -21,6 +25,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class OrbitalRailgunStrikeManager {
+    private static final Logger LOGGER = LoggerFactory.getLogger("OrbitalRailgunEnhanced");
     public static ConcurrentHashMap<Pair<BlockPos, List<Entity>>, Pair<Integer, RegistryKey<World>>> activeStrikes = new ConcurrentHashMap<Pair<BlockPos, List<Entity>>, Pair<Integer, RegistryKey<World>>>();
     private static final RegistryKey<DamageType> STRIKE_DAMAGE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier.of(OrbitalRailgun.MOD_ID, "strike"));
     private static final int RADIUS = 24;
@@ -33,18 +38,36 @@ public class OrbitalRailgunStrikeManager {
             BlockPos blockPos = keyPair1.getLeft();
             List<Entity> entities = keyPair1.getRight();
             RegistryKey<World> dimension = keyPair2.getRight();
+            
             if (age >= 700) {
                 activeStrikes.remove(keyPair1);
 
                 ServerWorld world = server.getWorld(dimension);
+                
+                if (ServerConfig.INSTANCE.isDebugMode()) {
+                    LOGGER.debug("[STRIKE] Strike at {} reached impact age (700 ticks), executing damage", blockPos);
+                }
 
+                float strikeDamage = ServerConfig.INSTANCE.getStrikeDamage();
+                int damageCount = 0;
+                
                 entities.forEach(entity -> {
                     if (entity.getWorld().getRegistryKey() == dimension && entity.getPos().subtract(blockPos.toCenterPos()).lengthSquared() <= RADIUS_SQUARED) {
-                        entity.damage(new DamageSource(world.getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).getEntry(STRIKE_DAMAGE).get()), 100000f);
+                        entity.damage(new DamageSource(world.getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).getEntry(STRIKE_DAMAGE).get()), strikeDamage);
+                        if (ServerConfig.INSTANCE.isDebugMode()) {
+                            LOGGER.debug("[STRIKE] Damaged entity {} for {} damage", entity.getName().getString(), strikeDamage);
+                        }
                     }
                 });
 
+                if (ServerConfig.INSTANCE.isDebugMode()) {
+                    LOGGER.debug("[STRIKE] Exploding blocks at {}", blockPos);
+                }
                 explode(blockPos, world);
+                
+                if (ServerConfig.INSTANCE.isDebugMode()) {
+                    LOGGER.info("[STRIKE] Strike at {} completed", blockPos);
+                }
             } else if (age >= 400) {
                 entities.forEach(entity -> {
                     if (entity instanceof PlayerEntity player && player.isSpectator()) {
@@ -57,6 +80,10 @@ public class OrbitalRailgunStrikeManager {
 
                         entity.addVelocity(dir.multiply(mag));
                         entity.velocityModified = true;
+                        
+                        if (ServerConfig.INSTANCE.isDebugMode() && age == 400) {
+                            LOGGER.debug("[STRIKE] Started pull effect for strike at {}", blockPos);
+                        }
                     }
                 });
             }
@@ -64,22 +91,32 @@ public class OrbitalRailgunStrikeManager {
     }
 
     private static void explode(BlockPos origin, World world) {
+        int blocksDestroyed = 0;
         for (int y = world.getBottomY(); y <= world.getHeight(); y++) {
             for (int x = -RADIUS; x <= RADIUS; x++) {
                 for (int z = -RADIUS; z <= RADIUS; z++) {
                     if (mask[x + RADIUS][z + RADIUS]) {
                         world.setBlockState(new BlockPos(origin.getX() + x, y, origin.getZ() + z), Blocks.AIR.getDefaultState());
+                        blocksDestroyed++;
                     }
                 }
             }
         }
+        
+        if (ServerConfig.INSTANCE.isDebugMode()) {
+            LOGGER.debug("[STRIKE] Destroyed {} blocks in explosion", blocksDestroyed);
+        }
     }
 
     public static void initialize() {
+        LOGGER.info("Initializing strike manager...");
         for (int x = -RADIUS; x <= RADIUS; x++) {
             for (int z = -RADIUS; z <= RADIUS; z++) {
                 mask[x + RADIUS][z + RADIUS] = Vector2i.lengthSquared(x, z) <= RADIUS_SQUARED;
             }
+        }
+        if (ServerConfig.INSTANCE.isDebugMode()) {
+            LOGGER.debug("[STRIKE] Generated explosion mask with radius {}", RADIUS);
         }
     }
 }
