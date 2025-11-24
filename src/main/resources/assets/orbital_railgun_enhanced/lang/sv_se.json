@@ -3,5 +3,13 @@
   "death.attack.strike": "%1$s blev utplånad av en Orbital Attack",
   "subtitle.orbital_railgun_enhanced.railgun_shoot": "Orbital railgun skjuter",
   "subtitle.orbital_railgun_enhanced.scope_on": "Sikte online",
-  "subtitle.orbital_railgun_enhanced.equip": "Orbital railgun utrustad"
+  "subtitle.orbital_railgun_enhanced.equip": "Orbital railgun utrustad",
+  
+  "text.config.orbital-railgun-enhanced.title": "Orbital Railgun Förbättrad Konfiguration",
+  "text.config.orbital-railgun-enhanced.option.scopeVolume": "Sikte Volym",
+  "text.config.orbital-railgun-enhanced.option.shootVolume": "Skott Volym",
+  "text.config.orbital-railgun-enhanced.option.equipVolume": "Utrustnings Volym",
+  "text.config.orbital-railgun-enhanced.option.enableScopeSound": "Aktivera Sikte Ljud",
+  "text.config.orbital-railgun-enhanced.option.enableShootSound": "Aktivera Skott Ljud",
+  "text.config.orbital-railgun-enhanced.option.enableEquipSound": "Aktivera Utrustnings Ljud"
 }

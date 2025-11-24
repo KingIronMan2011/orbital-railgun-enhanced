@@ -3,5 +3,13 @@
   "death.attack.strike": "%1$s был уничтожен Орбитальным Ударом",
   "subtitle.orbital_railgun_enhanced.railgun_shoot": "Орбитальная пушка стреляет",
   "subtitle.orbital_railgun_enhanced.scope_on": "Прицел включен",
-  "subtitle.orbital_railgun_enhanced.equip": "Орбитальная пушка экипирована"
+  "subtitle.orbital_railgun_enhanced.equip": "Орбитальная пушка экипирована",
+  
+  "text.config.orbital-railgun-enhanced.title": "Настройки Улучшенной Орбитальной Пушки",
+  "text.config.orbital-railgun-enhanced.option.scopeVolume": "Громкость Прицела",
+  "text.config.orbital-railgun-enhanced.option.shootVolume": "Громкость Выстрела",
+  "text.config.orbital-railgun-enhanced.option.equipVolume": "Громкость Экипировки",
+  "text.config.orbital-railgun-enhanced.option.enableScopeSound": "Включить Звук Прицела",
+  "text.config.orbital-railgun-enhanced.option.enableShootSound": "Включить Звук Выстрела",
+  "text.config.orbital-railgun-enhanced.option.enableEquipSound": "Включить Звук Экипировки"
 }

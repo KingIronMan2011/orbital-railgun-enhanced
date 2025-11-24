@@ -3,5 +3,13 @@
   "death.attack.strike": "%1$s 被轨道打击摧毁了",
   "subtitle.orbital_railgun_enhanced.railgun_shoot": "轨道轨道炮发射",
   "subtitle.orbital_railgun_enhanced.scope_on": "瞄准镜在线",
-  "subtitle.orbital_railgun_enhanced.equip": "轨道轨道炮已装备"
+  "subtitle.orbital_railgun_enhanced.equip": "轨道轨道炮已装备",
+  
+  "text.config.orbital-railgun-enhanced.title": "轨道轨道炮增强版配置",
+  "text.config.orbital-railgun-enhanced.option.scopeVolume": "瞄准镜音量",
+  "text.config.orbital-railgun-enhanced.option.shootVolume": "射击音量",
+  "text.config.orbital-railgun-enhanced.option.equipVolume": "装备音量",
+  "text.config.orbital-railgun-enhanced.option.enableScopeSound": "启用瞄准镜声音",
+  "text.config.orbital-railgun-enhanced.option.enableShootSound": "启用射击声音",
+  "text.config.orbital-railgun-enhanced.option.enableEquipSound": "启用装备声音"
 }

@@ -3,5 +3,13 @@
   "death.attack.strike": "%1$s이(가) 궤도 공격으로 소멸되었습니다",
   "subtitle.orbital_railgun_enhanced.railgun_shoot": "궤도 레일건 발사",
   "subtitle.orbital_railgun_enhanced.scope_on": "스코프 온라인",
-  "subtitle.orbital_railgun_enhanced.equip": "궤도 레일건 장착됨"
+  "subtitle.orbital_railgun_enhanced.equip": "궤도 레일건 장착됨",
+  
+  "text.config.orbital-railgun-enhanced.title": "오비탈 레일건 강화판 설정",
+  "text.config.orbital-railgun-enhanced.option.scopeVolume": "스코프 음량",
+  "text.config.orbital-railgun-enhanced.option.shootVolume": "발사 음량",
+  "text.config.orbital-railgun-enhanced.option.equipVolume": "장착 음량",
+  "text.config.orbital-railgun-enhanced.option.enableScopeSound": "스코프 사운드 활성화",
+  "text.config.orbital-railgun-enhanced.option.enableShootSound": "발사 사운드 활성화",
+  "text.config.orbital-railgun-enhanced.option.enableEquipSound": "장착 사운드 활성화"
 }

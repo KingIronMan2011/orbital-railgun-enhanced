@@ -3,5 +3,13 @@
   "death.attack.strike": "%1$s wurde durch einen Orbitalangriff ausgelöscht",
   "subtitle.orbital_railgun_enhanced.railgun_shoot": "Orbital Railgun feuert",
   "subtitle.orbital_railgun_enhanced.scope_on": "Visier online",
-  "subtitle.orbital_railgun_enhanced.equip": "Orbital Railgun ausgerüstet"
+  "subtitle.orbital_railgun_enhanced.equip": "Orbital Railgun ausgerüstet",
+  
+  "text.config.orbital-railgun-enhanced.title": "Orbital Railgun Enhanced Konfiguration",
+  "text.config.orbital-railgun-enhanced.option.scopeVolume": "Visier Lautstärke",
+  "text.config.orbital-railgun-enhanced.option.shootVolume": "Schuss Lautstärke",
+  "text.config.orbital-railgun-enhanced.option.equipVolume": "Ausrüstungs Lautstärke",
+  "text.config.orbital-railgun-enhanced.option.enableScopeSound": "Visier Sound aktivieren",
+  "text.config.orbital-railgun-enhanced.option.enableShootSound": "Schuss Sound aktivieren",
+  "text.config.orbital-railgun-enhanced.option.enableEquipSound": "Ausrüstungs Sound aktivieren"
 }

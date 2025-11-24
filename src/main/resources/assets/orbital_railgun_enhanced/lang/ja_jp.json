@@ -3,5 +3,13 @@
   "death.attack.strike": "%1$s は軌道攻撃によって消滅しました",
   "subtitle.orbital_railgun_enhanced.railgun_shoot": "オービタルレールガンが発射される",
   "subtitle.orbital_railgun_enhanced.scope_on": "スコープがオンライン",
-  "subtitle.orbital_railgun_enhanced.equip": "オービタルレールガンが装備された"
+  "subtitle.orbital_railgun_enhanced.equip": "オービタルレールガンが装備された",
+  
+  "text.config.orbital-railgun-enhanced.title": "オービタルレールガン強化版の設定",
+  "text.config.orbital-railgun-enhanced.option.scopeVolume": "スコープの音量",
+  "text.config.orbital-railgun-enhanced.option.shootVolume": "発射音の音量",
+  "text.config.orbital-railgun-enhanced.option.equipVolume": "装備音の音量",
+  "text.config.orbital-railgun-enhanced.option.enableScopeSound": "スコープ音を有効にする",
+  "text.config.orbital-railgun-enhanced.option.enableShootSound": "発射音を有効にする",
+  "text.config.orbital-railgun-enhanced.option.enableEquipSound": "装備音を有効にする"
 }

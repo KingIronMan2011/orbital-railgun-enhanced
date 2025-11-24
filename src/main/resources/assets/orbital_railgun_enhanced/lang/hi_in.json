@@ -3,5 +3,13 @@
   "death.attack.strike": "%1$s को कक्षीय हमले से नष्ट कर दिया गया",
   "subtitle.orbital_railgun_enhanced.railgun_shoot": "कक्षीय रेलगन फायर करता है",
   "subtitle.orbital_railgun_enhanced.scope_on": "दायरा ऑनलाइन",
-  "subtitle.orbital_railgun_enhanced.equip": "कक्षीय रेलगन सुसज्जित"
+  "subtitle.orbital_railgun_enhanced.equip": "कक्षीय रेलगन सुसज्जित",
+  
+  "text.config.orbital-railgun-enhanced.title": "कक्षीय रेलगन संवर्धित कॉन्फ़िगरेशन",
+  "text.config.orbital-railgun-enhanced.option.scopeVolume": "स्कोप वॉल्यूम",
+  "text.config.orbital-railgun-enhanced.option.shootVolume": "शूट वॉल्यूम",
+  "text.config.orbital-railgun-enhanced.option.equipVolume": "इक्विप वॉल्यूम",
+  "text.config.orbital-railgun-enhanced.option.enableScopeSound": "स्कोप ध्वनि सक्षम करें",
+  "text.config.orbital-railgun-enhanced.option.enableShootSound": "शूट ध्वनि सक्षम करें",
+  "text.config.orbital-railgun-enhanced.option.enableEquipSound": "इक्विप ध्वनि सक्षम करें"
 }
