@@ -1,9 +1,9 @@
 package io.github.kingironman2011.orbital_railgun_enhanced;
 
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.kingironman2011.orbital_railgun_enhanced.item.OrbitalRailgunItem;
 import io.github.kingironman2011.orbital_railgun_enhanced.item.OrbitalRailgunItems;
 import io.github.kingironman2011.orbital_railgun_enhanced.util.OrbitalRailgunStrikeManager;
 import io.github.kingironman2011.orbital_railgun_enhanced.registry.SoundsRegistry;
@@ -14,14 +14,21 @@ import io.github.kingironman2011.orbital_railgun_enhanced.listener.PlayerAreaLis
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.Registries;
+import net.minecraft.entity.Entity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.Pair;
+import net.minecraft.util.math.Box;
+
+import java.util.List;
 
 public class OrbitalRailgun implements ModInitializer {
     public static final String MOD_ID = "orbital_railgun_enhanced";
@@ -123,6 +130,7 @@ public class OrbitalRailgun implements ModInitializer {
                 });
 
         ServerPlayNetworking.registerGlobalReceiver(SHOOT_PACKET_ID, (server, player, handler, buf, responseSender) -> {
+            OrbitalRailgunItem orbitalRailgun = (OrbitalRailgunItem) buf.readItemStack().getItem();
             BlockPos blockPos = buf.readBlockPos();
 
             if (ServerConfig.INSTANCE.isDebugMode()) {
@@ -134,6 +142,17 @@ public class OrbitalRailgun implements ModInitializer {
             server.execute(() -> {
                 double laserX = blockPos.getX() + 0.5;
                 double laserZ = blockPos.getZ() + 0.5;
+
+                orbitalRailgun.shoot(player);
+
+                List<Entity> nearby =player.getWorld().getOtherEntities(null, Box.of(blockPos.toCenterPos(), 500., 500., 500.));
+                OrbitalRailgunStrikeManager.activeStrikes.put(new Pair<>(blockPos, nearby), new Pair<>(server.getTicks(), player.getWorld().getRegistryKey()));
+
+                nearby.forEach((entity -> {
+                    if (entity instanceof ServerPlayerEntity serverPlayer) {
+                        ServerPlayNetworking.send(serverPlayer, CLIENT_SYNC_PACKET_ID, PacketByteBufs.create().writeBlockPos(blockPos));
+                    }
+                }));
 
                 int totalPlayers = server.getPlayerManager().getPlayerList().size();
                 if (ServerConfig.INSTANCE.isDebugMode()) {
