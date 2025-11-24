@@ -36,6 +36,7 @@ public class OrbitalRailgun implements ModInitializer {
 
     public static final Identifier PLAY_SOUND_PACKET_ID = new Identifier(MOD_ID, "play_sound");
     public static final Identifier STOP_AREA_SOUND_PACKET_ID = new Identifier(MOD_ID, "stop_area_sound");
+    public static final Identifier STOP_ANIMATION_PACKET_ID = new Identifier(MOD_ID, "stop_animation");
     public static final Identifier SHOOT_PACKET_ID = Identifier.of(MOD_ID, "shoot_packet");
     public static final Identifier CLIENT_SYNC_PACKET_ID = Identifier.of(MOD_ID, "client_sync_packet");
 
@@ -168,18 +169,30 @@ public class OrbitalRailgun implements ModInitializer {
                     LOGGER.info("[STRIKE] Orbital railgun fired at ({}, {})", laserX, laserZ);
                 }
 
-                List<Entity> nearby =player.getWorld().getOtherEntities(null, Box.of(blockPos.toCenterPos(), 500., 500., 500.));
+                // Get the configured range for sound/animation
+                double range = ServerConfig.INSTANCE.getSoundRange();
+                
+                // Use the configured range for entity search instead of hardcoded 500 blocks
+                List<Entity> nearby = player.getWorld().getOtherEntities(null, Box.of(blockPos.toCenterPos(), range, range, range));
                 OrbitalRailgunStrikeManager.activeStrikes.put(new Pair<>(blockPos, nearby), new Pair<>(server.getTicks(), player.getWorld().getRegistryKey()));
                 
                 if (ServerConfig.INSTANCE.isDebugMode()) {
-                    LOGGER.info("[STRIKE] Registered strike with {} nearby entities", nearby.size());
+                    LOGGER.info("[STRIKE] Registered strike with {} nearby entities within range {}", nearby.size(), range);
                 }
 
+                // Only send animation sync to players within the configured range
                 nearby.forEach((entity -> {
                     if (entity instanceof ServerPlayerEntity serverPlayer) {
-                        ServerPlayNetworking.send(serverPlayer, CLIENT_SYNC_PACKET_ID, PacketByteBufs.create().writeBlockPos(blockPos));
-                        if (ServerConfig.INSTANCE.isDebugMode()) {
-                            LOGGER.debug("[NETWORK] Sent CLIENT_SYNC_PACKET to {}", serverPlayer.getName().getString());
+                        // Check if player is within the configured range
+                        if (PlayerAreaListener.isPlayerInRange(serverPlayer, laserX, laserZ)) {
+                            ServerPlayNetworking.send(serverPlayer, CLIENT_SYNC_PACKET_ID, PacketByteBufs.create().writeBlockPos(blockPos));
+                            if (ServerConfig.INSTANCE.isDebugMode()) {
+                                LOGGER.debug("[NETWORK] Sent CLIENT_SYNC_PACKET to {} (within range {})", serverPlayer.getName().getString(), range);
+                            }
+                        } else {
+                            if (ServerConfig.INSTANCE.isDebugMode()) {
+                                LOGGER.debug("[NETWORK] Skipped CLIENT_SYNC_PACKET for {} (outside range {})", serverPlayer.getName().getString(), range);
+                            }
                         }
                     }
                 }));
@@ -244,9 +257,9 @@ public class OrbitalRailgun implements ModInitializer {
             }
 
         } else if (result.hasLeft()) {
-            // Player just left the sound range - stop any playing area sounds
+            // Player just left the sound range - stop any playing area sounds and animations
             if (ServerConfig.INSTANCE.isDebugMode()) {
-                LOGGER.info("[AREA] Player {} left sound range at ({}, {}) - stopping sounds",
+                LOGGER.info("[AREA] Player {} left sound range at ({}, {}) - stopping sounds and animation",
                         player.getName().getString(), laserX, laserZ);
             }
             
@@ -254,6 +267,9 @@ public class OrbitalRailgun implements ModInitializer {
 
             // Send packet to client to stop area-based sounds
             stopAreaSoundsForPlayer(player);
+            
+            // Send packet to client to stop the animation
+            stopAnimationForPlayer(player);
 
         } else if (result.isInside) {
             // Player is still inside the range (already heard the sound)
@@ -305,6 +321,19 @@ public class OrbitalRailgun implements ModInitializer {
 
         if (ServerConfig.INSTANCE.isDebugMode()) {
             LOGGER.info("[NETWORK] Sent stop sound packet to player {}", player.getName().getString());
+        }
+    }
+    
+    /**
+     * Sends a packet to the client to stop the orbital railgun animation/shader.
+     */
+    private static void stopAnimationForPlayer(ServerPlayerEntity player) {
+        PacketByteBuf buf = PacketByteBufs.create();
+
+        ServerPlayNetworking.send(player, STOP_ANIMATION_PACKET_ID, buf);
+
+        if (ServerConfig.INSTANCE.isDebugMode()) {
+            LOGGER.info("[NETWORK] Sent stop animation packet to player {}", player.getName().getString());
         }
     }
 }

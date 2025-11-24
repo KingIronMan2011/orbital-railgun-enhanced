@@ -23,7 +23,9 @@ This mod supports multiple Minecraft versions:
 | 1.20 | ✅ Supported |
 | 1.20.1 | ✅ Supported |
 | 1.20.2 | ✅ Supported |
+| 1.20.3 | ✅ Supported |
 | 1.20.4 | ✅ Supported |
+| 1.20.5 | ✅ Supported |
 | 1.20.6 | ✅ Supported |
 
 Download the JAR file matching your Minecraft version from the [Releases](https://github.com/KingIronMan2011/orbital-railgun-enhanced/releases) page.
