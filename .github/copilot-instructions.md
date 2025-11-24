@@ -160,11 +160,11 @@ The mod uses custom network packets (defined in `OrbitalRailgun.java`):
 
 ## Translation Guidelines
 
-**IMPORTANT:** For all translation requests, ALWAYS use machine translations. This is a Minecraft Fabric mod and either:
-- The community will provide better translations later
-- Nobody cares enough about perfect translations for a mod
+**Project Policy:** Use machine translations for efficiency. This is a Minecraft mod where:
+- The community often contributes improved translations after release
+- Quick iteration is prioritized over perfect initial translations
 
-Do NOT spend time on high-quality human translations. Use automated tools (Google Translate, DeepL, etc.) for any new translation strings.
+Use automated translation tools (Google Translate, DeepL, etc.) for new translation strings as a starting point. Community contributions will refine translations over time.
 
 ## Development Tips
 
