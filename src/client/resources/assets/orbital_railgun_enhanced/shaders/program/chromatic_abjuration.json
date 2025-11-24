@@ -4,8 +4,8 @@
     "srcrgb": "srcalpha",
     "dstrgb": "1-srcalpha"
   },
-  "vertex": "orbital_railgun:gui",
-  "fragment": "orbital_railgun:chromatic_abjuration",
+  "vertex": "orbital_railgun_enhanced:gui",
+  "fragment": "orbital_railgun_enhanced:chromatic_abjuration",
   "attributes": [ "Position" ],
   "samplers": [
     { "name": "DiffuseSampler" }

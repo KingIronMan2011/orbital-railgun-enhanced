@@ -4,8 +4,8 @@
     "srcrgb": "srcalpha",
     "dstrgb": "1-srcalpha"
   },
-  "vertex": "orbital_railgun:strike",
-  "fragment": "orbital_railgun:strike",
+  "vertex": "orbital_railgun_enhanced:strike",
+  "fragment": "orbital_railgun_enhanced:strike",
   "attributes": [ "Position" ],
   "samplers": [
     { "name": "DiffuseSampler" },
