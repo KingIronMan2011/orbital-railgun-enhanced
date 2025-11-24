@@ -4,12 +4,22 @@
   "subtitle.orbital_railgun_enhanced.railgun_shoot": "궤도 레일건 발사",
   "subtitle.orbital_railgun_enhanced.scope_on": "스코프 온라인",
   "subtitle.orbital_railgun_enhanced.equip": "궤도 레일건 장착됨",
-  
   "text.config.orbital-railgun-enhanced.title": "오비탈 레일건 강화판 설정",
   "text.config.orbital-railgun-enhanced.option.scopeVolume": "스코프 음량",
   "text.config.orbital-railgun-enhanced.option.shootVolume": "발사 음량",
   "text.config.orbital-railgun-enhanced.option.equipVolume": "장착 음량",
   "text.config.orbital-railgun-enhanced.option.enableScopeSound": "스코프 사운드 활성화",
   "text.config.orbital-railgun-enhanced.option.enableShootSound": "발사 사운드 활성화",
-  "text.config.orbital-railgun-enhanced.option.enableEquipSound": "장착 사운드 활성화"
+  "text.config.orbital-railgun-enhanced.option.enableEquipSound": "장착 사운드 활성화",
+  "text.config.orbital-railgun-enhanced.option.enableVisualEffects": "Enable Visual Effects",
+  "text.config.orbital-railgun-enhanced.option.enableShaderEffects": "Enable Shader Effects",
+  "command.orbital_railgun_enhanced.help": "Available commands:\n/ore radius <value> - Set the sound radius\n/ore debug <true|false> - Toggle debug mode\n/ore strikeDamage <value> - Set strike damage\n/ore cooldown <value> - Set cooldown in ticks\n/ore maxStrikes <value> - Set max active strikes\n/ore particles <true|false> - Toggle particles\n/ore reload - Reload configuration\n/ore help - Show this help message",
+  "command.orbital_railgun_enhanced.debug.set": "Debug mode set to: %s",
+  "command.orbital_railgun_enhanced.radius.set": "Sound radius set to: %s",
+  "command.orbital_railgun_enhanced.strikeDamage.set": "Strike damage set to: %s",
+  "command.orbital_railgun_enhanced.cooldown.set": "Cooldown set to: %s ticks",
+  "command.orbital_railgun_enhanced.maxStrikes.set": "Max active strikes set to: %s",
+  "command.orbital_railgun_enhanced.particles.set": "Particles enabled: %s",
+  "command.orbital_railgun_enhanced.config.reloaded": "Server configuration reloaded",
+  "command.orbital_railgun_enhanced.config.saved": "Server configuration saved"
 }

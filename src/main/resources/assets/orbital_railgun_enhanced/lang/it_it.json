@@ -4,12 +4,22 @@
   "subtitle.orbital_railgun_enhanced.railgun_shoot": "Cannone orbitale spara",
   "subtitle.orbital_railgun_enhanced.scope_on": "Mirino attivo",
   "subtitle.orbital_railgun_enhanced.equip": "Cannone orbitale equipaggiato",
-  
   "text.config.orbital-railgun-enhanced.title": "Configurazione Cannone Orbitale Potenziato",
   "text.config.orbital-railgun-enhanced.option.scopeVolume": "Volume del Mirino",
   "text.config.orbital-railgun-enhanced.option.shootVolume": "Volume dello Sparo",
   "text.config.orbital-railgun-enhanced.option.equipVolume": "Volume dell'Equipaggiamento",
   "text.config.orbital-railgun-enhanced.option.enableScopeSound": "Abilita Suono del Mirino",
   "text.config.orbital-railgun-enhanced.option.enableShootSound": "Abilita Suono dello Sparo",
-  "text.config.orbital-railgun-enhanced.option.enableEquipSound": "Abilita Suono dell'Equipaggiamento"
+  "text.config.orbital-railgun-enhanced.option.enableEquipSound": "Abilita Suono dell'Equipaggiamento",
+  "text.config.orbital-railgun-enhanced.option.enableVisualEffects": "Enable Visual Effects",
+  "text.config.orbital-railgun-enhanced.option.enableShaderEffects": "Enable Shader Effects",
+  "command.orbital_railgun_enhanced.help": "Available commands:\n/ore radius <value> - Set the sound radius\n/ore debug <true|false> - Toggle debug mode\n/ore strikeDamage <value> - Set strike damage\n/ore cooldown <value> - Set cooldown in ticks\n/ore maxStrikes <value> - Set max active strikes\n/ore particles <true|false> - Toggle particles\n/ore reload - Reload configuration\n/ore help - Show this help message",
+  "command.orbital_railgun_enhanced.debug.set": "Debug mode set to: %s",
+  "command.orbital_railgun_enhanced.radius.set": "Sound radius set to: %s",
+  "command.orbital_railgun_enhanced.strikeDamage.set": "Strike damage set to: %s",
+  "command.orbital_railgun_enhanced.cooldown.set": "Cooldown set to: %s ticks",
+  "command.orbital_railgun_enhanced.maxStrikes.set": "Max active strikes set to: %s",
+  "command.orbital_railgun_enhanced.particles.set": "Particles enabled: %s",
+  "command.orbital_railgun_enhanced.config.reloaded": "Server configuration reloaded",
+  "command.orbital_railgun_enhanced.config.saved": "Server configuration saved"
 }
