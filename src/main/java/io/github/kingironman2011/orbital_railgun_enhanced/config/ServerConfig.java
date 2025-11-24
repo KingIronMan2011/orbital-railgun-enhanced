@@ -138,9 +138,7 @@ public class ServerConfig {
 
             try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
                 GSON.toJson(this, writer);
-                if (isDebugMode()) {
-                    OrbitalRailgun.LOGGER.debug("Server configuration saved to: {}", CONFIG_FILE.getAbsolutePath());
-                }
+                OrbitalRailgun.LOGGER.info("Server configuration saved to: {}", CONFIG_FILE.getAbsolutePath());
             }
         } catch (IOException e) {
             OrbitalRailgun.LOGGER.error("Failed to save config: {}", e.getMessage());
