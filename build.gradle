@@ -26,8 +26,8 @@ tasks.register('collectJars', Copy) {
     group = 'build'
     dependsOn 'buildAll'
     
-    from subprojects.collect { "${it.buildDir}/libs" }
-    into "${rootProject.buildDir}/libs"
+    from subprojects.collect { it.layout.buildDirectory.dir('libs') }
+    into layout.buildDirectory.dir('libs')
     include '*.jar'
     exclude '*-sources.jar', '*-dev.jar'
 }

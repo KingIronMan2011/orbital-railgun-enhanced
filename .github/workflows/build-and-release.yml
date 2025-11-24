@@ -109,8 +109,9 @@ jobs:
           # Find all built JARs and upload them
           JAR_FILES=$(find build/libs -name "*.jar" ! -name "*-sources.jar" ! -name "*-dev.jar")
           
-          # Build the release command with all JARs
-          RELEASE_CMD="gh release create \"v${{ needs.check-version.outputs.version }}\" --title \"Release v${{ needs.check-version.outputs.version }}\" --notes \"Automated release for version ${{ needs.check-version.outputs.version }}
+          # Create a release notes file
+          cat > /tmp/release_notes.md << 'EOF'
+          Automated release for version ${{ needs.check-version.outputs.version }}
 
           ## Supported Minecraft Versions
           - 1.20
@@ -119,12 +120,11 @@ jobs:
           - 1.20.4
           - 1.20.6
           
-          Download the JAR file matching your Minecraft version.\""
+          Download the JAR file matching your Minecraft version.
+          EOF
           
-          # Add each JAR to the command
-          for jar in $JAR_FILES; do
-            RELEASE_CMD="$RELEASE_CMD \"$jar\""
-          done
-          
-          # Execute the release command
-          eval $RELEASE_CMD
+          # Create the release with notes from file
+          gh release create "v${{ needs.check-version.outputs.version }}" \
+            --title "Release v${{ needs.check-version.outputs.version }}" \
+            --notes-file /tmp/release_notes.md \
+            $JAR_FILES
