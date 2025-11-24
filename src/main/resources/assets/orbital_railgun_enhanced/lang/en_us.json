@@ -1,0 +1,15 @@
+{
+  "item.orbital_railgun_enhanced.orbital_railgun": "Orbital Railgun",
+  "death.attack.strike": "%1$s was obliterated by an Orbital Strike",
+  "subtitle.orbital_railgun_enhanced.railgun_shoot": "Orbital railgun fires",
+  "subtitle.orbital_railgun_enhanced.scope_on": "Scope online",
+  "subtitle.orbital_railgun_enhanced.equip": "Orbital railgun equipped",
+  
+  "text.config.orbital-railgun-enhanced.title": "Orbital Railgun Enhanced Config",
+  "text.config.orbital-railgun-enhanced.option.scopeVolume": "Scope Volume",
+  "text.config.orbital-railgun-enhanced.option.shootVolume": "Shoot Volume",
+  "text.config.orbital-railgun-enhanced.option.equipVolume": "Equip Volume",
+  "text.config.orbital-railgun-enhanced.option.enableScopeSound": "Enable Scope Sound",
+  "text.config.orbital-railgun-enhanced.option.enableShootSound": "Enable Shoot Sound",
+  "text.config.orbital-railgun-enhanced.option.enableEquipSound": "Enable Equip Sound"
+}

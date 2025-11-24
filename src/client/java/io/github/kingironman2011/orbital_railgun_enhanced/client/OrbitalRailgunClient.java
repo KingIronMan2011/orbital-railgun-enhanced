@@ -5,6 +5,8 @@ import io.github.kingironman2011.orbital_railgun_enhanced.client.item.OrbitalRai
 import io.github.kingironman2011.orbital_railgun_enhanced.client.rendering.OrbitalRailgunGuiShader;
 import io.github.kingironman2011.orbital_railgun_enhanced.client.rendering.OrbitalRailgunShader;
 import io.github.kingironman2011.orbital_railgun_enhanced.item.OrbitalRailgunItems;
+import io.github.kingironman2011.orbital_railgun_enhanced.client.config.SoundsConfigWrapper;
+import io.github.kingironman2011.orbital_railgun_enhanced.client.handler.SoundsHandler;
 import ladysnake.satin.api.event.PostWorldRenderCallback;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -12,10 +14,20 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.render.item.BuiltinModelItemRenderer;
 import net.minecraft.util.math.BlockPos;
 import software.bernie.geckolib.animatable.client.RenderProvider;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.util.Identifier;
 
 public class OrbitalRailgunClient implements ClientModInitializer {
+    public static SoundsConfigWrapper CONFIG;
+
     @Override
     public void onInitializeClient() {
+        CONFIG = SoundsConfigWrapper.createAndLoad();
+
+        SoundsHandler sounds = new SoundsHandler();
+        sounds.initializeClient();
+
         OrbitalRailgunItems.ORBITAL_RAILGUN.renderProviderHolder.setValue(new RenderProvider() {
             private OrbitalRailgunRenderer renderer;
 
@@ -37,6 +49,16 @@ public class OrbitalRailgunClient implements ClientModInitializer {
                 OrbitalRailgunShader.INSTANCE.Dimension = minecraftClient.world.getRegistryKey();
             });
         }));
+
+        ClientPlayNetworking.registerGlobalReceiver(OrbitalRailgun.STOP_AREA_SOUND_PACKET_ID,
+                (client, handler, buf, responseSender) -> {
+                    Identifier soundId = buf.readIdentifier();
+
+                    client.execute(() -> {
+                        // Stop all instances of this sound for the player
+                        MinecraftClient.getInstance().getSoundManager().stopSounds(soundId, SoundCategory.PLAYERS);
+                    });
+                });
 
         ClientTickEvents.END_CLIENT_TICK.register(OrbitalRailgunGuiShader.INSTANCE);
         PostWorldRenderCallback.EVENT.register(OrbitalRailgunGuiShader.INSTANCE);

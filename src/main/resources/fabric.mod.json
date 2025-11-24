@@ -26,8 +26,16 @@
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
     "fabric": "*",
-    "minecraft": "${minecraft_version}"
+    "java": ">=21",
+    "minecraft": "${minecraft_version}",
+    "owo": ">=0.11.0"
+  },
+  "suggests": {
+    "sound_physics_remastered": "*",
+    "dynamicsurroundings": "*",
+    "modmenu": "*"
   },
   "custom": {
     "modmenu": {
