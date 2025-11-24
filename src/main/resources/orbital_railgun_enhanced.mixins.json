@@ -3,8 +3,7 @@
   "minVersion": "0.8",
   "package": "io.github.kingironman2011.orbital_railgun_enhanced.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [
-  ],
+  "mixins": [],
   "injectors": {
     "defaultRequire": 1
   },

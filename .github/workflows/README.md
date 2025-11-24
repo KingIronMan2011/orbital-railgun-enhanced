@@ -7,11 +7,13 @@ This workflow automatically builds and releases the Orbital Railgun mod when the
 The workflow consists of two jobs:
 
 ### 1. Check Version
+
 - Reads the `mod_version` from `gradle.properties`
 - Checks if a release tag with that version already exists
 - Skips the build if the version hasn't changed
 
 ### 2. Build and Release (only if version is new)
+
 - Sets up Java 17 and Gradle
 - Builds the mod using the Gradle build system
 - Creates a GitHub release with a version tag (e.g., `v1.2`)
@@ -20,6 +22,7 @@ The workflow consists of two jobs:
 ## Triggering the Workflow
 
 The workflow runs automatically when:
+
 - Code is pushed to the `main` or `master` branch
 - Changes are made to:
   - `gradle.properties` (version changes)
@@ -32,9 +35,11 @@ You can also manually trigger the workflow from the Actions tab in GitHub.
 ## How to Release a New Version
 
 1. Update the `mod_version` in `gradle.properties`:
+
    ```properties
    mod_version=1.3
    ```
+
 2. Commit and push your changes to the main/master branch
 3. The workflow will automatically:
    - Build the mod

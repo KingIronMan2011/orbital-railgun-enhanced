@@ -1,8 +1,5 @@
 {
-  "targets": [
-    "strike",
-    "chromatic_abjuration"
-  ],
+  "targets": ["strike", "chromatic_abjuration"],
   "passes": [
     {
       "name": "orbital_railgun_enhanced:strike",
