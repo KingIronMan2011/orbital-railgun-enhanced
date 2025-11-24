@@ -1,9 +1,9 @@
-package io.github.kingironman2011.orbital_railgun.client.mixin;
+package io.github.kingironman2011.orbital_railgun_enhanced.client.mixin;
 
-import io.github.kingironman2011.orbital_railgun.OrbitalRailgun;
-import io.github.kingironman2011.orbital_railgun.client.rendering.OrbitalRailgunGuiShader;
-import io.github.kingironman2011.orbital_railgun.client.rendering.OrbitalRailgunShader;
-import io.github.kingironman2011.orbital_railgun.item.OrbitalRailgunItem;
+import io.github.kingironman2011.orbital_railgun_enhanced.OrbitalRailgun;
+import io.github.kingironman2011.orbital_railgun_enhanced.client.rendering.OrbitalRailgunGuiShader;
+import io.github.kingironman2011.orbital_railgun_enhanced.client.rendering.OrbitalRailgunShader;
+import io.github.kingironman2011.orbital_railgun_enhanced.item.OrbitalRailgunItem;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;

@@ -1,8 +1,8 @@
-package io.github.kingironman2011.orbital_railgun;
+package io.github.kingironman2011.orbital_railgun_enhanced;
 
-import io.github.kingironman2011.orbital_railgun.item.OrbitalRailgunItem;
-import io.github.kingironman2011.orbital_railgun.item.OrbitalRailgunItems;
-import io.github.kingironman2011.orbital_railgun.util.OrbitalRailgunStrikeManager;
+import io.github.kingironman2011.orbital_railgun_enhanced.item.OrbitalRailgunItem;
+import io.github.kingironman2011.orbital_railgun_enhanced.item.OrbitalRailgunItems;
+import io.github.kingironman2011.orbital_railgun_enhanced.util.OrbitalRailgunStrikeManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
