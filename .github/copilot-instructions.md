@@ -21,7 +21,7 @@
 
 ### Prerequisites
 - **Java 21** (Required - project uses Java 21 features)
-- **Gradle 9.2.0+** (via Gradle wrapper or system installation)
+- **Gradle 9.2.0+** (system installation required - no wrapper scripts exist)
 - **Internet access** to Maven Central, Fabric Maven, and external repositories
 
 ### Environment Setup
