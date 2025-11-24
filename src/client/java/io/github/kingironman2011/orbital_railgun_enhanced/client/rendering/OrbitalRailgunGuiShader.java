@@ -11,7 +11,7 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 
 public class OrbitalRailgunGuiShader extends AbstractOrbitalRailgunShader {
-    public static final Identifier ORBITAL_RAILGUN_GUI_SHADER = Identifier.of(OrbitalRailgun.MOD_ID, "shaders/post/orbital_railgun_gui.json");
+    public static final Identifier ORBITAL_RAILGUN_GUI_SHADER = Identifier.of(OrbitalRailgun.MOD_ID, "shaders/post/orbital_railgun_enhanced_gui.json");
     public static final OrbitalRailgunGuiShader INSTANCE = new OrbitalRailgunGuiShader();
 
     private final Uniform1f uniformIsBlockHit = SHADER.findUniform1f("IsBlockHit");
