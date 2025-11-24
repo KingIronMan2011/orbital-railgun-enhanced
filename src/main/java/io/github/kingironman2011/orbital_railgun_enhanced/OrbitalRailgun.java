@@ -22,7 +22,7 @@ public class OrbitalRailgun implements ModInitializer {
     public static final Logger LOGGER = Logger.getLogger(MOD_ID);
 
     public static final Identifier SHOOT_PACKET_ID = Identifier.of(MOD_ID, "shoot_packet");
-    public static final Identifier CLIENT_SYNC_PACKET_ID = Identifier.of(MOD_ID, "client_synch_packet");
+    public static final Identifier CLIENT_SYNC_PACKET_ID = Identifier.of(MOD_ID, "client_sync_packet");
 
     @Override
     public void onInitialize() {

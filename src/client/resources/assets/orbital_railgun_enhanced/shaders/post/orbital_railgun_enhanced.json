@@ -5,12 +5,12 @@
   ],
   "passes": [
     {
-      "name": "orbital_railgun:strike",
+      "name": "orbital_railgun_enhanced:strike",
       "intarget": "minecraft:main",
       "outtarget": "strike"
     },
     {
-      "name": "orbital_railgun:chromatic_abjuration",
+      "name": "orbital_railgun_enhanced:chromatic_abjuration",
       "intarget": "strike",
       "outtarget": "chromatic_abjuration"
     },

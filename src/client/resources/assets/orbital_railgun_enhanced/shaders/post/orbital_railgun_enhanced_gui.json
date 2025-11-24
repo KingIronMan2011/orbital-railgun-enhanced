@@ -4,7 +4,7 @@
   ],
   "passes": [
     {
-      "name": "orbital_railgun:gui",
+      "name": "orbital_railgun_enhanced:gui",
       "intarget": "minecraft:main",
       "outtarget": "gui"
     },

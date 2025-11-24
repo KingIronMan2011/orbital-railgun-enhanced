@@ -1,7 +1,7 @@
 {
-  "item.orbital_railgun.orbital_railgun": "Orbital Railgun",
+  "item.orbital_railgun_enhanced.orbital_railgun": "Orbital Railgun",
   "death.attack.strike": "%1$s was obliterated by an Orbital Strike",
-  "subtitle.orbital_railgun.railgun_shoot": "Orbital railgun fires",
-  "subtitle.orbital_railgun.scope_on": "Scope online",
-  "subtitle.orbital_railgun.equip": "Orbital railgun equipped"
+  "subtitle.orbital_railgun_enhanced.railgun_shoot": "Orbital railgun fires",
+  "subtitle.orbital_railgun_enhanced.scope_on": "Scope online",
+  "subtitle.orbital_railgun_enhanced.equip": "Orbital railgun equipped"
 }
