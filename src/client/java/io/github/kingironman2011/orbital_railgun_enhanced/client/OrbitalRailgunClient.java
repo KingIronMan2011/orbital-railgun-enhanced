@@ -1,11 +1,14 @@
 package io.github.kingironman2011.orbital_railgun_enhanced.client;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.github.kingironman2011.orbital_railgun_enhanced.OrbitalRailgun;
 import io.github.kingironman2011.orbital_railgun_enhanced.client.item.OrbitalRailgunRenderer;
 import io.github.kingironman2011.orbital_railgun_enhanced.client.rendering.OrbitalRailgunGuiShader;
 import io.github.kingironman2011.orbital_railgun_enhanced.client.rendering.OrbitalRailgunShader;
 import io.github.kingironman2011.orbital_railgun_enhanced.item.OrbitalRailgunItems;
-import io.github.kingironman2011.orbital_railgun_enhanced.client.config.SoundsConfigWrapper;
+import io.github.kingironman2011.orbital_railgun_enhanced.client.config.EnhancedConfigWrapper;
 import io.github.kingironman2011.orbital_railgun_enhanced.client.handler.SoundsHandler;
 import ladysnake.satin.api.event.PostWorldRenderCallback;
 import net.fabricmc.api.ClientModInitializer;
@@ -19,11 +22,15 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 
 public class OrbitalRailgunClient implements ClientModInitializer {
-    public static SoundsConfigWrapper CONFIG;
+    private static final Logger LOGGER = LoggerFactory.getLogger("OrbitalRailgunEnhanced");
+    public static EnhancedConfigWrapper CONFIG;
 
     @Override
     public void onInitializeClient() {
-        CONFIG = SoundsConfigWrapper.createAndLoad();
+        LOGGER.info("Initializing Orbital Railgun Enhanced client...");
+        
+        CONFIG = EnhancedConfigWrapper.createAndLoad();
+        LOGGER.info("Client configuration loaded");
 
         SoundsHandler sounds = new SoundsHandler();
         sounds.initializeClient();
@@ -35,6 +42,7 @@ public class OrbitalRailgunClient implements ClientModInitializer {
             public BuiltinModelItemRenderer getCustomRenderer() {
                 if (this.renderer == null) {
                     this.renderer = new OrbitalRailgunRenderer();
+                    LOGGER.info("Orbital railgun renderer created");
                 }
 
                 return this.renderer;
@@ -47,6 +55,7 @@ public class OrbitalRailgunClient implements ClientModInitializer {
             minecraftClient.execute(() -> {
                 OrbitalRailgunShader.INSTANCE.BlockPosition = blockPos.toCenterPos().toVector3f();
                 OrbitalRailgunShader.INSTANCE.Dimension = minecraftClient.world.getRegistryKey();
+                LOGGER.debug("[CLIENT] Synced strike position: {}", blockPos);
             });
         }));
 
@@ -57,6 +66,7 @@ public class OrbitalRailgunClient implements ClientModInitializer {
                     client.execute(() -> {
                         // Stop all instances of this sound for the player
                         MinecraftClient.getInstance().getSoundManager().stopSounds(soundId, SoundCategory.PLAYERS);
+                        LOGGER.debug("[CLIENT] Stopped area sound: {}", soundId);
                     });
                 });
 
@@ -65,5 +75,7 @@ public class OrbitalRailgunClient implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(OrbitalRailgunShader.INSTANCE);
         PostWorldRenderCallback.EVENT.register(OrbitalRailgunShader.INSTANCE);
+        
+        LOGGER.info("Orbital Railgun Enhanced client initialization complete!");
     }
 }
