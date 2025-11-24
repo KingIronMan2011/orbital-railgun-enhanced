@@ -49,7 +49,6 @@ public class OrbitalRailgunStrikeManager {
                 }
 
                 float strikeDamage = ServerConfig.INSTANCE.getStrikeDamage();
-                int damageCount = 0;
                 
                 entities.forEach(entity -> {
                     if (entity.getWorld().getRegistryKey() == dimension && entity.getPos().subtract(blockPos.toCenterPos()).lengthSquared() <= RADIUS_SQUARED) {
@@ -69,6 +68,10 @@ public class OrbitalRailgunStrikeManager {
                     LOGGER.info("[STRIKE] Strike at {} completed", blockPos);
                 }
             } else if (age >= 400) {
+                if (ServerConfig.INSTANCE.isDebugMode() && age == 400) {
+                    LOGGER.debug("[STRIKE] Started pull effect for strike at {}", blockPos);
+                }
+                
                 entities.forEach(entity -> {
                     if (entity instanceof PlayerEntity player && player.isSpectator()) {
                         return;
@@ -80,10 +83,6 @@ public class OrbitalRailgunStrikeManager {
 
                         entity.addVelocity(dir.multiply(mag));
                         entity.velocityModified = true;
-                        
-                        if (ServerConfig.INSTANCE.isDebugMode() && age == 400) {
-                            LOGGER.debug("[STRIKE] Started pull effect for strike at {}", blockPos);
-                        }
                     }
                 });
             }
