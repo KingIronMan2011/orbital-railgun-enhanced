@@ -1,12 +1,12 @@
 <!-- markdownlint-disable MD059 -->
 
-# Orbital Railgun
+# Orbital Railgun Enhanced
 
 ![Orbital Railgun](https://cdn.modrinth.com/data/cached_images/94068020a434a8bdbe5a35ae9449742b0f4274fa_0.webp)
 
-**Photosensitivity Warning**: This mod uses a lot of shader effects, fast-moving lights, and chromatic abjuration. Viewer discretion is advised.
+**This is a fork of the [Orbital Railgun](https://modrinth.com/mod/orbital-railgun) mod by [Mishkis](https://modrinth.com/user/Mishkis) that adds sounds and other useful features!**
 
-**This mod requires [geckolib](https://modrinth.com/mod/geckolib) to run.**
+**Photosensitivity Warning**: This mod uses a lot of shader effects, fast-moving lights, and chromatic abjuration. Viewer discretion is advised.
 
 An unoffical forge version can be found [here](https://www.curseforge.com/minecraft/mc-mods/orbital-railgun-reforged).
 
