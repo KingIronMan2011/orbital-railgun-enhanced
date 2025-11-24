@@ -5,7 +5,7 @@ import io.github.kingironman2011.orbital_railgun_enhanced.client.item.OrbitalRai
 import io.github.kingironman2011.orbital_railgun_enhanced.client.rendering.OrbitalRailgunGuiShader;
 import io.github.kingironman2011.orbital_railgun_enhanced.client.rendering.OrbitalRailgunShader;
 import io.github.kingironman2011.orbital_railgun_enhanced.item.OrbitalRailgunItems;
-import io.github.kingironman2011.orbital_railgun_enhanced.client.config.SoundsConfigWrapper;
+import io.github.kingironman2011.orbital_railgun_enhanced.client.config.EnhancedConfigWrapper;
 import io.github.kingironman2011.orbital_railgun_enhanced.client.handler.SoundsHandler;
 import ladysnake.satin.api.event.PostWorldRenderCallback;
 import net.fabricmc.api.ClientModInitializer;
@@ -19,11 +19,11 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 
 public class OrbitalRailgunClient implements ClientModInitializer {
-    public static SoundsConfigWrapper CONFIG;
+    public static EnhancedConfigWrapper CONFIG;
 
     @Override
     public void onInitializeClient() {
-        CONFIG = SoundsConfigWrapper.createAndLoad();
+        CONFIG = EnhancedConfigWrapper.createAndLoad();
 
         SoundsHandler sounds = new SoundsHandler();
         sounds.initializeClient();

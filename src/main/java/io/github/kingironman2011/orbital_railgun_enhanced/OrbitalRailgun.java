@@ -43,18 +43,35 @@ public class OrbitalRailgun implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        LOGGER.info("Initializing Orbital Railgun Enhanced...");
+        
         ServerConfig.INSTANCE.loadConfig();
+        if (ServerConfig.INSTANCE.isDebugMode()) {
+            LOGGER.info("[DEBUG] Debug mode is enabled");
+        }
+        
         SoundsRegistry.initialize();
+        LOGGER.info("Sounds registry initialized");
+        
         CommandRegistry.registerCommands();
+        LOGGER.info("Commands registered: /ore and /orbitalrailgun");
+        
         OrbitalRailgunItems.initialize();
+        LOGGER.info("Items registered");
+        
         OrbitalRailgunStrikeManager.initialize();
+        LOGGER.info("Strike manager initialized");
 
         PlayerAreaListener.setAreaChangeCallback(event -> handleAreaStateChange(event.player(), event.result(), event.laserX(), event.laserZ()));
+        
+        if (ServerConfig.INSTANCE.isDebugMode()) {
+            LOGGER.info("Registered player area change callback");
+        }
 
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
             PlayerAreaListener.clearPlayerState(handler.getPlayer().getUuid());
             if (ServerConfig.INSTANCE.isDebugMode()) {
-                LOGGER.info("Cleared area state for disconnected player: {}",
+                LOGGER.info("[NETWORK] Cleared area state for disconnected player: {}",
                         handler.getPlayer().getName().getString());
             }
         });
@@ -71,7 +88,7 @@ public class OrbitalRailgun implements ModInitializer {
 
                     server.execute(() -> {
                         if (sound == null) {
-                            OrbitalRailgun.LOGGER.warn("Received unknown sound id: {}", soundId.toString());
+                            OrbitalRailgun.LOGGER.warn("[NETWORK] Received unknown sound id: {}", soundId.toString());
                             return;
                         }
 
@@ -81,7 +98,8 @@ public class OrbitalRailgun implements ModInitializer {
                         double laserZ = blockPos.getZ() + 0.5;
 
                         if (ServerConfig.INSTANCE.isDebugMode()) {
-                            LOGGER.info("Playing sound {} at BlockPos: {} with range: {} at time {}",
+                            LOGGER.info("[NETWORK] Received PLAY_SOUND_PACKET from player: {}", player.getName().getString());
+                            LOGGER.info("[NETWORK] Playing sound {} at BlockPos: {} with range: {} at time {}",
                                     soundId, blockPos, range, fireTimestamp);
                         }
 
@@ -107,9 +125,10 @@ public class OrbitalRailgun implements ModInitializer {
                                             pitchShoot
                                     );
                                     SoundLogger.logSoundEvent(soundId.toString(), blockPos, range);
+                                    SoundLogger.logSoundPlayed(nearbyPlayer.getName().getString(), soundId.toString(), volumeShoot, pitchShoot);
 
                                     if (ServerConfig.INSTANCE.isDebugMode()) {
-                                        LOGGER.info("Playing sound to player {} (distance: {})",
+                                        LOGGER.info("[SOUND] Playing sound to player {} (distance: {})",
                                                 nearbyPlayer.getName().getString(),
                                                 Math.sqrt(distanceSquared));
                                     }
@@ -135,8 +154,8 @@ public class OrbitalRailgun implements ModInitializer {
 
             if (ServerConfig.INSTANCE.isDebugMode()) {
                 LOGGER.info("========================================");
-                LOGGER.info("SHOOT_PACKET received from player: {}", player.getName().getString());
-                LOGGER.info("Impact location: {}", blockPos);
+                LOGGER.info("[NETWORK] SHOOT_PACKET received from player: {}", player.getName().getString());
+                LOGGER.info("[STRIKE] Impact location: {}", blockPos);
             }
 
             server.execute(() -> {
@@ -144,19 +163,30 @@ public class OrbitalRailgun implements ModInitializer {
                 double laserZ = blockPos.getZ() + 0.5;
 
                 orbitalRailgun.shoot(player);
+                
+                if (ServerConfig.INSTANCE.isDebugMode()) {
+                    LOGGER.info("[STRIKE] Orbital railgun fired at ({}, {})", laserX, laserZ);
+                }
 
                 List<Entity> nearby =player.getWorld().getOtherEntities(null, Box.of(blockPos.toCenterPos(), 500., 500., 500.));
                 OrbitalRailgunStrikeManager.activeStrikes.put(new Pair<>(blockPos, nearby), new Pair<>(server.getTicks(), player.getWorld().getRegistryKey()));
+                
+                if (ServerConfig.INSTANCE.isDebugMode()) {
+                    LOGGER.info("[STRIKE] Registered strike with {} nearby entities", nearby.size());
+                }
 
                 nearby.forEach((entity -> {
                     if (entity instanceof ServerPlayerEntity serverPlayer) {
                         ServerPlayNetworking.send(serverPlayer, CLIENT_SYNC_PACKET_ID, PacketByteBufs.create().writeBlockPos(blockPos));
+                        if (ServerConfig.INSTANCE.isDebugMode()) {
+                            LOGGER.debug("[NETWORK] Sent CLIENT_SYNC_PACKET to {}", serverPlayer.getName().getString());
+                        }
                     }
                 }));
 
                 int totalPlayers = server.getPlayerManager().getPlayerList().size();
                 if (ServerConfig.INSTANCE.isDebugMode()) {
-                    LOGGER.info("Checking {} players on server for range", totalPlayers);
+                    LOGGER.info("[STRIKE] Checking {} players on server for range", totalPlayers);
                 }
 
                 server.getPlayerManager().getPlayerList().forEach(serverPlayer -> {
@@ -179,6 +209,8 @@ public class OrbitalRailgun implements ModInitializer {
         });
 
         ServerTickEvents.END_SERVER_TICK.register(OrbitalRailgunStrikeManager::tick);
+        
+        LOGGER.info("Orbital Railgun Enhanced initialization complete!");
     }
 
     /**
@@ -194,9 +226,11 @@ public class OrbitalRailgun implements ModInitializer {
             long elapsedMs = currentTime - result.fireTimestamp;
 
             if (ServerConfig.INSTANCE.isDebugMode()) {
-                LOGGER.info("Player {} entered sound range at ({}, {}) - elapsed: {}ms, duration: {}ms",
+                LOGGER.info("[AREA] Player {} entered sound range at ({}, {}) - elapsed: {}ms, duration: {}ms",
                         player.getName().getString(), laserX, laserZ, elapsedMs, RAILGUN_SOUND_DURATION_MS);
             }
+            
+            SoundLogger.logPlayerEnterRange(player.getName().getString(), Math.sqrt(player.squaredDistanceTo(laserX, player.getY(), laserZ)));
 
             // Only play sound if it hasn't finished yet
             if (elapsedMs < RAILGUN_SOUND_DURATION_MS) {
@@ -204,7 +238,7 @@ public class OrbitalRailgun implements ModInitializer {
                 playRailgunSoundToPlayer(player, laserX, laserZ, elapsedMs);
             } else {
                 if (ServerConfig.INSTANCE.isDebugMode()) {
-                    LOGGER.info("Sound already ended ({}ms > {}ms) - not playing for player {}",
+                    LOGGER.info("[AREA] Sound already ended ({}ms > {}ms) - not playing for player {}",
                             elapsedMs, RAILGUN_SOUND_DURATION_MS, player.getName().getString());
                 }
             }
@@ -212,9 +246,11 @@ public class OrbitalRailgun implements ModInitializer {
         } else if (result.hasLeft()) {
             // Player just left the sound range - stop any playing area sounds
             if (ServerConfig.INSTANCE.isDebugMode()) {
-                LOGGER.info("Player {} left sound range at ({}, {}) - stopping sounds",
+                LOGGER.info("[AREA] Player {} left sound range at ({}, {}) - stopping sounds",
                         player.getName().getString(), laserX, laserZ);
             }
+            
+            SoundLogger.logPlayerExitRange(player.getName().getString());
 
             // Send packet to client to stop area-based sounds
             stopAreaSoundsForPlayer(player);
@@ -222,7 +258,7 @@ public class OrbitalRailgun implements ModInitializer {
         } else if (result.isInside) {
             // Player is still inside the range (already heard the sound)
             if (ServerConfig.INSTANCE.isDebugMode()) {
-                LOGGER.debug("Player {} remains in sound range at ({}, {})",
+                LOGGER.debug("[AREA] Player {} remains in sound range at ({}, {})",
                         player.getName().getString(), laserX, laserZ);
             }
         }
@@ -244,13 +280,15 @@ public class OrbitalRailgun implements ModInitializer {
                     1.0f,  // volume
                     1.0f   // pitch
             );
+            
+            SoundLogger.logSoundPlayed(player.getName().getString(), SoundsRegistry.RAILGUN_SHOOT_ID.toString(), 1.0f, 1.0f);
 
             if (ServerConfig.INSTANCE.isDebugMode()) {
-                LOGGER.info("Playing railgun shoot sound to player {} at ({}, {}) with {}ms offset",
+                LOGGER.info("[SOUND] Playing railgun shoot sound to player {} at ({}, {}) with {}ms offset",
                         player.getName().getString(), laserX, laserZ, elapsedMs);
             }
         } else {
-            LOGGER.warn("Railgun shoot sound not found in registry");
+            LOGGER.warn("[SOUND] Railgun shoot sound not found in registry");
         }
     }
 
@@ -262,9 +300,11 @@ public class OrbitalRailgun implements ModInitializer {
         buf.writeIdentifier(SoundsRegistry.RAILGUN_SHOOT_ID);
 
         ServerPlayNetworking.send(player, STOP_AREA_SOUND_PACKET_ID, buf);
+        
+        SoundLogger.logSoundStopped(player.getName().getString(), SoundsRegistry.RAILGUN_SHOOT_ID.toString());
 
         if (ServerConfig.INSTANCE.isDebugMode()) {
-            LOGGER.info("Sent stop sound packet to player {}", player.getName().getString());
+            LOGGER.info("[NETWORK] Sent stop sound packet to player {}", player.getName().getString());
         }
     }
 }
