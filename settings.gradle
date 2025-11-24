@@ -9,10 +9,6 @@ pluginManagement {
                 includeGroup 'net.fabricmc.unpick'
             }
         }
-        maven {
-            name = 'FabricSnapshots'
-            url = 'https://maven.fabricmc.net/snapshots'
-        }
         gradlePluginPortal()
     }
 }
