@@ -3,5 +3,13 @@
   "death.attack.strike": "%1$s werd vernietigd door een Orbitale Aanval",
   "subtitle.orbital_railgun_enhanced.railgun_shoot": "Orbitale railgun vuurt",
   "subtitle.orbital_railgun_enhanced.scope_on": "Richtkijker online",
-  "subtitle.orbital_railgun_enhanced.equip": "Orbitale railgun uitgerust"
+  "subtitle.orbital_railgun_enhanced.equip": "Orbitale railgun uitgerust",
+  
+  "text.config.orbital-railgun-enhanced.title": "Orbitale Railgun Verbeterde Configuratie",
+  "text.config.orbital-railgun-enhanced.option.scopeVolume": "Richtkijker Volume",
+  "text.config.orbital-railgun-enhanced.option.shootVolume": "Schiet Volume",
+  "text.config.orbital-railgun-enhanced.option.equipVolume": "Uitrustings Volume",
+  "text.config.orbital-railgun-enhanced.option.enableScopeSound": "Richtkijker Geluid Inschakelen",
+  "text.config.orbital-railgun-enhanced.option.enableShootSound": "Schiet Geluid Inschakelen",
+  "text.config.orbital-railgun-enhanced.option.enableEquipSound": "Uitrustings Geluid Inschakelen"
 }

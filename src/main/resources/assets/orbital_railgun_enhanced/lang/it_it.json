@@ -3,5 +3,13 @@
   "death.attack.strike": "%1$s è stato distrutto da un Attacco Orbitale",
   "subtitle.orbital_railgun_enhanced.railgun_shoot": "Cannone orbitale spara",
   "subtitle.orbital_railgun_enhanced.scope_on": "Mirino attivo",
-  "subtitle.orbital_railgun_enhanced.equip": "Cannone orbitale equipaggiato"
+  "subtitle.orbital_railgun_enhanced.equip": "Cannone orbitale equipaggiato",
+  
+  "text.config.orbital-railgun-enhanced.title": "Configurazione Cannone Orbitale Potenziato",
+  "text.config.orbital-railgun-enhanced.option.scopeVolume": "Volume del Mirino",
+  "text.config.orbital-railgun-enhanced.option.shootVolume": "Volume dello Sparo",
+  "text.config.orbital-railgun-enhanced.option.equipVolume": "Volume dell'Equipaggiamento",
+  "text.config.orbital-railgun-enhanced.option.enableScopeSound": "Abilita Suono del Mirino",
+  "text.config.orbital-railgun-enhanced.option.enableShootSound": "Abilita Suono dello Sparo",
+  "text.config.orbital-railgun-enhanced.option.enableEquipSound": "Abilita Suono dell'Equipaggiamento"
 }

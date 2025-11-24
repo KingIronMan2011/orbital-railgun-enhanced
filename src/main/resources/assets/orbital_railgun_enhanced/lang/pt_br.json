@@ -3,5 +3,13 @@
   "death.attack.strike": "%1$s foi obliterado por um Ataque Orbital",
   "subtitle.orbital_railgun_enhanced.railgun_shoot": "Canhão orbital dispara",
   "subtitle.orbital_railgun_enhanced.scope_on": "Mira online",
-  "subtitle.orbital_railgun_enhanced.equip": "Canhão orbital equipado"
+  "subtitle.orbital_railgun_enhanced.equip": "Canhão orbital equipado",
+  
+  "text.config.orbital-railgun-enhanced.title": "Configuração do Canhão Orbital Aprimorado",
+  "text.config.orbital-railgun-enhanced.option.scopeVolume": "Volume da Mira",
+  "text.config.orbital-railgun-enhanced.option.shootVolume": "Volume do Disparo",
+  "text.config.orbital-railgun-enhanced.option.equipVolume": "Volume do Equipamento",
+  "text.config.orbital-railgun-enhanced.option.enableScopeSound": "Ativar Som da Mira",
+  "text.config.orbital-railgun-enhanced.option.enableShootSound": "Ativar Som do Disparo",
+  "text.config.orbital-railgun-enhanced.option.enableEquipSound": "Ativar Som do Equipamento"
 }
