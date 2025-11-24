@@ -10,6 +10,7 @@ on:
       - 'src/**'
       - 'build.gradle'
       - '.github/workflows/build-and-release.yml'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -79,25 +80,11 @@ jobs:
           echo "jar-file=$JAR_FILE" >> $GITHUB_OUTPUT
           echo "Found JAR: $JAR_FILE"
 
-      - name: Create Release
-        id: create-release
-        uses: actions/create-release@v1
+      - name: Create Release and Upload Assets
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ needs.check-version.outputs.version }}
-          release_name: Release v${{ needs.check-version.outputs.version }}
-          body: |
-            Automated release for version ${{ needs.check-version.outputs.version }}
-          draft: false
-          prerelease: false
-
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ${{ steps.find-jar.outputs.jar-file }}
-          asset_name: orbital_railgun-${{ needs.check-version.outputs.version }}.jar
-          asset_content_type: application/java-archive
+        run: |
+          gh release create "v${{ needs.check-version.outputs.version }}" \
+            --title "Release v${{ needs.check-version.outputs.version }}" \
+            --notes "Automated release for version ${{ needs.check-version.outputs.version }}" \
+            "${{ steps.find-jar.outputs.jar-file }}#orbital_railgun-${{ needs.check-version.outputs.version }}.jar"
