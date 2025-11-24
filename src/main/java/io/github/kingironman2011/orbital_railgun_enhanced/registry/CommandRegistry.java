@@ -34,21 +34,27 @@ public class CommandRegistry {
                     .requires(source -> source.hasPermissionLevel(2))
                     .executes(CommandRegistry::showHelp)
                     .then(CommandManager.literal("debug")
+                            .executes(CommandRegistry::showDebugMode)
                             .then(CommandManager.argument("enabled", BoolArgumentType.bool())
                                     .executes(context -> toggleDebugMode(context, BoolArgumentType.getBool(context, "enabled")))))
                     .then(CommandManager.literal("radius")
+                            .executes(CommandRegistry::showRadiusValue)
                             .then(CommandManager.argument("value", DoubleArgumentType.doubleArg(0.0))
                                     .executes(context -> setRadiusValue(context, DoubleArgumentType.getDouble(context, "value")))))
                     .then(CommandManager.literal("strikeDamage")
+                            .executes(CommandRegistry::showStrikeDamage)
                             .then(CommandManager.argument("value", FloatArgumentType.floatArg(0.0f))
                                     .executes(context -> setStrikeDamage(context, FloatArgumentType.getFloat(context, "value")))))
                     .then(CommandManager.literal("cooldown")
+                            .executes(CommandRegistry::showCooldown)
                             .then(CommandManager.argument("ticks", IntegerArgumentType.integer(0))
                                     .executes(context -> setCooldown(context, IntegerArgumentType.getInteger(context, "ticks")))))
                     .then(CommandManager.literal("maxStrikes")
+                            .executes(CommandRegistry::showMaxStrikes)
                             .then(CommandManager.argument("value", IntegerArgumentType.integer(1))
                                     .executes(context -> setMaxStrikes(context, IntegerArgumentType.getInteger(context, "value")))))
                     .then(CommandManager.literal("particles")
+                            .executes(CommandRegistry::showParticles)
                             .then(CommandManager.argument("enabled", BoolArgumentType.bool())
                                     .executes(context -> setParticles(context, BoolArgumentType.getBool(context, "enabled")))))
                     .then(CommandManager.literal("reload")
@@ -61,21 +67,27 @@ public class CommandRegistry {
                     .requires(source -> source.hasPermissionLevel(2))
                     .executes(CommandRegistry::showHelp)
                     .then(CommandManager.literal("debug")
+                            .executes(CommandRegistry::showDebugMode)
                             .then(CommandManager.argument("enabled", BoolArgumentType.bool())
                                     .executes(context -> toggleDebugMode(context, BoolArgumentType.getBool(context, "enabled")))))
                     .then(CommandManager.literal("radius")
+                            .executes(CommandRegistry::showRadiusValue)
                             .then(CommandManager.argument("value", DoubleArgumentType.doubleArg(0.0))
                                     .executes(context -> setRadiusValue(context, DoubleArgumentType.getDouble(context, "value")))))
                     .then(CommandManager.literal("strikeDamage")
+                            .executes(CommandRegistry::showStrikeDamage)
                             .then(CommandManager.argument("value", FloatArgumentType.floatArg(0.0f))
                                     .executes(context -> setStrikeDamage(context, FloatArgumentType.getFloat(context, "value")))))
                     .then(CommandManager.literal("cooldown")
+                            .executes(CommandRegistry::showCooldown)
                             .then(CommandManager.argument("ticks", IntegerArgumentType.integer(0))
                                     .executes(context -> setCooldown(context, IntegerArgumentType.getInteger(context, "ticks")))))
                     .then(CommandManager.literal("maxStrikes")
+                            .executes(CommandRegistry::showMaxStrikes)
                             .then(CommandManager.argument("value", IntegerArgumentType.integer(1))
                                     .executes(context -> setMaxStrikes(context, IntegerArgumentType.getInteger(context, "value")))))
                     .then(CommandManager.literal("particles")
+                            .executes(CommandRegistry::showParticles)
                             .then(CommandManager.argument("enabled", BoolArgumentType.bool())
                                     .executes(context -> setParticles(context, BoolArgumentType.getBool(context, "enabled")))))
                     .then(CommandManager.literal("reload")
@@ -161,6 +173,48 @@ public class CommandRegistry {
             Text.translatable("command.orbital_railgun_enhanced.config.reloaded"), true);
         
         OrbitalRailgun.LOGGER.info("Server configuration reloaded by {}", context.getSource().getName());
+        return 1;
+    }
+
+    private static int showDebugMode(CommandContext<ServerCommandSource> context) {
+        boolean debugMode = ServerConfig.INSTANCE.isDebugMode();
+        context.getSource().sendFeedback(() -> 
+            Text.translatable("command.orbital_railgun_enhanced.debug.current", debugMode), false);
+        return 1;
+    }
+
+    private static int showRadiusValue(CommandContext<ServerCommandSource> context) {
+        double radius = ServerConfig.INSTANCE.getSoundRange();
+        context.getSource().sendFeedback(() -> 
+            Text.translatable("command.orbital_railgun_enhanced.radius.current", radius), false);
+        return 1;
+    }
+
+    private static int showStrikeDamage(CommandContext<ServerCommandSource> context) {
+        float damage = ServerConfig.INSTANCE.getStrikeDamage();
+        context.getSource().sendFeedback(() -> 
+            Text.translatable("command.orbital_railgun_enhanced.strikeDamage.current", damage), false);
+        return 1;
+    }
+
+    private static int showCooldown(CommandContext<ServerCommandSource> context) {
+        int ticks = ServerConfig.INSTANCE.getCooldownTicks();
+        context.getSource().sendFeedback(() -> 
+            Text.translatable("command.orbital_railgun_enhanced.cooldown.current", ticks), false);
+        return 1;
+    }
+
+    private static int showMaxStrikes(CommandContext<ServerCommandSource> context) {
+        int maxStrikes = ServerConfig.INSTANCE.getMaxActiveStrikes();
+        context.getSource().sendFeedback(() -> 
+            Text.translatable("command.orbital_railgun_enhanced.maxStrikes.current", maxStrikes), false);
+        return 1;
+    }
+
+    private static int showParticles(CommandContext<ServerCommandSource> context) {
+        boolean enabled = ServerConfig.INSTANCE.isEnableParticles();
+        context.getSource().sendFeedback(() -> 
+            Text.translatable("command.orbital_railgun_enhanced.particles.current", enabled), false);
         return 1;
     }
 }
