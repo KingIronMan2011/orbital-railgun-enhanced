@@ -63,7 +63,10 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew || true
+        run: |
+          if [ -f gradlew ]; then
+            chmod +x gradlew
+          fi
 
       - name: Build with Gradle
         run: |
@@ -73,10 +76,17 @@ jobs:
             gradle build --no-daemon
           fi
 
+      - name: Get build configuration
+        id: get-config
+        run: |
+          ARCHIVES_BASE_NAME=$(grep "archives_base_name=" gradle.properties | cut -d'=' -f2 | tr -d '[:space:]')
+          echo "archives-base-name=$ARCHIVES_BASE_NAME" >> $GITHUB_OUTPUT
+          echo "Archives base name: $ARCHIVES_BASE_NAME"
+
       - name: Find built JAR
         id: find-jar
         run: |
-          JAR_FILE=$(find build/libs -name "*.jar" ! -name "*-sources.jar" | head -n 1)
+          JAR_FILE=$(find build/libs -name "${{ steps.get-config.outputs.archives-base-name }}-*.jar" ! -name "*-sources.jar" | head -n 1)
           echo "jar-file=$JAR_FILE" >> $GITHUB_OUTPUT
           echo "Found JAR: $JAR_FILE"
 
@@ -87,4 +97,4 @@ jobs:
           gh release create "v${{ needs.check-version.outputs.version }}" \
             --title "Release v${{ needs.check-version.outputs.version }}" \
             --notes "Automated release for version ${{ needs.check-version.outputs.version }}" \
-            "${{ steps.find-jar.outputs.jar-file }}#orbital_railgun-${{ needs.check-version.outputs.version }}.jar"
+            "${{ steps.find-jar.outputs.jar-file }}#${{ steps.get-config.outputs.archives-base-name }}-${{ needs.check-version.outputs.version }}.jar"
