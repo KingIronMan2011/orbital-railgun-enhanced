@@ -1,7 +1,7 @@
 {
   "item.orbital_railgun_enhanced.orbital_railgun": "オービタルレールガン",
   "death.attack.strike": "%1$s は軌道攻撃によって消滅しました",
-  "subtitle.orbital_railgun_enhanced.railgun_shoot": "オービタルレールガンが発射される",
+  "subtitle.orbital_railgun_enhanced.railgun_shoot": "オービタルレールガン Enhanced が発射される",
   "subtitle.orbital_railgun_enhanced.scope_on": "スコープがオンライン",
-  "subtitle.orbital_railgun_enhanced.equip": "オービタルレールガンが装備された"
+  "subtitle.orbital_railgun_enhanced.equip": "オービタルレールガン Enhanced が装備された"
 }

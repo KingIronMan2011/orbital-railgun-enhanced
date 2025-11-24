@@ -1,7 +1,7 @@
 {
   "item.orbital_railgun_enhanced.orbital_railgun": "Орбитальная Рельсовая Пушка",
   "death.attack.strike": "%1$s был уничтожен Орбитальным Ударом",
-  "subtitle.orbital_railgun_enhanced.railgun_shoot": "Орбитальная пушка стреляет",
+  "subtitle.orbital_railgun_enhanced.railgun_shoot": "Орбитальная Рельсовая Пушка Enhanced стреляет",
   "subtitle.orbital_railgun_enhanced.scope_on": "Прицел включен",
-  "subtitle.orbital_railgun_enhanced.equip": "Орбитальная пушка экипирована"
+  "subtitle.orbital_railgun_enhanced.equip": "Орбитальная Рельсовая Пушка Enhanced экипирована"
 }

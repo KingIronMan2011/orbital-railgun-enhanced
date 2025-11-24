@@ -1,7 +1,7 @@
 {
   "item.orbital_railgun_enhanced.orbital_railgun": "Orbital Railgun",
   "death.attack.strike": "%1$s wurde durch einen Orbitalangriff ausgelöscht",
-  "subtitle.orbital_railgun_enhanced.railgun_shoot": "Orbital Railgun feuert",
+  "subtitle.orbital_railgun_enhanced.railgun_shoot": "Orbital Railgun Enhanced feuert",
   "subtitle.orbital_railgun_enhanced.scope_on": "Visier online",
-  "subtitle.orbital_railgun_enhanced.equip": "Orbital Railgun ausgerüstet"
+  "subtitle.orbital_railgun_enhanced.equip": "Orbital Railgun Enhanced ausgerüstet"
 }
