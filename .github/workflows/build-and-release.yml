@@ -9,6 +9,8 @@ on:
       - "gradle.properties"
       - "src/**"
       - "build.gradle"
+      - "versions/**"
+      - "settings.gradle"
       - ".github/workflows/build-and-release.yml"
   workflow_dispatch:
 
@@ -68,12 +70,20 @@ jobs:
             chmod +x gradlew
           fi
 
-      - name: Build with Gradle
+      - name: Build all versions with Gradle
         run: |
           if [ -f gradlew ]; then
-            ./gradlew build --no-daemon
+            ./gradlew buildAll --no-daemon
           else
-            gradle build --no-daemon
+            gradle buildAll --no-daemon
+          fi
+
+      - name: Collect built JARs
+        run: |
+          if [ -f gradlew ]; then
+            ./gradlew collectJars --no-daemon
+          else
+            gradle collectJars --no-daemon
           fi
 
       - name: Get build configuration
@@ -83,18 +93,38 @@ jobs:
           echo "archives-base-name=$ARCHIVES_BASE_NAME" >> $GITHUB_OUTPUT
           echo "Archives base name: $ARCHIVES_BASE_NAME"
 
-      - name: Find built JAR
-        id: find-jar
+      - name: List built JARs
+        id: list-jars
         run: |
-          JAR_FILE=$(find build/libs -name "${{ steps.get-config.outputs.archives-base-name }}-*.jar" ! -name "*-sources.jar" | head -n 1)
-          echo "jar-file=$JAR_FILE" >> $GITHUB_OUTPUT
-          echo "Found JAR: $JAR_FILE"
+          echo "Built JARs:"
+          ls -la build/libs/
+          # Create a list of JAR files for the release
+          JAR_FILES=$(find build/libs -name "*.jar" ! -name "*-sources.jar" ! -name "*-dev.jar" | tr '\n' ' ')
+          echo "jar-files=$JAR_FILES" >> $GITHUB_OUTPUT
 
       - name: Create Release and Upload Assets
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "v${{ needs.check-version.outputs.version }}" \
-            --title "Release v${{ needs.check-version.outputs.version }}" \
-            --notes "Automated release for version ${{ needs.check-version.outputs.version }}" \
-            "${{ steps.find-jar.outputs.jar-file }}#${{ steps.get-config.outputs.archives-base-name }}-${{ needs.check-version.outputs.version }}.jar"
+          # Find all built JARs and upload them
+          JAR_FILES=$(find build/libs -name "*.jar" ! -name "*-sources.jar" ! -name "*-dev.jar")
+          
+          # Build the release command with all JARs
+          RELEASE_CMD="gh release create \"v${{ needs.check-version.outputs.version }}\" --title \"Release v${{ needs.check-version.outputs.version }}\" --notes \"Automated release for version ${{ needs.check-version.outputs.version }}
+
+          ## Supported Minecraft Versions
+          - 1.20
+          - 1.20.1
+          - 1.20.2
+          - 1.20.4
+          - 1.20.6
+          
+          Download the JAR file matching your Minecraft version.\""
+          
+          # Add each JAR to the command
+          for jar in $JAR_FILES; do
+            RELEASE_CMD="$RELEASE_CMD \"$jar\""
+          done
+          
+          # Execute the release command
+          eval $RELEASE_CMD

@@ -1,123 +1,40 @@
 plugins {
-    id 'fabric-loom' version "${loom_version}"
+    id 'fabric-loom' version "${loom_version}" apply false
     id 'maven-publish'
 }
 
-version = project.mod_version
+// Root project configuration for multi-version build
 group = project.maven_group
+version = project.mod_version
 
-base {
-    archivesName = project.archives_base_name
+// Configure all subprojects (version-specific builds)
+subprojects {
+    apply plugin: 'fabric-loom'
+    apply plugin: 'maven-publish'
 }
 
-loom {
-    splitEnvironmentSourceSets()
-
-    mods {
-        "orbital_railgun_enhanced" {
-            sourceSet sourceSets.main
-            sourceSet sourceSets.client
-        }
-    }
+// Task to build all versions
+tasks.register('buildAll') {
+    description = 'Build all Minecraft version variants'
+    group = 'build'
+    dependsOn subprojects.collect { it.tasks.named('build') }
 }
 
-
-repositories {
-    // Add repositories to retrieve artifacts from in here.
-    // You should only use this when depending on other mods because
-    // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-    // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-    // for more information about repositories.
-    maven {
-        name = 'GeckoLib'
-        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
-        content {
-            includeGroupByRegex("software\\.bernie.*")
-            includeGroup("com.eliotlash.mclib")
-        }
-    }
-    maven {
-        name = 'Ladysnake Mods'
-        url = 'https://maven.ladysnake.org/releases'
-        content {
-            includeGroup 'io.github.ladysnake'
-            includeGroup 'org.ladysnake'
-            includeGroupByRegex 'dev\\.onyxstudios.*'
-        }
-    }
-    maven {
-        name = 'Wispforest'
-        url = 'https://maven.wispforest.io'
-    }
+// Task to collect all built jars into a single directory
+tasks.register('collectJars', Copy) {
+    description = 'Collect all built JARs into build/libs'
+    group = 'build'
+    dependsOn 'buildAll'
+    
+    from subprojects.collect { "${it.buildDir}/libs" }
+    into "${rootProject.buildDir}/libs"
+    include '*.jar'
+    exclude '*-sources.jar', '*-dev.jar'
 }
 
-dependencies {
-    // To change the versions see the gradle.properties file
-    compileOnly 'org.apiguardian:apiguardian-api:1.1.2'
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    modImplementation "io.wispforest:owo-lib:0.11.2+1.20"
-    include "io.wispforest:owo-lib:0.11.2+1.20"
-    annotationProcessor "io.wispforest:owo-lib:0.11.2+1.20"
-    clientAnnotationProcessor "io.wispforest:owo-lib:0.11.2+1.20"
-
-    modImplementation("software.bernie.geckolib:geckolib-fabric-${minecraft_version}:4.8.2")
-    implementation("com.eliotlash.mclib:mclib:20")
-
-    modImplementation "org.ladysnake:satin:1.14.0"
-    include "org.ladysnake:satin:1.14.0"
-
-    implementation "com.google.code.gson:gson:2.10.1"
-}
-
-processResources {
-    inputs.property "version", project.version
-    inputs.property "minecraft_version", project.minecraft_version
-    inputs.property "loader_version", project.loader_version
-    filteringCharset "UTF-8"
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version,
-                "minecraft_version": project.minecraft_version,
-                "loader_version": project.loader_version
-    }
-}
-
-def targetJavaVersion = 21
-tasks.withType(JavaCompile).configureEach {
-    // ensure that the encoding is set to UTF-8, no matter what the system default is
-    // this fixes some edge cases with special characters not displaying correctly
-    // see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
-    // If Javadoc is generated, this must be specified in that task too.
-    it.options.encoding = "UTF-8"
-    it.options.compilerArgs += ['-Xlint:-processing']
-    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
-        it.options.release.set(targetJavaVersion)
-    }
-}
-
-java {
-    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-    }
-}
-
-jar {
-    from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
-    }
-}
-
-// configure the maven publication
-publishing {
-    publications {
-        create("mavenJava", MavenPublication) {
-            artifactId = project.archives_base_name
-            from components.java
-        }
-    }
+// Clean task for root project
+tasks.register('cleanAll') {
+    description = 'Clean all subprojects'
+    group = 'build'
+    dependsOn subprojects.collect { it.tasks.named('clean') }
 }

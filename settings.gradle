@@ -12,3 +12,11 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+rootProject.name = 'orbital_railgun_enhanced'
+
+// Include version-specific subprojects
+['1.20', '1.20.1', '1.20.2', '1.20.4', '1.20.6'].each { mcVersion ->
+    include "mc-${mcVersion}"
+    project(":mc-${mcVersion}").projectDir = file("versions/${mcVersion}")
+}

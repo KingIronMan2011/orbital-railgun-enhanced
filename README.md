@@ -14,6 +14,20 @@ This Video was made by HyIsNoob, but as it has nearly the same stuff as this mod
 
 An unoffical forge version can be found [here](https://www.curseforge.com/minecraft/mc-mods/orbital-railgun-reforged).
 
+## Supported Minecraft Versions
+
+This mod supports multiple Minecraft versions:
+
+| Minecraft Version | Status |
+|-------------------|--------|
+| 1.20 | ✅ Supported |
+| 1.20.1 | ✅ Supported |
+| 1.20.2 | ✅ Supported |
+| 1.20.4 | ✅ Supported |
+| 1.20.6 | ✅ Supported |
+
+Download the JAR file matching your Minecraft version from the [Releases](https://github.com/KingIronMan2011/orbital-railgun-enhanced/releases) page.
+
 ## Description
 
 If you've ever wanted to destroy large swathes of land in an instant while having no regard for the local fauna and wildlife present, then our new invention of the Orbital Railgun may interest you. By harnessing the power of a star, you are able to communicate directly to our rapid-response railgun satellite, allowing for quick and easy access to absolute destruction. Simply aim your Orbital Railgun and fire, and within half a minute you will have caused an ecological disaster, but at least the area is clear now!
@@ -36,8 +50,25 @@ Configuration is stored in `config/orbital-railgun-sounds.json5` in your Minecra
 
 ## Installation
 
-1. Place the JAR in your `mods` folder alongside Orbital Railgun and Fabric API.
-2. This is a client-side addon; you can join servers as long as your client has the original mod installed.
+1. Download the JAR file for your Minecraft version from the [Releases](https://github.com/KingIronMan2011/orbital-railgun-enhanced/releases) page.
+2. Place the JAR in your `mods` folder alongside Fabric API.
+3. This is a client-side addon; you can join servers as long as your client has the original mod installed.
+
+## Building from Source
+
+This project uses a multi-version Gradle build system. To build for all supported Minecraft versions:
+
+```bash
+./gradlew buildAll
+```
+
+To build for a specific version:
+
+```bash
+./gradlew :mc-1.20.1:build
+```
+
+Built JARs will be in the `versions/<version>/build/libs/` directories.
 
 ## Issues or Ideas
 
