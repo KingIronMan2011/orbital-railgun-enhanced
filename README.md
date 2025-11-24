@@ -14,7 +14,7 @@ An unoffical sound effect addon can be found [here](https://modrinth.com/mod/orb
 
 ## Description
 
-If you've ever wanted to destroy large swathes of land in an instant while having no regard for the local fauna and wildlife present, then our new invention of the Orbital Railgun Enhanced may interest you. By harnessing the power of a star, you are able to communicate directly to our rapid-response railgun satalite, allowing for quick and easy access to absolute destruction. Simply aim your Orbital Railgun and fire, and within half a minute you will have caused an ecological disaster, but at least the area is clear now!
+If you've ever wanted to destroy large swathes of land in an instant while having no regard for the local fauna and wildlife present, then our new invention of the Orbital Railgun Enhanced may interest you. By harnessing the power of a star, you are able to communicate directly to our rapid-response railgun satellite, allowing for quick and easy access to absolute destruction. Simply aim your Orbital Railgun and fire, and within half a minute you will have caused an ecological disaster, but at least the area is clear now!
 
 *Note: it **WILL** destroy bedrock.*
 
