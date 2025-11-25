@@ -18,15 +18,17 @@ An unoffical forge version can be found [here](https://www.curseforge.com/minecr
 
 This mod supports multiple Minecraft versions:
 
-| Minecraft Version | Status |
-|-------------------|--------|
-| 1.20 | ✅ Supported |
-| 1.20.1 | ✅ Supported |
-| 1.20.2 | ✅ Supported |
-| 1.20.3 | ✅ Supported |
-| 1.20.4 | ✅ Supported |
-| 1.20.5 | ✅ Supported |
-| 1.20.6 | ✅ Supported |
+| Minecraft Version | Java Version | Status |
+|-------------------|--------------|--------|
+| 1.20 | Java 17+ | ✅ Supported |
+| 1.20.1 | Java 17+ | ✅ Supported |
+| 1.20.2 | Java 17+ | ✅ Supported |
+| 1.20.3 | Java 17+ | ✅ Supported |
+| 1.20.4 | Java 17+ | ✅ Supported |
+| 1.20.5 | Java 21+ | ✅ Supported |
+| 1.20.6 | Java 21+ | ✅ Supported |
+
+**Note:** Minecraft 1.20.5 and 1.20.6 require Java 21 - this is a Mojang requirement. If you're using Java 17, please use Minecraft 1.20.4 or earlier.
 
 Download the JAR file matching your Minecraft version from the [Releases](https://github.com/KingIronMan2011/orbital-railgun-enhanced/releases) page.
 
