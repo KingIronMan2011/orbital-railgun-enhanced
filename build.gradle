@@ -52,23 +52,21 @@ repositories {
 }
 
 dependencies {
-    // To change the versions see the gradle.properties file
-    compileOnly 'org.apiguardian:apiguardian-api:1.1.2'
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modImplementation "io.wispforest:owo-lib:0.11.2+1.20"
-    include "io.wispforest:owo-lib:0.11.2+1.20"
-    annotationProcessor "io.wispforest:owo-lib:0.11.2+1.20"
-    clientAnnotationProcessor "io.wispforest:owo-lib:0.11.2+1.20"
+    modImplementation "io.wispforest:owo-lib:${owolib_version}"
+    include "io.wispforest:owo-lib:${owolib_version}"
+    annotationProcessor "io.wispforest:owo-lib:${owolib_version}"
+    clientAnnotationProcessor "io.wispforest:owo-lib:${owolib_version}"
 
-    modImplementation("software.bernie.geckolib:geckolib-fabric-${minecraft_version}:4.8.2")
+    modImplementation("software.bernie.geckolib:geckolib-fabric-${minecraft_version}:${geckolib_version}")
     implementation("com.eliotlash.mclib:mclib:20")
 
-    modImplementation "org.ladysnake:satin:1.14.0"
-    include "org.ladysnake:satin:1.14.0"
+    modImplementation "org.ladysnake:satin:${satin_version}"
+    include "org.ladysnake:satin:${satin_version}"
 
     implementation "com.google.code.gson:gson:2.10.1"
 }
