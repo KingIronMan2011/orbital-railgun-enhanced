@@ -23,6 +23,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.registry.Registries;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -139,8 +140,8 @@ public class OrbitalRailgun implements ModInitializer {
 
                                                         if (result.isInside) {
                                                             // Only play sound if player is in range
-                                                            nearbyPlayer.playSound(
-                                                                    sound, volumeShoot, pitchShoot);
+                                                            nearbyPlayer.playSoundToPlayer(
+                                                                    sound, SoundCategory.PLAYERS, volumeShoot, pitchShoot);
                                                             SoundLogger.logSoundEvent(soundId.toString(), blockPos, range);
                                                             SoundLogger.logSoundPlayed(
                                                                     nearbyPlayer.getName().getString(),
@@ -340,8 +341,9 @@ public class OrbitalRailgun implements ModInitializer {
 
         if (shootSound != null) {
             // Play the sound at the laser impact location
-            player.playSound(
+            player.playSoundToPlayer(
                     shootSound,
+                    SoundCategory.PLAYERS,
                     1.0f, // volume
                     1.0f // pitch
             );
