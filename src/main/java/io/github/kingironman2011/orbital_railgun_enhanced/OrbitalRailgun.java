@@ -11,17 +11,18 @@ import io.github.kingironman2011.orbital_railgun_enhanced.registry.CommandRegist
 import io.github.kingironman2011.orbital_railgun_enhanced.logger.SoundLogger;
 import io.github.kingironman2011.orbital_railgun_enhanced.config.ServerConfig;
 import io.github.kingironman2011.orbital_railgun_enhanced.listener.PlayerAreaListener;
-import io.netty.buffer.Unpooled;
+import io.github.kingironman2011.orbital_railgun_enhanced.network.ClientSyncPayload;
+import io.github.kingironman2011.orbital_railgun_enhanced.network.PlaySoundPayload;
+import io.github.kingironman2011.orbital_railgun_enhanced.network.ShootPayload;
+import io.github.kingironman2011.orbital_railgun_enhanced.network.StopAreaSoundPayload;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.Registries;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -33,13 +34,6 @@ import java.util.List;
 public class OrbitalRailgun implements ModInitializer {
     public static final String MOD_ID = "orbital_railgun_enhanced";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-
-    public static final Identifier PLAY_SOUND_PACKET_ID = new Identifier(MOD_ID, "play_sound");
-    public static final Identifier STOP_AREA_SOUND_PACKET_ID =
-            new Identifier(MOD_ID, "stop_area_sound");
-    public static final Identifier SHOOT_PACKET_ID = Identifier.of(MOD_ID, "shoot_packet");
-    public static final Identifier CLIENT_SYNC_PACKET_ID =
-            Identifier.of(MOD_ID, "client_sync_packet");
 
     public static final long RAILGUN_SOUND_DURATION_MS = 52992L;
 
@@ -82,18 +76,25 @@ public class OrbitalRailgun implements ModInitializer {
                     }
                 });
 
+        // Register payload types for networking
+        PayloadTypeRegistry.playC2S().register(PlaySoundPayload.ID, PlaySoundPayload.CODEC);
+        PayloadTypeRegistry.playC2S().register(ShootPayload.ID, ShootPayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(ClientSyncPayload.ID, ClientSyncPayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(StopAreaSoundPayload.ID, StopAreaSoundPayload.CODEC);
+
         ServerPlayNetworking.registerGlobalReceiver(
-                PLAY_SOUND_PACKET_ID,
-                (server, player, handler, buf, responseSender) -> {
-                    Identifier soundId = buf.readIdentifier();
+                PlaySoundPayload.ID,
+                (payload, context) -> {
+                    Identifier soundId = payload.soundId();
                     SoundEvent sound = Registries.SOUND_EVENT.get(soundId);
-                    BlockPos blockPos = buf.readBlockPos();
-                    float volumeShoot = buf.readFloat();
-                    float pitchShoot = buf.readFloat();
+                    BlockPos blockPos = payload.blockPos();
+                    float volumeShoot = payload.volume();
+                    float pitchShoot = payload.pitch();
+                    ServerPlayerEntity player = context.player();
 
                     long fireTimestamp = System.currentTimeMillis();
 
-                    server.execute(
+                    context.server().execute(
                             () -> {
                                 if (sound == null) {
                                     OrbitalRailgun.LOGGER.warn(
@@ -119,7 +120,7 @@ public class OrbitalRailgun implements ModInitializer {
                                 }
 
                                 // Check all players and track state changes
-                                server
+                                context.server()
                                         .getPlayerManager()
                                         .getPlayerList()
                                         .forEach(
@@ -139,7 +140,7 @@ public class OrbitalRailgun implements ModInitializer {
                                                         if (result.isInside) {
                                                             // Only play sound if player is in range
                                                             nearbyPlayer.playSound(
-                                                                    sound, SoundCategory.PLAYERS, volumeShoot, pitchShoot);
+                                                                    sound, volumeShoot, pitchShoot);
                                                             SoundLogger.logSoundEvent(soundId.toString(), blockPos, range);
                                                             SoundLogger.logSoundPlayed(
                                                                     nearbyPlayer.getName().getString(),
@@ -170,10 +171,11 @@ public class OrbitalRailgun implements ModInitializer {
                 });
 
         ServerPlayNetworking.registerGlobalReceiver(
-                SHOOT_PACKET_ID,
-                (server, player, handler, buf, responseSender) -> {
-                    OrbitalRailgunItem orbitalRailgun = (OrbitalRailgunItem) buf.readItemStack().getItem();
-                    BlockPos blockPos = buf.readBlockPos();
+                ShootPayload.ID,
+                (payload, context) -> {
+                    OrbitalRailgunItem orbitalRailgun = (OrbitalRailgunItem) payload.itemStack().getItem();
+                    BlockPos blockPos = payload.blockPos();
+                    ServerPlayerEntity player = context.player();
 
                     if (ServerConfig.INSTANCE.isDebugMode()) {
                         LOGGER.info("========================================");
@@ -182,7 +184,7 @@ public class OrbitalRailgun implements ModInitializer {
                         LOGGER.info("[STRIKE] Impact location: {}", blockPos);
                     }
 
-                    server.execute(
+                    context.server().execute(
                             () -> {
                                 double laserX = blockPos.getX() + 0.5;
                                 double laserZ = blockPos.getZ() + 0.5;
@@ -199,7 +201,7 @@ public class OrbitalRailgun implements ModInitializer {
                                                 .getOtherEntities(null, Box.of(blockPos.toCenterPos(), 500., 500., 500.));
                                 OrbitalRailgunStrikeManager.activeStrikes.put(
                                         new Pair<>(blockPos, nearby),
-                                        new Pair<>(server.getTicks(), player.getWorld().getRegistryKey()));
+                                        new Pair<>(context.server().getTicks(), player.getWorld().getRegistryKey()));
 
                                 if (ServerConfig.INSTANCE.isDebugMode()) {
                                     LOGGER.info("[STRIKE] Registered strike with {} nearby entities", nearby.size());
@@ -210,8 +212,7 @@ public class OrbitalRailgun implements ModInitializer {
                                             if (entity instanceof ServerPlayerEntity serverPlayer) {
                                                 ServerPlayNetworking.send(
                                                         serverPlayer,
-                                                        CLIENT_SYNC_PACKET_ID,
-                                                        PacketByteBufs.create().writeBlockPos(blockPos));
+                                                        new ClientSyncPayload(blockPos));
                                                 if (ServerConfig.INSTANCE.isDebugMode()) {
                                                     LOGGER.debug(
                                                             "[NETWORK] Sent CLIENT_SYNC_PACKET to {}",
@@ -220,12 +221,12 @@ public class OrbitalRailgun implements ModInitializer {
                                             }
                                         }));
 
-                                int totalPlayers = server.getPlayerManager().getPlayerList().size();
+                                int totalPlayers = context.server().getPlayerManager().getPlayerList().size();
                                 if (ServerConfig.INSTANCE.isDebugMode()) {
                                     LOGGER.info("[STRIKE] Checking {} players on server for range", totalPlayers);
                                 }
 
-                                server
+                                context.server()
                                         .getPlayerManager()
                                         .getPlayerList()
                                         .forEach(
@@ -341,7 +342,6 @@ public class OrbitalRailgun implements ModInitializer {
             // Play the sound at the laser impact location
             player.playSound(
                     shootSound,
-                    SoundCategory.PLAYERS,
                     1.0f, // volume
                     1.0f // pitch
             );
@@ -366,10 +366,7 @@ public class OrbitalRailgun implements ModInitializer {
      * Sends a packet to the client to stop area-based sounds.
      */
     private static void stopAreaSoundsForPlayer(ServerPlayerEntity player) {
-        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        buf.writeIdentifier(SoundsRegistry.RAILGUN_SHOOT_ID);
-
-        ServerPlayNetworking.send(player, STOP_AREA_SOUND_PACKET_ID, buf);
+        ServerPlayNetworking.send(player, new StopAreaSoundPayload(SoundsRegistry.RAILGUN_SHOOT_ID));
 
         SoundLogger.logSoundStopped(
                 player.getName().getString(), SoundsRegistry.RAILGUN_SHOOT_ID.toString());

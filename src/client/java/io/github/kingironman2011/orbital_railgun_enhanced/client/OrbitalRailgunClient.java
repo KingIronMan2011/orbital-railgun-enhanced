@@ -3,13 +3,14 @@ package io.github.kingironman2011.orbital_railgun_enhanced.client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.kingironman2011.orbital_railgun_enhanced.OrbitalRailgun;
 import io.github.kingironman2011.orbital_railgun_enhanced.client.item.OrbitalRailgunRenderer;
 import io.github.kingironman2011.orbital_railgun_enhanced.client.rendering.OrbitalRailgunGuiShader;
 import io.github.kingironman2011.orbital_railgun_enhanced.client.rendering.OrbitalRailgunShader;
 import io.github.kingironman2011.orbital_railgun_enhanced.item.OrbitalRailgunItems;
 import io.github.kingironman2011.orbital_railgun_enhanced.client.config.EnhancedConfigWrapper;
 import io.github.kingironman2011.orbital_railgun_enhanced.client.handler.SoundsHandler;
+import io.github.kingironman2011.orbital_railgun_enhanced.network.ClientSyncPayload;
+import io.github.kingironman2011.orbital_railgun_enhanced.network.StopAreaSoundPayload;
 import ladysnake.satin.api.event.PostWorldRenderCallback;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -19,7 +20,6 @@ import net.minecraft.util.math.BlockPos;
 import software.bernie.geckolib.animatable.client.GeoRenderProvider;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.Identifier;
 
 public class OrbitalRailgunClient implements ClientModInitializer {
     private static final Logger LOGGER = LoggerFactory.getLogger("OrbitalRailgunEnhanced");
@@ -40,7 +40,7 @@ public class OrbitalRailgunClient implements ClientModInitializer {
                     private OrbitalRailgunRenderer renderer;
 
                     @Override
-                    public BuiltinModelItemRenderer getCustomRenderer() {
+                    public BuiltinModelItemRenderer getGeoItemRenderer() {
                         if (this.renderer == null) {
                             this.renderer = new OrbitalRailgunRenderer();
                             LOGGER.info("Orbital railgun renderer created");
@@ -51,30 +51,28 @@ public class OrbitalRailgunClient implements ClientModInitializer {
                 });
 
         ClientPlayNetworking.registerGlobalReceiver(
-                OrbitalRailgun.CLIENT_SYNC_PACKET_ID,
-                ((minecraftClient, clientPlayNetworkHandler, packetByteBuf, packetSender) -> {
-                    BlockPos blockPos = packetByteBuf.readBlockPos();
+                ClientSyncPayload.ID,
+                (payload, context) -> {
+                    BlockPos blockPos = payload.blockPos();
 
-                    minecraftClient.execute(
+                    context.client().execute(
                             () -> {
                                 OrbitalRailgunShader.INSTANCE.BlockPosition = blockPos.toCenterPos().toVector3f();
-                                OrbitalRailgunShader.INSTANCE.Dimension = minecraftClient.world.getRegistryKey();
+                                OrbitalRailgunShader.INSTANCE.Dimension = context.client().world.getRegistryKey();
                                 LOGGER.debug("[CLIENT] Synced strike position: {}", blockPos);
                             });
-                }));
+                });
 
         ClientPlayNetworking.registerGlobalReceiver(
-                OrbitalRailgun.STOP_AREA_SOUND_PACKET_ID,
-                (client, handler, buf, responseSender) -> {
-                    Identifier soundId = buf.readIdentifier();
-
-                    client.execute(
+                StopAreaSoundPayload.ID,
+                (payload, context) -> {
+                    context.client().execute(
                             () -> {
                                 // Stop all instances of this sound for the player
                                 MinecraftClient.getInstance()
                                         .getSoundManager()
-                                        .stopSounds(soundId, SoundCategory.PLAYERS);
-                                LOGGER.debug("[CLIENT] Stopped area sound: {}", soundId);
+                                        .stopSounds(payload.soundId(), SoundCategory.PLAYERS);
+                                LOGGER.debug("[CLIENT] Stopped area sound: {}", payload.soundId());
                             });
                 });
 

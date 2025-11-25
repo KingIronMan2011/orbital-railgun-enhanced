@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import io.github.kingironman2011.orbital_railgun_enhanced.client.OrbitalRailgunClient;
 import io.github.kingironman2011.orbital_railgun_enhanced.registry.SoundsRegistry;
-import io.netty.buffer.Unpooled;
+import io.github.kingironman2011.orbital_railgun_enhanced.network.PlaySoundPayload;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
@@ -13,7 +13,6 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.item.Item;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
@@ -21,7 +20,7 @@ import net.minecraft.util.Identifier;
 public class SoundsHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger("OrbitalRailgunEnhanced");
     private static final Identifier ORBITAL_RAILGUN_ITEM_ID =
-            new Identifier("orbital_railgun_enhanced", "orbital_railgun");
+            Identifier.of("orbital_railgun_enhanced", "orbital_railgun");
 
     private boolean wasUsing = false;
     private int lastSelectedSlot = -1;
@@ -48,9 +47,6 @@ public class SoundsHandler {
         handleRailgunUsage(client, player, volumeScope);
         handleRailgunCooldown(player, volumeShoot);
         handleHotbarSwitch(player, volumeEquip);
-
-        PacketByteBuf areaBuf = new PacketByteBuf(Unpooled.buffer());
-        ClientPlayNetworking.send(SoundsRegistry.AREA_CHECK_PACKET_ID, areaBuf);
     }
 
     private void handleRailgunUsage(
@@ -92,13 +88,12 @@ public class SoundsHandler {
             float pitchShoot = 1.0f;
 
             if (!lastCooldownActive && cooldownNow && OrbitalRailgunClient.CONFIG.enableShootSound()) {
-                PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-                buf.writeIdentifier(Registries.SOUND_EVENT.getId(SoundsRegistry.RAILGUN_SHOOT));
-                buf.writeBlockPos(player.getBlockPos());
-                buf.writeFloat(volumeShoot);
-                buf.writeFloat(pitchShoot);
-
-                ClientPlayNetworking.send(SoundsRegistry.PLAY_SOUND_PACKET_ID, buf);
+                Identifier soundId = Registries.SOUND_EVENT.getId(SoundsRegistry.RAILGUN_SHOOT);
+                ClientPlayNetworking.send(new PlaySoundPayload(
+                        soundId,
+                        player.getBlockPos(),
+                        volumeShoot,
+                        pitchShoot));
             }
 
             lastCooldownActive = cooldownNow;
