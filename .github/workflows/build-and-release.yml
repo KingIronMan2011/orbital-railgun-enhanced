@@ -5,6 +5,9 @@ on:
     branches:
       - main
       - master
+      - "1.20.2"
+      - "1.20.4"
+      - "1.20.6"
     paths:
       - "gradle.properties"
       - "src/**"
@@ -20,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.get-version.outputs.version }}
+      minecraft-version: ${{ steps.get-version.outputs.minecraft-version }}
       tag-exists: ${{ steps.check-tag.outputs.exists }}
     steps:
       - name: Checkout code
@@ -31,18 +35,22 @@ jobs:
         id: get-version
         run: |
           VERSION=$(grep "mod_version=" gradle.properties | cut -d'=' -f2 | tr -d '[:space:]')
+          MC_VERSION=$(grep "minecraft_version=" gradle.properties | cut -d'=' -f2 | tr -d '[:space:]')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "minecraft-version=$MC_VERSION" >> $GITHUB_OUTPUT
           echo "Mod version: $VERSION"
+          echo "Minecraft version: $MC_VERSION"
 
       - name: Check if tag already exists
         id: check-tag
         run: |
-          if git rev-parse "v${{ steps.get-version.outputs.version }}" >/dev/null 2>&1; then
+          TAG_NAME="v${{ steps.get-version.outputs.version }}-${{ steps.get-version.outputs.minecraft-version }}"
+          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
             echo "exists=true" >> $GITHUB_OUTPUT
-            echo "Tag v${{ steps.get-version.outputs.version }} already exists"
+            echo "Tag $TAG_NAME already exists"
           else
             echo "exists=false" >> $GITHUB_OUTPUT
-            echo "Tag v${{ steps.get-version.outputs.version }} does not exist"
+            echo "Tag $TAG_NAME does not exist"
           fi
 
   build-and-release:
@@ -90,11 +98,35 @@ jobs:
           echo "jar-file=$JAR_FILE" >> $GITHUB_OUTPUT
           echo "Found JAR: $JAR_FILE"
 
+      - name: Determine supported Minecraft versions
+        id: mc-support
+        run: |
+          MC_VERSION="${{ needs.check-version.outputs.minecraft-version }}"
+          case "$MC_VERSION" in
+            1.20|1.20.1)
+              SUPPORT_RANGE="1.20-1.20.1"
+              ;;
+            1.20.2)
+              SUPPORT_RANGE="1.20.2"
+              ;;
+            1.20.3|1.20.4)
+              SUPPORT_RANGE="1.20.3-1.20.4"
+              ;;
+            1.20.6)
+              SUPPORT_RANGE="1.20.6"
+              ;;
+            *)
+              SUPPORT_RANGE="$MC_VERSION"
+              ;;
+          esac
+          echo "support-range=$SUPPORT_RANGE" >> $GITHUB_OUTPUT
+          echo "Supported Minecraft versions: $SUPPORT_RANGE"
+
       - name: Create Release and Upload Assets
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "v${{ needs.check-version.outputs.version }}" \
-            --title "Release v${{ needs.check-version.outputs.version }}" \
-            --notes "Automated release for version ${{ needs.check-version.outputs.version }}" \
-            "${{ steps.find-jar.outputs.jar-file }}#${{ steps.get-config.outputs.archives-base-name }}-${{ needs.check-version.outputs.version }}.jar"
+          gh release create "v${{ needs.check-version.outputs.version }}-${{ needs.check-version.outputs.minecraft-version }}" \
+            --title "Release v${{ needs.check-version.outputs.version }} for Minecraft ${{ steps.mc-support.outputs.support-range }}" \
+            --notes "Automated release for version ${{ needs.check-version.outputs.version }} (Supports Minecraft ${{ steps.mc-support.outputs.support-range }})" \
+            "${{ steps.find-jar.outputs.jar-file }}#${{ steps.get-config.outputs.archives-base-name }}-${{ needs.check-version.outputs.version }}-${{ needs.check-version.outputs.minecraft-version }}.jar"
