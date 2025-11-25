@@ -19,7 +19,7 @@ public class OrbitalRailgunItems {
             (OrbitalRailgunItem) register(new OrbitalRailgunItem(), "orbital_railgun");
 
     public static Item register(Item item, String id) {
-        Identifier itemID = new Identifier(OrbitalRailgun.MOD_ID, id);
+        Identifier itemID = Identifier.of(OrbitalRailgun.MOD_ID, id);
         Item registeredItem = Registry.register(Registries.ITEM, itemID, item);
         if (ServerConfig.INSTANCE.isDebugMode()) {
             LOGGER.debug("[REGISTRY] Registered item: {}", itemID);

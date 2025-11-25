@@ -18,12 +18,10 @@ import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class OrbitalRailgunItem extends Item implements GeoItem {
     private static final Logger LOGGER = LoggerFactory.getLogger("OrbitalRailgunEnhanced");
     private final AnimatableInstanceCache CACHE = GeckoLibUtil.createInstanceCache(this);
-    private final Supplier<Object> renderProvider = GeoItem.makeRenderer(this);
     public final MutableObject<GeoRenderProvider> renderProviderHolder = new MutableObject<>();
 
     public OrbitalRailgunItem() {
@@ -72,13 +70,8 @@ public class OrbitalRailgunItem extends Item implements GeoItem {
     }
 
     @Override
-    public void createGeoRenderer(Consumer<Object> consumer) {
+    public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
         consumer.accept(this.renderProviderHolder.getValue());
-    }
-
-    @Override
-    public Supplier<Object> getRenderProvider() {
-        return renderProvider;
     }
 
     @Override

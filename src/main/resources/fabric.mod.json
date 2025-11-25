@@ -30,8 +30,8 @@
     "fabricloader": ">=${loader_version}",
     "fabric-api": "*",
     "fabric": "*",
-    "minecraft": "${minecraft_version}",
-    "owo": ">=0.11.0"
+    "minecraft": "*",
+    "owo": ">=${owolib_version}"
   },
   "suggests": {
     "sound_physics_remastered": "*",
