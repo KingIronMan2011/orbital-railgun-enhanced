@@ -11,7 +11,8 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 
 public class OrbitalRailgunGuiShader extends AbstractOrbitalRailgunShader {
-    public static final Identifier ORBITAL_RAILGUN_GUI_SHADER = Identifier.of(OrbitalRailgun.MOD_ID, "shaders/post/orbital_railgun_enhanced_gui.json");
+    public static final Identifier ORBITAL_RAILGUN_GUI_SHADER =
+            Identifier.of(OrbitalRailgun.MOD_ID, "shaders/post/orbital_railgun_enhanced_gui.json");
     public static final OrbitalRailgunGuiShader INSTANCE = new OrbitalRailgunGuiShader();
 
     private final Uniform1f uniformIsBlockHit = SHADER.findUniform1f("IsBlockHit");
@@ -25,7 +26,8 @@ public class OrbitalRailgunGuiShader extends AbstractOrbitalRailgunShader {
 
     @Override
     protected boolean shouldRender() {
-        return client.player != null && client.player.getActiveItem().getItem() instanceof OrbitalRailgunItem;
+        return client.player != null
+                && client.player.getActiveItem().getItem() instanceof OrbitalRailgunItem;
     }
 
     @Override
@@ -47,11 +49,13 @@ public class OrbitalRailgunGuiShader extends AbstractOrbitalRailgunShader {
             switch (hitResult.getType()) {
                 case BLOCK:
                     uniformIsBlockHit.set(1);
-                    uniformBlockPosition.set(((BlockHitResult) hitResult).getBlockPos().toCenterPos().toVector3f());
+                    uniformBlockPosition.set(
+                            ((BlockHitResult) hitResult).getBlockPos().toCenterPos().toVector3f());
                     break;
                 case ENTITY:
                     uniformIsBlockHit.set(1);
-                    uniformBlockPosition.set(((EntityHitResult) hitResult).getEntity().getBlockPos().toCenterPos().toVector3f());
+                    uniformBlockPosition.set(
+                            ((EntityHitResult) hitResult).getEntity().getBlockPos().toCenterPos().toVector3f());
                     break;
                 case MISS:
                     uniformIsBlockHit.set(0);

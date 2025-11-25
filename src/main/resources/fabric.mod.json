@@ -4,7 +4,9 @@
   "version": "${version}",
   "name": "Orbital Railgun Enhanced",
   "description": "Destroy your enemies with an orbital strike, but with sounds and more features!",
-  "authors": ["KingIronMan2011"],
+  "authors": [
+    "KingIronMan2011"
+  ],
   "contact": {},
   "license": "MIT",
   "icon": "assets/orbital_railgun_enhanced/icon.png",

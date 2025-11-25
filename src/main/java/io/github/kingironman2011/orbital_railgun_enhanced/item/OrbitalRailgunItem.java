@@ -54,7 +54,9 @@ public class OrbitalRailgunItem extends Item implements GeoItem {
         }
 
         if (ServerConfig.INSTANCE.isDebugMode()) {
-            LOGGER.debug("[ITEM] Player {} tried to use orbital railgun while on cooldown", user.getName().getString());
+            LOGGER.debug(
+                    "[ITEM] Player {} tried to use orbital railgun while on cooldown",
+                    user.getName().getString());
         }
         return TypedActionResult.fail(user.getStackInHand(hand));
     }
@@ -63,7 +65,10 @@ public class OrbitalRailgunItem extends Item implements GeoItem {
         int cooldownTicks = ServerConfig.INSTANCE.getCooldownTicks();
         user.getItemCooldownManager().set(this, cooldownTicks);
         if (ServerConfig.INSTANCE.isDebugMode()) {
-            LOGGER.debug("[ITEM] Applied cooldown of {} ticks to player {}", cooldownTicks, user.getName().getString());
+            LOGGER.debug(
+                    "[ITEM] Applied cooldown of {} ticks to player {}",
+                    cooldownTicks,
+                    user.getName().getString());
         }
     }
 
@@ -78,7 +83,8 @@ public class OrbitalRailgunItem extends Item implements GeoItem {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {}
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+    }
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {

@@ -10,20 +10,21 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class ServerConfig {
-    private static final File CONFIG_FILE = new File("config/orbital-railgun-enhanced-server-config.json");
+    private static final File CONFIG_FILE =
+            new File("config/orbital-railgun-enhanced-server-config.json");
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     public static final ServerConfig INSTANCE = new ServerConfig();
-    
+
     // Debug and logging
     private boolean debugMode = false;
-    
+
     // Sound settings
     private double soundRange = 500.0;
-    
+
     // Strike settings
     private float strikeDamage = 20.0f;
     private int cooldownTicks = 100;
-    
+
     // Performance settings
     private int maxActiveStrikes = 10;
     private boolean enableParticles = true;
@@ -113,15 +114,19 @@ public class ServerConfig {
                     this.cooldownTicks = config.cooldownTicks;
                     this.maxActiveStrikes = config.maxActiveStrikes;
                     this.enableParticles = config.enableParticles;
-                    OrbitalRailgun.LOGGER.info("Server configuration loaded from: {}", CONFIG_FILE.getAbsolutePath());
+                    OrbitalRailgun.LOGGER.info(
+                            "Server configuration loaded from: {}", CONFIG_FILE.getAbsolutePath());
                 } else {
-                    OrbitalRailgun.LOGGER.warn("Config file parsed to null, using defaults: {}", CONFIG_FILE.getAbsolutePath());
+                    OrbitalRailgun.LOGGER.warn(
+                            "Config file parsed to null, using defaults: {}", CONFIG_FILE.getAbsolutePath());
                 }
             } catch (IOException e) {
                 OrbitalRailgun.LOGGER.error("Failed to load config: {}", e.getMessage());
             }
         } else {
-            OrbitalRailgun.LOGGER.info("Config file not found, creating default configuration: {}", CONFIG_FILE.getAbsolutePath());
+            OrbitalRailgun.LOGGER.info(
+                    "Config file not found, creating default configuration: {}",
+                    CONFIG_FILE.getAbsolutePath());
             saveConfig();
         }
     }
@@ -132,13 +137,15 @@ public class ServerConfig {
             if (parentDir != null && !parentDir.exists()) {
                 boolean created = parentDir.mkdirs();
                 if (!created && !parentDir.exists()) {
-                    OrbitalRailgun.LOGGER.warn("Could not create config directory: {}", parentDir.getAbsolutePath());
+                    OrbitalRailgun.LOGGER.warn(
+                            "Could not create config directory: {}", parentDir.getAbsolutePath());
                 }
             }
 
             try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
                 GSON.toJson(this, writer);
-                OrbitalRailgun.LOGGER.info("Server configuration saved to: {}", CONFIG_FILE.getAbsolutePath());
+                OrbitalRailgun.LOGGER.info(
+                        "Server configuration saved to: {}", CONFIG_FILE.getAbsolutePath());
             }
         } catch (IOException e) {
             OrbitalRailgun.LOGGER.error("Failed to save config: {}", e.getMessage());

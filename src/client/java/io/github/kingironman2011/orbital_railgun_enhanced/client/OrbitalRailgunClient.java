@@ -28,46 +28,54 @@ public class OrbitalRailgunClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         LOGGER.info("Initializing Orbital Railgun Enhanced client...");
-        
+
         CONFIG = EnhancedConfigWrapper.createAndLoad();
         LOGGER.info("Client configuration loaded");
 
         SoundsHandler sounds = new SoundsHandler();
         sounds.initializeClient();
 
-        OrbitalRailgunItems.ORBITAL_RAILGUN.renderProviderHolder.setValue(new RenderProvider() {
-            private OrbitalRailgunRenderer renderer;
+        OrbitalRailgunItems.ORBITAL_RAILGUN.renderProviderHolder.setValue(
+                new RenderProvider() {
+                    private OrbitalRailgunRenderer renderer;
 
-            @Override
-            public BuiltinModelItemRenderer getCustomRenderer() {
-                if (this.renderer == null) {
-                    this.renderer = new OrbitalRailgunRenderer();
-                    LOGGER.info("Orbital railgun renderer created");
-                }
+                    @Override
+                    public BuiltinModelItemRenderer getCustomRenderer() {
+                        if (this.renderer == null) {
+                            this.renderer = new OrbitalRailgunRenderer();
+                            LOGGER.info("Orbital railgun renderer created");
+                        }
 
-                return this.renderer;
-            }
-        });
+                        return this.renderer;
+                    }
+                });
 
-        ClientPlayNetworking.registerGlobalReceiver(OrbitalRailgun.CLIENT_SYNC_PACKET_ID, ((minecraftClient, clientPlayNetworkHandler, packetByteBuf, packetSender) -> {
-            BlockPos blockPos = packetByteBuf.readBlockPos();
+        ClientPlayNetworking.registerGlobalReceiver(
+                OrbitalRailgun.CLIENT_SYNC_PACKET_ID,
+                ((minecraftClient, clientPlayNetworkHandler, packetByteBuf, packetSender) -> {
+                    BlockPos blockPos = packetByteBuf.readBlockPos();
 
-            minecraftClient.execute(() -> {
-                OrbitalRailgunShader.INSTANCE.BlockPosition = blockPos.toCenterPos().toVector3f();
-                OrbitalRailgunShader.INSTANCE.Dimension = minecraftClient.world.getRegistryKey();
-                LOGGER.debug("[CLIENT] Synced strike position: {}", blockPos);
-            });
-        }));
+                    minecraftClient.execute(
+                            () -> {
+                                OrbitalRailgunShader.INSTANCE.BlockPosition = blockPos.toCenterPos().toVector3f();
+                                OrbitalRailgunShader.INSTANCE.Dimension = minecraftClient.world.getRegistryKey();
+                                LOGGER.debug("[CLIENT] Synced strike position: {}", blockPos);
+                            });
+                }));
 
-        ClientPlayNetworking.registerGlobalReceiver(OrbitalRailgun.STOP_AREA_SOUND_PACKET_ID,
+        ClientPlayNetworking.registerGlobalReceiver(
+                OrbitalRailgun.STOP_AREA_SOUND_PACKET_ID,
                 (client, handler, buf, responseSender) -> {
                     Identifier soundId = buf.readIdentifier();
 
-                    client.execute(() -> {
-                        // Stop all instances of this sound for the player
-                        MinecraftClient.getInstance().getSoundManager().stopSounds(soundId, SoundCategory.PLAYERS);
-                        LOGGER.debug("[CLIENT] Stopped area sound: {}", soundId);
-                    });
+                    client.execute(
+                            () -> {
+                                // Stop all instances of this sound for the player
+                                MinecraftClient.getInstance()
+                                        .getSoundManager()
+                                        .stopSounds(soundId, SoundCategory.PLAYERS);
+                                LOGGER.debug("[CLIENT] Stopped area sound: {}", soundId);
+                            });
                 });
 
         ClientTickEvents.END_CLIENT_TICK.register(OrbitalRailgunGuiShader.INSTANCE);
@@ -75,7 +83,7 @@ public class OrbitalRailgunClient implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(OrbitalRailgunShader.INSTANCE);
         PostWorldRenderCallback.EVENT.register(OrbitalRailgunShader.INSTANCE);
-        
+
         LOGGER.info("Orbital Railgun Enhanced client initialization complete!");
     }
 }

@@ -20,7 +20,8 @@ import net.minecraft.util.Identifier;
 
 public class SoundsHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger("OrbitalRailgunEnhanced");
-    private static final Identifier ORBITAL_RAILGUN_ITEM_ID = new Identifier("orbital_railgun_enhanced", "orbital_railgun");
+    private static final Identifier ORBITAL_RAILGUN_ITEM_ID =
+            new Identifier("orbital_railgun_enhanced", "orbital_railgun");
 
     private boolean wasUsing = false;
     private int lastSelectedSlot = -1;
@@ -37,8 +38,7 @@ public class SoundsHandler {
 
     private void onEndTick(MinecraftClient client) {
         ClientPlayerEntity player = client.player;
-        if (player == null || client.world == null)
-            return;
+        if (player == null || client.world == null) return;
 
         boolean focused = client.isWindowFocused();
         float volumeScope = focused ? (float) OrbitalRailgunClient.CONFIG.scopeVolume() : 0.0f;
@@ -53,26 +53,27 @@ public class SoundsHandler {
         ClientPlayNetworking.send(SoundsRegistry.AREA_CHECK_PACKET_ID, areaBuf);
     }
 
-    private void handleRailgunUsage(MinecraftClient client, ClientPlayerEntity player, float volumeScope) {
+    private void handleRailgunUsage(
+            MinecraftClient client, ClientPlayerEntity player, float volumeScope) {
         Item currentItem = player.getActiveItem().getItem();
         boolean isUsingRailgun = !player.getActiveItem().isEmpty() && currentItem == railgunItem;
 
         if (isUsingRailgun) {
             if (!wasUsing && OrbitalRailgunClient.CONFIG.enableScopeSound()) {
-                scopeSoundInstance = new PositionedSoundInstance(
-                        SoundsRegistry.SCOPE_ON.getId(),
-                        SoundCategory.MASTER,
-                        volumeScope,
-                        1.0f,
-                        SoundInstance.createRandom(),
-                        false,
-                        0,
-                        SoundInstance.AttenuationType.NONE,
-                        0.0,
-                        0.0,
-                        0.0,
-                        true
-                );
+                scopeSoundInstance =
+                        new PositionedSoundInstance(
+                                SoundsRegistry.SCOPE_ON.getId(),
+                                SoundCategory.MASTER,
+                                volumeScope,
+                                1.0f,
+                                SoundInstance.createRandom(),
+                                false,
+                                0,
+                                SoundInstance.AttenuationType.NONE,
+                                0.0,
+                                0.0,
+                                0.0,
+                                true);
                 client.getSoundManager().play(scopeSoundInstance);
             }
         } else {

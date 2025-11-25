@@ -13,10 +13,14 @@
   },
   "scope_on": {
     "subtitle": "subtitle.orbital_railgun_enhanced.scope_on",
-    "sounds": ["orbital_railgun_enhanced:scope-on"]
+    "sounds": [
+      "orbital_railgun_enhanced:scope-on"
+    ]
   },
   "equip": {
     "subtitle": "subtitle.orbital_railgun_enhanced.equip",
-    "sounds": ["orbital_railgun_enhanced:equip"]
+    "sounds": [
+      "orbital_railgun_enhanced:equip"
+    ]
   }
 }

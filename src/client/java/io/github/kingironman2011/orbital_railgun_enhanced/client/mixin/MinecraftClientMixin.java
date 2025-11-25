@@ -23,20 +23,35 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
-    @Shadow @Final public GameOptions options;
+    @Shadow
+    @Final
+    public GameOptions options;
 
-    @Shadow @Nullable public ClientPlayerEntity player;
+    @Shadow
+    @Nullable
+    public ClientPlayerEntity player;
 
-    @Shadow @Nullable public ClientPlayerInteractionManager interactionManager;
+    @Shadow
+    @Nullable
+    public ClientPlayerInteractionManager interactionManager;
 
-    @Inject(method = "handleInputEvents", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z"))
+    @Inject(
+            method = "handleInputEvents",
+            at =
+            @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z"))
     public void shootOnAttack(CallbackInfo ci) {
-        if (player.getActiveItem().getItem() instanceof OrbitalRailgunItem orbitalRailgun && this.options.attackKey.isPressed() && OrbitalRailgunShader.INSTANCE.BlockPosition == null) {
+        if (player.getActiveItem().getItem() instanceof OrbitalRailgunItem orbitalRailgun
+                && this.options.attackKey.isPressed()
+                && OrbitalRailgunShader.INSTANCE.BlockPosition == null) {
             HitResult hitResult = OrbitalRailgunGuiShader.INSTANCE.hitResult;
-            if (hitResult.getType() != HitResult.Type.MISS && hitResult instanceof BlockHitResult blockHitResult) {
+            if (hitResult.getType() != HitResult.Type.MISS
+                    && hitResult instanceof BlockHitResult blockHitResult) {
                 this.interactionManager.stopUsingItem(this.player);
                 orbitalRailgun.shoot(this.player);
-                OrbitalRailgunShader.INSTANCE.BlockPosition = blockHitResult.getBlockPos().toCenterPos().toVector3f();
+                OrbitalRailgunShader.INSTANCE.BlockPosition =
+                        blockHitResult.getBlockPos().toCenterPos().toVector3f();
                 OrbitalRailgunShader.INSTANCE.Dimension = player.getWorld().getRegistryKey();
 
                 PacketByteBuf buf = PacketByteBufs.create();

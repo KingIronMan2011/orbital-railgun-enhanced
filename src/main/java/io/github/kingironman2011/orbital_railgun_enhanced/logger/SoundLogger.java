@@ -29,7 +29,8 @@ public class SoundLogger {
 
     public static void logSoundPlayed(String playerName, String soundId, float volume, float pitch) {
         if (ServerConfig.INSTANCE.isDebugMode()) {
-            LOGGER.info("[SOUND] Playing to {}: {} (volume: {}, pitch: {})", playerName, soundId, volume, pitch);
+            LOGGER.info(
+                    "[SOUND] Playing to {}: {} (volume: {}, pitch: {})", playerName, soundId, volume, pitch);
         }
     }
 
@@ -39,5 +40,3 @@ public class SoundLogger {
         }
     }
 }
-
-

@@ -4,7 +4,6 @@
   "subtitle.orbital_railgun_enhanced.railgun_shoot": "Orbital railgun fires",
   "subtitle.orbital_railgun_enhanced.scope_on": "Scope online",
   "subtitle.orbital_railgun_enhanced.equip": "Orbital railgun equipped",
-
   "text.config.orbital-railgun-enhanced.title": "Orbital Railgun Enhanced Config",
   "text.config.orbital-railgun-enhanced.option.scopeVolume": "Scope Volume",
   "text.config.orbital-railgun-enhanced.option.shootVolume": "Shoot Volume",
@@ -14,7 +13,6 @@
   "text.config.orbital-railgun-enhanced.option.enableEquipSound": "Enable Equip Sound",
   "text.config.orbital-railgun-enhanced.option.enableVisualEffects": "Enable Visual Effects",
   "text.config.orbital-railgun-enhanced.option.enableShaderEffects": "Enable Shader Effects",
-
   "command.orbital_railgun_enhanced.help": "Available commands:\n/ore radius <value> - Set the sound radius\n/ore debug <true|false> - Toggle debug mode\n/ore strikeDamage <value> - Set strike damage\n/ore cooldown <value> - Set cooldown in ticks\n/ore maxStrikes <value> - Set max active strikes\n/ore particles <true|false> - Toggle particles\n/ore reload - Reload configuration\n/ore help - Show this help message",
   "command.orbital_railgun_enhanced.debug.current": "Debug mode is currently: %s",
   "command.orbital_railgun_enhanced.debug.set": "Debug mode set to: %s",

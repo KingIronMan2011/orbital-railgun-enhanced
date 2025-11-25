@@ -15,7 +15,13 @@ public abstract class AbstractClientPlayerEntity extends PlayerEntity {
         super(world, pos, yaw, gameProfile);
     }
 
-    @ModifyExpressionValue(method = "getFovMultiplier", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;isUsingSpyglass()Z"))
+    @ModifyExpressionValue(
+            method = "getFovMultiplier",
+            at =
+            @At(
+                    value = "INVOKE",
+                    target =
+                            "Lnet/minecraft/client/network/AbstractClientPlayerEntity;isUsingSpyglass()Z"))
     public boolean zoomInOnAim(boolean original) {
         return original || this.getActiveItem().getItem() instanceof OrbitalRailgunItem;
     }

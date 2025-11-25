@@ -9,7 +9,8 @@ import net.minecraft.world.World;
 import org.joml.Vector3f;
 
 public class OrbitalRailgunShader extends AbstractOrbitalRailgunShader {
-    public static final Identifier ORBITAL_RAILGUN_SHADER = Identifier.of(OrbitalRailgun.MOD_ID, "shaders/post/orbital_railgun_enhanced.json");
+    public static final Identifier ORBITAL_RAILGUN_SHADER =
+            Identifier.of(OrbitalRailgun.MOD_ID, "shaders/post/orbital_railgun_enhanced.json");
     public static final OrbitalRailgunShader INSTANCE = new OrbitalRailgunShader();
 
     public Vector3f BlockPosition = null;
@@ -28,7 +29,9 @@ public class OrbitalRailgunShader extends AbstractOrbitalRailgunShader {
 
     @Override
     public void onEndTick(MinecraftClient minecraftClient) {
-        if (ticks >= 1600 || minecraftClient.world == null || minecraftClient.world.getRegistryKey() != Dimension) {
+        if (ticks >= 1600
+                || minecraftClient.world == null
+                || minecraftClient.world.getRegistryKey() != Dimension) {
             BlockPosition = null;
             Dimension = null;
         }

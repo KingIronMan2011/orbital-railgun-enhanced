@@ -14,15 +14,23 @@ import net.minecraft.client.render.Camera;
 import net.minecraft.util.Identifier;
 import org.joml.Matrix4f;
 
-public abstract class AbstractOrbitalRailgunShader implements PostWorldRenderCallback, ClientTickEvents.EndTick {
+public abstract class AbstractOrbitalRailgunShader
+        implements PostWorldRenderCallback, ClientTickEvents.EndTick {
     protected final MinecraftClient client = MinecraftClient.getInstance();
 
     private final Matrix4f projectionMatrix = new Matrix4f();
 
-    protected final ManagedShaderEffect SHADER = ShaderEffectManager.getInstance().manage(getIdentifier(), shader -> {
-        shader.setSamplerUniform("DepthSampler", ((ReadableDepthFramebuffer)client.getFramebuffer()).getStillDepthMap());
-    });
-    private final UniformMat4 uniformInverseTransformMatrix = SHADER.findUniformMat4("InverseTransformMatrix");
+    protected final ManagedShaderEffect SHADER =
+            ShaderEffectManager.getInstance()
+                    .manage(
+                            getIdentifier(),
+                            shader -> {
+                                shader.setSamplerUniform(
+                                        "DepthSampler",
+                                        ((ReadableDepthFramebuffer) client.getFramebuffer()).getStillDepthMap());
+                            });
+    private final UniformMat4 uniformInverseTransformMatrix =
+            SHADER.findUniformMat4("InverseTransformMatrix");
     private final Uniform3f uniformCameraPosition = SHADER.findUniform3f("CameraPosition");
     private final Uniform1f uniformiTime = SHADER.findUniform1f("iTime");
     protected final Uniform3f uniformBlockPosition = SHADER.findUniform3f("BlockPosition");
@@ -30,6 +38,7 @@ public abstract class AbstractOrbitalRailgunShader implements PostWorldRenderCal
     protected int ticks = 0;
 
     protected abstract Identifier getIdentifier();
+
     protected abstract boolean shouldRender();
 
     @Override
@@ -46,7 +55,7 @@ public abstract class AbstractOrbitalRailgunShader implements PostWorldRenderCal
         if (shouldRender()) {
             uniformInverseTransformMatrix.set(GlMatrices.getInverseTransformMatrix(projectionMatrix));
             uniformCameraPosition.set(camera.getPos().toVector3f());
-            uniformiTime.set((ticks + tickDelta)/20f);
+            uniformiTime.set((ticks + tickDelta) / 20f);
 
             SHADER.render(tickDelta);
         }

@@ -11,9 +11,16 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(Mouse.class)
 public class MouseMixin {
-    @Shadow @Final private MinecraftClient client;
+    @Shadow
+    @Final
+    private MinecraftClient client;
 
-    @ModifyExpressionValue(method = "updateMouse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingSpyglass()Z"))
+    @ModifyExpressionValue(
+            method = "updateMouse",
+            at =
+            @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingSpyglass()Z"))
     public boolean smoothCursorOnAim(boolean original) {
         return original || this.client.player.getActiveItem().getItem() instanceof OrbitalRailgunItem;
     }

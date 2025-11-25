@@ -13,7 +13,8 @@ public class SoundsRegistry {
     private static final Logger LOGGER = LoggerFactory.getLogger("OrbitalRailgunEnhanced");
     public static final String MOD_ID = "orbital_railgun_enhanced";
     public static final Identifier PLAY_SOUND_PACKET_ID = new Identifier(MOD_ID, "play_sound");
-    public static final Identifier AREA_CHECK_PACKET_ID = new Identifier("orbital_railgun", "area_check_packet");
+    public static final Identifier AREA_CHECK_PACKET_ID =
+            new Identifier("orbital_railgun", "area_check_packet");
 
     public static final Identifier RAILGUN_SHOOT_ID = new Identifier(MOD_ID, "railgun_shoot");
     public static final Identifier SCOPE_ON_ID = new Identifier(MOD_ID, "scope_on");

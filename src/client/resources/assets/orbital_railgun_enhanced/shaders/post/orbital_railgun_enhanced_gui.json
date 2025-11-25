@@ -1,5 +1,7 @@
 {
-  "targets": ["gui"],
+  "targets": [
+    "gui"
+  ],
   "passes": [
     {
       "name": "orbital_railgun_enhanced:gui",
