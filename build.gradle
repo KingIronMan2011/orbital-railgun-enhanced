@@ -26,7 +26,7 @@ loom {
 repositories {
     maven {
         name = 'GeckoLib'
-        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+        url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
         content {
             includeGroupByRegex("software\\.bernie.*")
             includeGroup("com.eliotlash.mclib")
@@ -72,7 +72,7 @@ processResources {
     inputs.property "version", project.version
     inputs.property "minecraft_version", project.minecraft_version
     inputs.property "loader_version", project.loader_version
-    filteringCharset "UTF-8"
+    filteringCharset = "UTF-8"
 
     filesMatching("fabric.mod.json") {
         expand "version": project.version,
