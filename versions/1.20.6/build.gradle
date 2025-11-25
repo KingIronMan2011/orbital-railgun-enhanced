@@ -48,8 +48,7 @@ repositories {
         name = 'GeckoLib'
         url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
         content {
-            includeGroupByRegex("software\\.bernie.*")
-            includeGroup("com.eliotlash.mclib")
+            includeGroup("software.bernie.geckolib")
         }
     }
     maven {
@@ -80,8 +79,6 @@ dependencies {
     clientAnnotationProcessor "io.wispforest:owo-lib:${project.owo_lib_version}"
 
     modImplementation("software.bernie.geckolib:geckolib-fabric-${project.minecraft_version}:${project.geckolib_version}")
-    // mclib is a GeckoLib animation library dependency
-    implementation("com.eliotlash.mclib:mclib:${rootProject.mclib_version}")
 
     modImplementation "org.ladysnake:satin:${project.satin_version}"
     include "org.ladysnake:satin:${project.satin_version}"
