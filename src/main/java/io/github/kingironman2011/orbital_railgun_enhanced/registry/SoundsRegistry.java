@@ -27,9 +27,9 @@ public class SoundsRegistry {
     public static void initialize() {
         LOGGER.info("Registering sound events...");
         if (ServerConfig.INSTANCE.isDebugMode()) {
-            LOGGER.debug("[REGISTRY] Registered sound: {}", RAILGUN_SHOOT_ID);
-            LOGGER.debug("[REGISTRY] Registered sound: {}", SCOPE_ON_ID);
-            LOGGER.debug("[REGISTRY] Registered sound: {}", EQUIP_ID);
+            LOGGER.debug("[REGISTRY] Registered the railgun shoot sound: {}", RAILGUN_SHOOT_ID);
+            LOGGER.debug("[REGISTRY] Registered the scope on sound: {}", SCOPE_ON_ID);
+            LOGGER.debug("[REGISTRY] Registered the equip sound: {}", EQUIP_ID);
         }
     }
 
