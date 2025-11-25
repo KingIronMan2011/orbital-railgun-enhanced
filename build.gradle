@@ -10,6 +10,7 @@ group = project.maven_group
 def cfgVersion = project.version
 def cfgMinecraftVersion = project.minecraft_version
 def cfgLoaderVersion = project.loader_version
+def cfgOwoLibVersion = project.owolib_version
 def cfgArchivesBaseName = project.archives_base_name
 
 base {
@@ -77,12 +78,14 @@ processResources {
     inputs.property "version", cfgVersion
     inputs.property "minecraft_version", cfgMinecraftVersion
     inputs.property "loader_version", cfgLoaderVersion
+    inputs.property "owolib_version", cfgOwoLibVersion
     filteringCharset = "UTF-8"
 
     filesMatching("fabric.mod.json") {
         expand "version": cfgVersion,
                 "minecraft_version": cfgMinecraftVersion,
-                "loader_version": cfgLoaderVersion
+                "loader_version": cfgLoaderVersion,
+                "owolib_version": cfgOwoLibVersion
     }
 }
 
