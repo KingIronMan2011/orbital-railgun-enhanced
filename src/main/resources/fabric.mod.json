@@ -30,7 +30,7 @@
     "fabricloader": ">=${loader_version}",
     "fabric-api": "*",
     "fabric": "*",
-    "minecraft": "*",
+    "minecraft": "1.20.6",
     "owo": ">=${owolib_version}"
   },
   "suggests": {
