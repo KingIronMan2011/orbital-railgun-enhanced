@@ -5,6 +5,9 @@ on:
     branches:
       - main
       - master
+      - "1.20.2"
+      - "1.20.4"
+      - "1.20.6"
     paths:
       - "gradle.properties"
       - "src/**"
@@ -20,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.get-version.outputs.version }}
+      minecraft-version: ${{ steps.get-version.outputs.minecraft-version }}
       tag-exists: ${{ steps.check-tag.outputs.exists }}
     steps:
       - name: Checkout code
@@ -31,18 +35,22 @@ jobs:
         id: get-version
         run: |
           VERSION=$(grep "mod_version=" gradle.properties | cut -d'=' -f2 | tr -d '[:space:]')
+          MC_VERSION=$(grep "minecraft_version=" gradle.properties | cut -d'=' -f2 | tr -d '[:space:]')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "minecraft-version=$MC_VERSION" >> $GITHUB_OUTPUT
           echo "Mod version: $VERSION"
+          echo "Minecraft version: $MC_VERSION"
 
       - name: Check if tag already exists
         id: check-tag
         run: |
-          if git rev-parse "v${{ steps.get-version.outputs.version }}" >/dev/null 2>&1; then
+          TAG_NAME="v${{ steps.get-version.outputs.version }}-${{ steps.get-version.outputs.minecraft-version }}"
+          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
             echo "exists=true" >> $GITHUB_OUTPUT
-            echo "Tag v${{ steps.get-version.outputs.version }} already exists"
+            echo "Tag $TAG_NAME already exists"
           else
             echo "exists=false" >> $GITHUB_OUTPUT
-            echo "Tag v${{ steps.get-version.outputs.version }} does not exist"
+            echo "Tag $TAG_NAME does not exist"
           fi
 
   build-and-release:
@@ -94,7 +102,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "v${{ needs.check-version.outputs.version }}" \
-            --title "Release v${{ needs.check-version.outputs.version }}" \
-            --notes "Automated release for version ${{ needs.check-version.outputs.version }}" \
-            "${{ steps.find-jar.outputs.jar-file }}#${{ steps.get-config.outputs.archives-base-name }}-${{ needs.check-version.outputs.version }}.jar"
+          gh release create "v${{ needs.check-version.outputs.version }}-${{ needs.check-version.outputs.minecraft-version }}" \
+            --title "Release v${{ needs.check-version.outputs.version }} for Minecraft ${{ needs.check-version.outputs.minecraft-version }}" \
+            --notes "Automated release for version ${{ needs.check-version.outputs.version }} (Minecraft ${{ needs.check-version.outputs.minecraft-version }})" \
+            "${{ steps.find-jar.outputs.jar-file }}#${{ steps.get-config.outputs.archives-base-name }}-${{ needs.check-version.outputs.version }}-${{ needs.check-version.outputs.minecraft-version }}.jar"
