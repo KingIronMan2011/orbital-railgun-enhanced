@@ -8,15 +8,20 @@
 - [ ] Add and verify support for Minecraft 1.21.x  
   - impl note: update Loom/mappings and add minimal compatibility adapters for API differences.
 - [ ] Remove dead/unused code, assets, and commented-out legacy files
-- [ ] Add a GitHub Actions build matrix for supported versions
+- [x] Add a GitHub Actions build matrix for supported versions
+  - ✅ Build workflow updated to support multi-version Minecraft branches (1.20.1, 1.20.2, 1.20.4, 1.20.6)
 - [ ] Upgrade build tooling (Gradle, Loom, mappings) and lock dependency versions
 
 ## Medium priority
 - [ ] Add unit tests for non-API logic (utils, config parsing, math)
 - [ ] Add integration/smoke tests (headless or lightweight server runs)  
   - impl note: prioritize tests for firing, projectile lifecycle, and state/serialization.
-- [ ] Add CHANGELOG.md and update README with supported versions and installation notes
-- [ ] Add CONTRIBUTING.md and a code style/linter configuration
+- [x] Add CHANGELOG.md and update README with supported versions and installation notes
+  - ✅ README updated with supported versions table and detailed installation notes
+  - ⏳ CHANGELOG.md pending (can be auto-generated from releases)
+- [x] Add CONTRIBUTING.md and a code style/linter configuration
+  - ✅ CONTRIBUTING.md added with development setup, coding guidelines, and contribution instructions
+  - ⏳ Code style/linter configuration pending
 - [ ] Improve mod metadata (fabric.mod.json / mods.toml): supported versions, dependencies, and compatibility notes
 - [ ] Add tests for saves/persistence, networking correctness, and serialization
 
@@ -25,13 +30,15 @@
   - impl note: run focused profiles on servers with many entities and projectiles.
 - [ ] Add configurable balancing options (damage, range, charge mechanics)
 - [ ] Improve assets: textures, particles, sounds
-- [ ] Add localization (i18n) support
+- [x] Add localization (i18n) support
+  - ✅ 15 languages supported: English, Arabic, German, Spanish, French, Hindi, Italian, Japanese, Korean, Dutch, Polish, Portuguese, Russian, Swedish, Chinese
 - [ ] Improve error handling and user-facing messages
 
 ## Nice-to-have
 - [ ] Modularize into core + optional version adapters or modules
 - [ ] Provide example server configs and migration scripts for upgrades
-- [ ] Automated release pipeline producing artifacts/tags per supported MC version
+- [x] Automated release pipeline producing artifacts/tags per supported MC version
+  - ✅ GitHub Actions workflow automatically builds and releases for each supported MC version
 - [ ] Automated compatibility testing against popular mods or modpacks
 - [ ] Expose a small API/hooks for other mods to interact with the railgun (events)
 - [ ] Security/dependency audit and periodic dependency updates
@@ -40,9 +47,11 @@
 - [ ] Add accessibility and UX improvements (HUD charge indicators, clear error messages)
 
 ## Maintenance & housekeeping
-- [ ] Keep a single-source list of supported MC versions (in README + mod metadata)
+- [x] Keep a single-source list of supported MC versions (in README + mod metadata)
+  - ✅ README now includes a table of supported Minecraft versions
 - [ ] Maintain a lightweight checklist for each release (build targets, changelog entry, compatibility notes)
-- [ ] Tag releases and maintain semantic versioning
+- [x] Tag releases and maintain semantic versioning
+  - ✅ Automated releases create version tags (e.g., v1.3.4-1.20.1)
 - [ ] Periodically run static analysis and remove new dead/unused code
 
 ## Optional experiments
