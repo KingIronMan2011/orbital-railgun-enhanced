@@ -60,7 +60,7 @@ Configuration is stored in `config/orbital-railgun-enhanced.json5` in your Minec
 3. Make sure all required dependencies are also installed
 4. Launch Minecraft with the Fabric Loader profile
 
-**Note:** This mod includes server and client functionality. Server-side installation enables full strike mechanics.
+**Note:** This mod includes server and client functionality. Server-side installation is required if not in Singleplayer!
 
 ## Issues or Ideas
 
