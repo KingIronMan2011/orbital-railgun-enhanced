@@ -27,6 +27,16 @@ public class OrbitalRailgunShader extends AbstractOrbitalRailgunShader {
         return BlockPosition != null && world != null && world.getRegistryKey() == Dimension;
     }
 
+    /**
+     * Stops the animation by clearing the block position and dimension.
+     * Called when the player leaves the configured range.
+     */
+    public void stopAnimation() {
+        BlockPosition = null;
+        Dimension = null;
+        ticks = 0;
+    }
+
     @Override
     public void onEndTick(MinecraftClient minecraftClient) {
         if (ticks >= 1600

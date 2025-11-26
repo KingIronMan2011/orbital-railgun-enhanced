@@ -29,6 +29,26 @@ loom {
     }
 }
 
+afterEvaluate {
+    sourceSets {
+        main {
+            java {
+                srcDirs = [rootProject.file('src/main/java')]
+            }
+            resources {
+                srcDirs = [rootProject.file('src/main/resources')]
+            }
+        }
+        client {
+            java {
+                srcDirs = [rootProject.file('src/client/java')]
+            }
+            resources {
+                srcDirs = [rootProject.file('src/client/resources')]
+            }
+        }
+    }
+}
 
 repositories {
     maven {

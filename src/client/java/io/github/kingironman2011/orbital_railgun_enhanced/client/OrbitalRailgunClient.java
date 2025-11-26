@@ -78,6 +78,16 @@ public class OrbitalRailgunClient implements ClientModInitializer {
                             });
                 });
 
+        // Register handler for stopping animation when player leaves range
+        ClientPlayNetworking.registerGlobalReceiver(OrbitalRailgun.STOP_ANIMATION_PACKET_ID,
+                (client, handler, buf, responseSender) -> {
+                    client.execute(() -> {
+                        // Stop the orbital railgun shader animation
+                        OrbitalRailgunShader.INSTANCE.stopAnimation();
+                        LOGGER.debug("[CLIENT] Stopped animation due to leaving range");
+                    });
+                });
+
         ClientTickEvents.END_CLIENT_TICK.register(OrbitalRailgunGuiShader.INSTANCE);
         PostWorldRenderCallback.EVENT.register(OrbitalRailgunGuiShader.INSTANCE);
 
