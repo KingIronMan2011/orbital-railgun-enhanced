@@ -73,7 +73,7 @@ The mod uses Fabric's split source sets:
 
 - `src/main/` - Server-side and shared code
   - `java/` - Java source files
-  - `resources/` - Shared resources (lang files, data packs, etc.)
+  - `resources/` - Shared resources (lang files, etc.)
 - `src/client/` - Client-only code
   - `java/` - Client Java source files
   - `resources/` - Client resources (shaders, models, textures)
@@ -135,18 +135,9 @@ We welcome translation contributions! The mod currently supports multiple langua
 2. Test in a Minecraft instance with required dependencies
 3. Verify your changes work as expected
 4. Check for any console errors or warnings
-
-### Dependencies for Testing
-
-- Fabric Loader 0.18.1+
-- Fabric API
-- GeckoLib 4.x
-- owo-lib 0.11.x
-- Satin API
-
+   
 ## Communication
 
-- **Discord**: Contact `KingIronMan2011` (please state your purpose)
 - **GitHub Issues**: For bugs and feature requests
 - **Pull Requests**: For code contributions
 
