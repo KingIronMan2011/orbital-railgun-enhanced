@@ -6,13 +6,24 @@
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/PIQCVdAr7fI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
+Can't see the embed? [Click here to watch on YouTube](https://youtube.com/watch?v=PIQCVdAr7fI)
+
 This Video was made by HyIsNoob, but as it has nearly the same stuff as this mod, I just used his!
 
 **This is a fork of the [Orbital Railgun](https://modrinth.com/mod/orbital-railgun) mod by [Mishkis](https://modrinth.com/user/Mishkis) that adds sounds and other useful features!**
 
-**Photosensitivity Warning**: This mod uses a lot of shader effects, fast-moving lights, and chromatic abjuration. Viewer discretion is advised.
+⚠️ **Photosensitivity Warning**: This mod uses a lot of shader effects, fast-moving lights, and chromatic aberration. Viewer discretion is advised.
 
-An unoffical forge version can be found [here](https://www.curseforge.com/minecraft/mc-mods/orbital-railgun-reforged).
+### Supported Minecraft Versions
+
+| Version | Status |
+|---------|--------|
+| 1.20 - 1.20.1 | ✅ Supported |
+| 1.20.2 | ✅ Supported |
+| 1.20.3 - 1.20.4 | ✅ Supported |
+| 1.20.6 | ✅ Supported |
+
+An unofficial Forge version can be found [here](https://www.curseforge.com/minecraft/mc-mods/orbital-railgun-reforged).
 
 ## Description
 
@@ -32,20 +43,30 @@ Access the config screen through Mod Menu (if installed) to customize:
 - Volume Settings: Adjust the volume for each sound (scope, shoot, equip) from 0.0 to 1.0
 - Enable/Disable Sounds: Toggle individual sound effects on or off
 
-Configuration is stored in `config/orbital-railgun-sounds.json5` in your Minecraft directory.
+Configuration is stored in `config/orbital-railgun-enhanced.json5` in your Minecraft directory.
 
 ## Installation
 
-1. Place the JAR in your `mods` folder alongside Orbital Railgun and Fabric API.
-2. This is a client-side addon; you can join servers as long as your client has the original mod installed.
+### Requirements
+
+- [Fabric Loader](https://fabricmc.net/)
+- [Fabric API](https://modrinth.com/mod/fabric-api)
+- [GeckoLib](https://modrinth.com/mod/geckolib)
+
+### Steps
+
+1. Download the correct JAR for your Minecraft version from [Releases](https://github.com/KingIronMan2011/orbital-railgun-enhanced/releases)
+2. Place the JAR file in your `mods` folder
+3. Make sure all required dependencies are also installed
+4. Launch Minecraft with the Fabric Loader profile
+
+**Note:** This mod includes server and client functionality. Server-side installation is required if not in Singleplayer!
 
 ## Issues or Ideas
 
-If you found any issues/bugs or have some ideas for this mod go to the issue tracker and make a new issue. We also welcome any contributions in code.
+If you found any issues/bugs or have some ideas for this mod, head to the [issue tracker](https://github.com/KingIronMan2011/orbital-railgun-enhanced/issues) and create a new issue. 
 
-## Need Help?
-
-Feel free to contact me on Discord! My usernames is `KingIronMan2011`, but please state the reason directly because otherwise I might block you.
+We also welcome code contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for more information on how to contribute.
 
 ## Credits
 
