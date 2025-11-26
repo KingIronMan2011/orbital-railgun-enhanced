@@ -3,11 +3,18 @@
   "id": "orbital_railgun_enhanced",
   "version": "${version}",
   "name": "Orbital Railgun Enhanced",
-  "description": "Destroy your enemies with an orbital strike, but with sounds and more features!",
+  "description": "Destroy your enemies with an orbital strike, but with sounds and more features! This enhanced fork adds custom sound effects, visual shaders, configurable settings, and improved gameplay mechanics. Compatible with Sound Physics Remastered and Dynamic Surroundings.",
   "authors": [
     "KingIronMan2011"
   ],
-  "contact": {},
+  "contributors": [
+    "Mishkis (Original Orbital Railgun mod)"
+  ],
+  "contact": {
+    "homepage": "https://github.com/KingIronMan2011/orbital-railgun-enhanced",
+    "issues": "https://github.com/KingIronMan2011/orbital-railgun-enhanced/issues",
+    "sources": "https://github.com/KingIronMan2011/orbital-railgun-enhanced"
+  },
   "license": "MIT",
   "icon": "assets/orbital_railgun_enhanced/icon.png",
   "environment": "*",
@@ -17,6 +24,9 @@
     ],
     "main": [
       "io.github.kingironman2011.orbital_railgun_enhanced.OrbitalRailgun"
+    ],
+    "owo": [
+      "io.github.kingironman2011.orbital_railgun_enhanced.client.config.EnhancedConfig"
     ]
   },
   "mixins": [
@@ -31,17 +41,39 @@
     "fabric-api": "*",
     "fabric": "*",
     "minecraft": ">=1.20 <=1.20.1",
-    "owo": ">=${owolib_version}"
+    "java": ">=17",
+    "owo": ">=${owolib_version}",
+    "geckolib": ">=4.0"
+  },
+  "recommends": {
+    "modmenu": ">=7.0.0"
   },
   "suggests": {
     "sound_physics_remastered": "*",
-    "dynamicsurroundings": "*",
-    "modmenu": "*"
+    "dynamicsurroundings": "*"
+  },
+  "breaks": {
+    "optifabric": "*"
   },
   "custom": {
     "modmenu": {
       "links": {
-        "modmenu.source": "https://github.com/KingIronMan2011/orbital-railgun-enhanced"
+        "modmenu.source": "https://github.com/KingIronMan2011/orbital-railgun-enhanced",
+        "modmenu.issues": "https://github.com/KingIronMan2011/orbital-railgun-enhanced/issues",
+        "modmenu.discord": "https://discord.gg/orbital-railgun"
+      },
+      "badges": [
+        "library"
+      ]
+    },
+    "loom:injected_interfaces": {},
+    "mc-publish": {
+      "loaders": ["fabric", "quilt"],
+      "game-versions": ["1.20", "1.20.1"],
+      "dependencies": {
+        "fabric-api": { "type": "required" },
+        "owo-lib": { "type": "required" },
+        "geckolib": { "type": "required" }
       }
     }
   }

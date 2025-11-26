@@ -12,13 +12,13 @@
 - [ ] Upgrade build tooling (Gradle, Loom, mappings) and lock dependency versions
 
 ## Medium priority
-- [ ] Add unit tests for non-API logic (utils, config parsing, math)
-- [ ] Add integration/smoke tests (headless or lightweight server runs)  
+- [x] Add unit tests for non-API logic (utils, config parsing, math)
+- [x] Add integration/smoke tests (headless or lightweight server runs)  
   - impl note: prioritize tests for firing, projectile lifecycle, and state/serialization.
-- [ ] Add CHANGELOG.md
-- [ ] Add a code style/linter configuration
-- [ ] Improve mod metadata (fabric.mod.json / mods.toml): supported versions, dependencies, and compatibility notes
-- [ ] Add tests for saves/persistence, networking correctness, and serialization
+- [x] Add CHANGELOG.md
+- [x] Add a code style/linter configuration
+- [x] Improve mod metadata (fabric.mod.json / mods.toml): supported versions, dependencies, and compatibility notes
+- [x] Add tests for saves/persistence, networking correctness, and serialization
 
 ## Low priority
 - [ ] Profile and optimize performance (projectile tick cost, collision checks, allocations)  
