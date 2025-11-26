@@ -68,10 +68,6 @@ If you found any issues/bugs or have some ideas for this mod, head to the [issue
 
 We also welcome code contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for more information on how to contribute.
 
-## Need Help?
-
-Feel free to contact me on Discord! My username is `KingIronMan2011`, but please state the reason directly because otherwise I might block you.
-
 ## Credits
 
 - Original mod: **[Orbital Railgun](https://modrinth.com/mod/orbital-railgun)** by **[Mishkis](https://modrinth.com/user/Mishkis)**
