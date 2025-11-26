@@ -49,11 +49,9 @@ Configuration is stored in `config/orbital-railgun-sounds.json5` in your Minecra
 
 ### Requirements
 
-- [Fabric Loader](https://fabricmc.net/) 0.18.1 or higher
+- [Fabric Loader](https://fabricmc.net/)
 - [Fabric API](https://modrinth.com/mod/fabric-api)
-- [GeckoLib](https://modrinth.com/mod/geckolib) 4.x
-- [owo-lib](https://modrinth.com/mod/owo-lib) 0.11.x
-- [Satin API](https://modrinth.com/mod/satin-api) (for shader effects)
+- [GeckoLib](https://modrinth.com/mod/geckolib)
 
 ### Steps
 
