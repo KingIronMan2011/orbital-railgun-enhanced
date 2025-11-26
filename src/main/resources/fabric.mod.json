@@ -8,10 +8,10 @@
     "KingIronMan2011"
   ],
   "contributors": [
-    "Mishkis (Original Orbital Railgun mod)"
+    "Mishkis",
+    "HyIsNoob"
   ],
   "contact": {
-    "homepage": "https://github.com/KingIronMan2011/orbital-railgun-enhanced",
     "issues": "https://github.com/KingIronMan2011/orbital-railgun-enhanced/issues",
     "sources": "https://github.com/KingIronMan2011/orbital-railgun-enhanced"
   },
@@ -42,7 +42,6 @@
     "fabric": "*",
     "minecraft": ">=1.20 <=1.20.1",
     "java": ">=17",
-    "owo": ">=${owolib_version}",
     "geckolib": ">=4.0"
   },
   "recommends": {
@@ -53,7 +52,7 @@
     "dynamicsurroundings": "*"
   },
   "breaks": {
-    "optifabric": "*"
+    "iris": "*"
   },
   "custom": {
     "modmenu": {
@@ -64,11 +63,10 @@
     },
     "loom:injected_interfaces": {},
     "mc-publish": {
-      "loaders": ["fabric", "quilt"],
+      "loaders": ["fabric"],
       "game-versions": ["1.20", "1.20.1"],
       "dependencies": {
         "fabric-api": { "type": "required" },
-        "owo-lib": { "type": "required" },
         "geckolib": { "type": "required" }
       }
     }
