@@ -43,7 +43,7 @@ Access the config screen through Mod Menu (if installed) to customize:
 - Volume Settings: Adjust the volume for each sound (scope, shoot, equip) from 0.0 to 1.0
 - Enable/Disable Sounds: Toggle individual sound effects on or off
 
-Configuration is stored in `config/orbital-railgun-sounds.json5` in your Minecraft directory.
+Configuration is stored in `config/orbital-railgun-enhanced.json5` in your Minecraft directory.
 
 ## Installation
 
