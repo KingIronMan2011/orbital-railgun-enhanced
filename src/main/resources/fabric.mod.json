@@ -59,12 +59,8 @@
     "modmenu": {
       "links": {
         "modmenu.source": "https://github.com/KingIronMan2011/orbital-railgun-enhanced",
-        "modmenu.issues": "https://github.com/KingIronMan2011/orbital-railgun-enhanced/issues",
-        "modmenu.discord": "https://discord.gg/orbital-railgun"
-      },
-      "badges": [
-        "library"
-      ]
+        "modmenu.issues": "https://github.com/KingIronMan2011/orbital-railgun-enhanced/issues"
+      }
     },
     "loom:injected_interfaces": {},
     "mc-publish": {

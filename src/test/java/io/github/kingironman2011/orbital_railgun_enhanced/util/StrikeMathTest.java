@@ -31,14 +31,13 @@ class StrikeMathTest {
         "24, 0",     // exactly on radius (x-axis)
         "0, 24",     // exactly on radius (z-axis)
         "-10, -10",  // negative coordinates inside
-        "17, 17"     // diagonal inside (17^2 + 17^2 = 578 > 576, but let's check)
+        "16, 16"     // diagonal inside (16^2 + 16^2 = 512 < 576)
     })
     void testPointsInsideOrOnRadius(int x, int z) {
         int distanceSquared = x * x + z * z;
-        if (distanceSquared <= RADIUS_SQUARED) {
-            assertTrue(distanceSquared <= RADIUS_SQUARED, 
-                String.format("Point (%d, %d) should be inside radius", x, z));
-        }
+        assertTrue(distanceSquared <= RADIUS_SQUARED,
+            String.format("Point (%d, %d) with distance^2 %d should be inside or on radius^2 %d",
+                x, z, distanceSquared, RADIUS_SQUARED));
     }
 
     @ParameterizedTest
