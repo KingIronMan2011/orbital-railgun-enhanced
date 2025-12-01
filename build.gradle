@@ -18,6 +18,25 @@ tasks.register('buildAll') {
 // Make the default 'build' task depend on all subproject builds
 build.dependsOn buildAll
 
+// Task to copy built JARs from version subprojects to root build/libs
+tasks.register('copyJars', Copy) {
+    description = 'Copies built JARs from version subprojects to root build/libs'
+    group = 'build'
+    dependsOn buildAll
+
+    into "${buildDir}/libs"
+
+    versionProjects.each { proj ->
+        from("${proj.projectDir}/build/libs") {
+            include '*.jar'
+            exclude '*-sources.jar'
+        }
+    }
+}
+
+// Make build also copy JARs to root
+build.dependsOn copyJars
+
 // Aggregate task to clean all versions
 tasks.register('cleanAll') {
     description = 'Cleans all Minecraft version subprojects'
