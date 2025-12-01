@@ -42,7 +42,9 @@
     "fabric": "*",
     "minecraft": ">=1.20 <=1.20.1",
     "java": ">=17",
-    "geckolib": ">=4.0"
+    "geckolib": ">=4.0",
+    "owo-lib": ">=0.11.0",
+    "satin": ">=1.14.0"
   },
   "recommends": {
     "modmenu": ">=7.0.0"
@@ -67,7 +69,9 @@
       "game-versions": ["1.20", "1.20.1"],
       "dependencies": {
         "fabric-api": { "type": "required" },
-        "geckolib": { "type": "required" }
+        "geckolib": { "type": "required" },
+        "owo-lib": { "type": "required" },
+        "satin": { "type": "required" }
       }
     }
   }
