@@ -12,3 +12,10 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+rootProject.name = 'orbital-railgun-enhanced'
+
+// Include version-specific subprojects
+include 'versions:1.20.1'
+include 'versions:1.20.2'
+include 'versions:1.20.4'

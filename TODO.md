@@ -1,7 +1,7 @@
 # TODO — orbital-railgun-enhanced
 
 ## High priority
-- [ ] Consolidate version branches into a single main branch  
+- [x] Consolidate version branches into a single main branch  
   - impl note: prefer a single codebase with small runtime adapters or Gradle sourceSets for unavoidable version-specific differences.
 - [ ] Add and verify compatibility for Minecraft 1.20.5  
   - impl note: update mappings/build target and run smoke tests for core behavior.
