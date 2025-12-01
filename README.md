@@ -52,6 +52,8 @@ Configuration is stored in `config/orbital-railgun-enhanced.json5` in your Minec
 - [Fabric Loader](https://fabricmc.net/)
 - [Fabric API](https://modrinth.com/mod/fabric-api)
 - [GeckoLib](https://modrinth.com/mod/geckolib)
+- [owo-lib](https://modrinth.com/mod/owo-lib)
+- [Satin API](https://modrinth.com/mod/satin-api)
 
 ### Steps
 
