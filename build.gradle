@@ -1,143 +1,54 @@
-//file:noinspection GroovyAssignabilityCheck
+// Root project build file - delegates to version subprojects
+// This project does not build anything itself; all builds are done through version subprojects
+
 plugins {
-    id 'fabric-loom' version "${loom_version}"
-    id 'maven-publish'
-    id 'checkstyle'
+    id 'base'
 }
 
-version = project.mod_version
-group = project.maven_group
+// Get only the version subprojects (not the intermediate 'versions' project)
+def versionProjects = subprojects.findAll { it.path.startsWith(':versions:') && it.path.count(':') == 2 }
 
-def cfgVersion = project.version
-def cfgMinecraftVersion = project.minecraft_version
-def cfgLoaderVersion = project.loader_version
-def cfgOwoLibVersion = project.owolib_version
-def cfgArchivesBaseName = project.archives_base_name
-
-base {
-    archivesName = "${project.archives_base_name}-${project.minecraft_version}"
+// Aggregate task to build all versions
+tasks.register('buildAll') {
+    description = 'Builds all Minecraft version subprojects'
+    group = 'build'
+    dependsOn versionProjects.collect { "${it.path}:build" }
 }
 
-loom {
-    splitEnvironmentSourceSets()
+// Make the default 'build' task depend on all subproject builds
+build.dependsOn buildAll
 
-    mods {
-        "orbital_railgun_enhanced" {
-            sourceSet sourceSets.main
-            sourceSet sourceSets.client
+// Task to copy built JARs from version subprojects to root build/libs
+tasks.register('copyJars', Copy) {
+    description = 'Copies built JARs from version subprojects to root build/libs'
+    group = 'build'
+    dependsOn buildAll
+
+    into "${buildDir}/libs"
+
+    versionProjects.each { proj ->
+        from("${proj.projectDir}/build/libs") {
+            include '*.jar'
+            exclude '*-sources.jar'
         }
     }
 }
 
+// Make build also copy JARs to root
+build.dependsOn copyJars
 
-repositories {
-    maven {
-        name = 'GeckoLib'
-        url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
-        content {
-            includeGroupByRegex("software\\.bernie.*")
-            includeGroup("com.eliotlash.mclib")
-        }
-    }
-    maven {
-        name = 'Ladysnake Mods'
-        url = 'https://maven.ladysnake.org/releases'
-        content {
-            includeGroup 'io.github.ladysnake'
-            includeGroup 'org.ladysnake'
-            includeGroupByRegex 'dev\\.onyxstudios.*'
-        }
-    }
-    maven {
-        name = 'Wispforest'
-        url = 'https://maven.wispforest.io'
-    }
+// Aggregate task to clean all versions
+tasks.register('cleanAll') {
+    description = 'Cleans all Minecraft version subprojects'
+    group = 'build'
+    dependsOn versionProjects.collect { "${it.path}:clean" }
 }
 
-dependencies {
-    compileOnly 'org.apiguardian:apiguardian-api:1.1.2'
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+clean.dependsOn cleanAll
 
-    modImplementation "io.wispforest:owo-lib:${owolib_version}"
-    include "io.wispforest:owo-lib:${owolib_version}"
-    annotationProcessor "io.wispforest:owo-lib:${owolib_version}"
-    clientAnnotationProcessor "io.wispforest:owo-lib:${owolib_version}"
-
-    modImplementation("software.bernie.geckolib:geckolib-fabric-${minecraft_version}:${geckolib_version}")
-    implementation("com.eliotlash.mclib:mclib:20")
-
-    modImplementation "org.ladysnake:satin:${satin_version}"
-    include "org.ladysnake:satin:${satin_version}"
-
-    implementation "com.google.code.gson:gson:2.10.1"
-
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.1'
-}
-
-processResources {
-    inputs.property "version", cfgVersion
-    inputs.property "minecraft_version", cfgMinecraftVersion
-    inputs.property "loader_version", cfgLoaderVersion
-    inputs.property "owolib_version", cfgOwoLibVersion
-    filteringCharset = "UTF-8"
-
-    filesMatching("fabric.mod.json") {
-        expand "version": cfgVersion,
-                "minecraft_version": cfgMinecraftVersion,
-                "loader_version": cfgLoaderVersion,
-                "owolib_version": cfgOwoLibVersion
-    }
-}
-
-def targetRuntimeJava = 17
-tasks.withType(JavaCompile).configureEach {
-    it.options.encoding = "UTF-8"
-    it.options.compilerArgs += ['-Xlint:-processing']
-    it.options.release.set(targetRuntimeJava)
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
-
-jar {
-    from("LICENSE") {
-        rename { "${it}_${cfgArchivesBaseName}" }
-    }
-}
-
-// configure the maven publication
-publishing {
-    publications {
-        create("mavenJava", MavenPublication) {
-            artifactId = project.archives_base_name
-            from components.java
-        }
-    }
-}
-
-// Checkstyle configuration
-checkstyle {
-    toolVersion = '10.12.5'
-    configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
-    ignoreFailures = true
-    showViolations = true
-}
-
-tasks.withType(Checkstyle).configureEach {
-    reports {
-        xml.required = true
-        html.required = true
-    }
-}
-
-// Test configuration
-test {
-    useJUnitPlatform()
+// Aggregate task to run tests in all versions
+tasks.register('testAll') {
+    description = 'Runs tests in all Minecraft version subprojects'
+    group = 'verification'
+    dependsOn versionProjects.collect { "${it.path}:test" }
 }

@@ -5,17 +5,17 @@ plugins {
     id 'checkstyle'
 }
 
-version = project.mod_version
-group = project.maven_group
+version = rootProject.mod_version
+group = rootProject.maven_group
 
-def cfgVersion = project.version
+def cfgVersion = version
 def cfgMinecraftVersion = project.minecraft_version
 def cfgLoaderVersion = project.loader_version
 def cfgOwoLibVersion = project.owolib_version
-def cfgArchivesBaseName = project.archives_base_name
+def cfgArchivesBaseName = rootProject.archives_base_name
 
 base {
-    archivesName = "${project.archives_base_name}-${project.minecraft_version}"
+    archivesName = "${rootProject.archives_base_name}-${project.minecraft_version}"
 }
 
 loom {
@@ -127,7 +127,7 @@ java {
 }
 
 jar {
-    from("LICENSE") {
+    from(rootProject.file("LICENSE")) {
         rename { "${it}_${cfgArchivesBaseName}" }
     }
 }
@@ -136,7 +136,7 @@ jar {
 publishing {
     publications {
         create("mavenJava", MavenPublication) {
-            artifactId = project.archives_base_name
+            artifactId = rootProject.archives_base_name
             from components.java
         }
     }
@@ -145,7 +145,7 @@ publishing {
 // Checkstyle configuration
 checkstyle {
     toolVersion = '10.12.5'
-    configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+    configFile = rootProject.file("config/checkstyle/checkstyle.xml")
     ignoreFailures = true
     showViolations = true
 }
