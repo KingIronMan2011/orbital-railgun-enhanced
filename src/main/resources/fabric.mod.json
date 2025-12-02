@@ -65,13 +65,29 @@
     },
     "loom:injected_interfaces": {},
     "mc-publish": {
-      "loaders": ["fabric"],
-      "game-versions": ["1.20", "1.20.1", "1.20.2", "1.20.3", "1.20.4"],
+      "loaders": [
+        "fabric"
+      ],
+      "game-versions": [
+        "1.20",
+        "1.20.1",
+        "1.20.2",
+        "1.20.3",
+        "1.20.4"
+      ],
       "dependencies": {
-        "fabric-api": { "type": "required" },
-        "geckolib": { "type": "required" },
-        "owo-lib": { "type": "required" },
-        "satin": { "type": "required" }
+        "fabric-api": {
+          "type": "required"
+        },
+        "geckolib": {
+          "type": "required"
+        },
+        "owo-lib": {
+          "type": "required"
+        },
+        "satin": {
+          "type": "required"
+        }
       }
     }
   }
