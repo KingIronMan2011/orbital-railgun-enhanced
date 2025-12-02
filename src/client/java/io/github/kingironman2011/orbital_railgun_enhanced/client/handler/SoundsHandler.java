@@ -38,7 +38,9 @@ public class SoundsHandler {
 
     private void onEndTick(MinecraftClient client) {
         ClientPlayerEntity player = client.player;
-        if (player == null || client.world == null) return;
+        if (player == null || client.world == null) {
+            return;
+        }
 
         boolean focused = client.isWindowFocused();
         float volumeScope = focused ? (float) OrbitalRailgunClient.CONFIG.scopeVolume() : 0.0f;

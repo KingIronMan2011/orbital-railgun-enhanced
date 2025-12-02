@@ -26,32 +26,32 @@ class StrikeMathTest {
     @ParameterizedTest
     @DisplayName("Points inside radius should be detected")
     @CsvSource({
-        "0, 0",      // center
-        "10, 10",    // inside
-        "24, 0",     // exactly on radius (x-axis)
-        "0, 24",     // exactly on radius (z-axis)
-        "-10, -10",  // negative coordinates inside
-        "16, 16"     // diagonal inside (16^2 + 16^2 = 512 < 576)
+            "0, 0",      // center
+            "10, 10",    // inside
+            "24, 0",     // exactly on radius (x-axis)
+            "0, 24",     // exactly on radius (z-axis)
+            "-10, -10",  // negative coordinates inside
+            "16, 16"     // diagonal inside (16^2 + 16^2 = 512 < 576)
     })
     void testPointsInsideOrOnRadius(int x, int z) {
         int distanceSquared = x * x + z * z;
         assertTrue(distanceSquared <= RADIUS_SQUARED,
-            String.format("Point (%d, %d) with distance^2 %d should be inside or on radius^2 %d",
-                x, z, distanceSquared, RADIUS_SQUARED));
+                String.format("Point (%d, %d) with distance^2 %d should be inside or on radius^2 %d",
+                        x, z, distanceSquared, RADIUS_SQUARED));
     }
 
     @ParameterizedTest
     @DisplayName("Points outside radius should be detected")
     @CsvSource({
-        "25, 0",     // just outside x-axis
-        "0, 25",     // just outside z-axis
-        "100, 100",  // far outside
-        "-30, -30"   // negative far outside
+            "25, 0",     // just outside x-axis
+            "0, 25",     // just outside z-axis
+            "100, 100",  // far outside
+            "-30, -30"   // negative far outside
     })
     void testPointsOutsideRadius(int x, int z) {
         int distanceSquared = x * x + z * z;
-        assertTrue(distanceSquared > RADIUS_SQUARED, 
-            String.format("Point (%d, %d) should be outside radius", x, z));
+        assertTrue(distanceSquared > RADIUS_SQUARED,
+                String.format("Point (%d, %d) should be outside radius", x, z));
     }
 
     @Test
@@ -68,7 +68,7 @@ class StrikeMathTest {
     void testMaskGenerationLogic() {
         int maskSize = RADIUS * 2 + 1;
         assertEquals(49, maskSize, "Mask size should be 49 (24*2+1)");
-        
+
         // Count points that should be in the circle
         int pointsInCircle = 0;
         for (int x = -RADIUS; x <= RADIUS; x++) {
@@ -78,7 +78,7 @@ class StrikeMathTest {
                 }
             }
         }
-        
+
         // The number of points in a circle of radius 24 should be approximately pi*24^2 = ~1810
         assertTrue(pointsInCircle > 1750, "Should have enough points in circle (>1750)");
         assertTrue(pointsInCircle < 1900, "Should not exceed expected points (<1900)");
@@ -91,11 +91,11 @@ class StrikeMathTest {
         // When age = 400, magnitude should be 0
         double magAt400 = calculatePullMagnitude(30.0, 400);
         assertEquals(0.0, magAt400, 0.001, "Pull magnitude at age 400 should be 0");
-        
+
         // When age = 700, magnitude should be higher
         double magAt700 = calculatePullMagnitude(30.0, 700);
         assertTrue(magAt700 > 0, "Pull magnitude at age 700 should be positive");
-        
+
         // Magnitude should be capped at 5
         double magMaxed = calculatePullMagnitude(20.1, 700);
         assertTrue(magMaxed <= 5.0, "Pull magnitude should be capped at 5");
@@ -108,8 +108,8 @@ class StrikeMathTest {
         if (age > 400) {
             double currentMag = calculatePullMagnitude(30.0, age);
             double previousMag = calculatePullMagnitude(30.0, age - 50);
-            assertTrue(currentMag >= previousMag, 
-                String.format("Magnitude at age %d should be >= magnitude at age %d", age, age - 50));
+            assertTrue(currentMag >= previousMag,
+                    String.format("Magnitude at age %d should be >= magnitude at age %d", age, age - 50));
         }
     }
 
@@ -118,7 +118,7 @@ class StrikeMathTest {
     void testStrikeCompletionAge() {
         int impactAge = 700;
         assertTrue(impactAge >= 700, "Strike should complete at age 700");
-        
+
         int pullStartAge = 400;
         assertTrue(pullStartAge >= 400, "Pull effect should start at age 400");
         assertTrue(pullStartAge < impactAge, "Pull should start before impact");
@@ -132,12 +132,12 @@ class StrikeMathTest {
         int maxX = RADIUS;
         int minZ = -RADIUS;
         int maxZ = RADIUS;
-        
+
         assertEquals(-24, minX);
         assertEquals(24, maxX);
         assertEquals(-24, minZ);
         assertEquals(24, maxZ);
-        
+
         // Total blocks to check per Y level
         int blocksPerLevel = (maxX - minX + 1) * (maxZ - minZ + 1);
         assertEquals(49 * 49, blocksPerLevel, "Should check 49x49 blocks per Y level");

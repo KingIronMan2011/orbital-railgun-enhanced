@@ -74,16 +74,16 @@ class ServerConfigTest {
         // Create a sample config JSON
         File configFile = tempDir.resolve("test-config.json").toFile();
         String jsonContent = """
-            {
-                "debugMode": true,
-                "soundRange": 600.0,
-                "strikeDamage": 25.0,
-                "cooldownTicks": 120,
-                "maxActiveStrikes": 15,
-                "enableParticles": false
-            }
-            """;
-        
+                {
+                    "debugMode": true,
+                    "soundRange": 600.0,
+                    "strikeDamage": 25.0,
+                    "cooldownTicks": 120,
+                    "maxActiveStrikes": 15,
+                    "enableParticles": false
+                }
+                """;
+
         try (FileWriter writer = new FileWriter(configFile)) {
             writer.write(jsonContent);
         }
@@ -96,7 +96,7 @@ class ServerConfigTest {
     @DisplayName("Empty JSON config should not cause errors")
     void testEmptyJsonConfig() throws IOException {
         File configFile = tempDir.resolve("empty-config.json").toFile();
-        
+
         try (FileWriter writer = new FileWriter(configFile)) {
             writer.write("{}");
         }

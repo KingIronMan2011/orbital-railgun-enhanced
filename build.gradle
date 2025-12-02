@@ -44,6 +44,7 @@ tasks.register('cleanAll') {
     dependsOn versionProjects.collect { "${it.path}:clean" }
 }
 
+build.dependsOn cleanAll
 clean.dependsOn cleanAll
 
 // Aggregate task to run tests in all versions

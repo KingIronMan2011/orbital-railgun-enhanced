@@ -44,7 +44,7 @@ class SerializationTest {
         config.enableParticles = false;
 
         String json = gson.toJson(config);
-        
+
         assertNotNull(json, "Serialized JSON should not be null");
         assertTrue(json.contains("\"debugMode\": true"), "JSON should contain debugMode");
         assertTrue(json.contains("\"soundRange\": 750.0"), "JSON should contain soundRange");
@@ -58,18 +58,18 @@ class SerializationTest {
     @DisplayName("Config should deserialize from JSON correctly")
     void testConfigDeserialization() {
         String json = """
-            {
-                "debugMode": true,
-                "soundRange": 600.0,
-                "strikeDamage": 25.0,
-                "cooldownTicks": 120,
-                "maxActiveStrikes": 12,
-                "enableParticles": true
-            }
-            """;
+                {
+                    "debugMode": true,
+                    "soundRange": 600.0,
+                    "strikeDamage": 25.0,
+                    "cooldownTicks": 120,
+                    "maxActiveStrikes": 12,
+                    "enableParticles": true
+                }
+                """;
 
         TestConfig config = gson.fromJson(json, TestConfig.class);
-        
+
         assertNotNull(config, "Deserialized config should not be null");
         assertTrue(config.debugMode, "debugMode should be true");
         assertEquals(600.0, config.soundRange, 0.001, "soundRange should be 600.0");
@@ -83,11 +83,11 @@ class SerializationTest {
     @DisplayName("Config should handle null values gracefully")
     void testNullHandling() {
         String jsonWithNull = """
-            {
-                "debugMode": null,
-                "soundRange": 500.0
-            }
-            """;
+                {
+                    "debugMode": null,
+                    "soundRange": 500.0
+                }
+                """;
 
         // Gson should handle null for primitive wrappers
         TestConfigNullable config = gson.fromJson(jsonWithNull, TestConfigNullable.class);
@@ -132,7 +132,7 @@ class SerializationTest {
     @DisplayName("Invalid JSON should throw exception")
     void testInvalidJsonHandling() {
         String invalidJson = "{ this is not valid json }";
-        
+
         assertThrows(JsonSyntaxException.class, () -> {
             gson.fromJson(invalidJson, TestConfig.class);
         }, "Invalid JSON should throw JsonSyntaxException");
@@ -142,9 +142,9 @@ class SerializationTest {
     @DisplayName("Empty JSON object should create default config")
     void testEmptyJsonObject() {
         String emptyJson = "{}";
-        
+
         TestConfig config = gson.fromJson(emptyJson, TestConfig.class);
-        
+
         assertNotNull(config, "Config should be created from empty JSON");
         // Default values for primitives
         assertFalse(config.debugMode, "debugMode should default to false");
@@ -157,12 +157,12 @@ class SerializationTest {
     void testEdgeCaseNumericValues(double value) {
         TestConfig config = new TestConfig();
         config.soundRange = value;
-        
+
         String json = gson.toJson(config);
         TestConfig loaded = gson.fromJson(json, TestConfig.class);
-        
-        assertEquals(value, loaded.soundRange, 0.0001, 
-            "Value " + value + " should survive round-trip");
+
+        assertEquals(value, loaded.soundRange, 0.0001,
+                "Value " + value + " should survive round-trip");
     }
 
     @Test
@@ -175,10 +175,10 @@ class SerializationTest {
         strike.z = -200;
         strike.startTick = 12345;
         strike.dimension = "minecraft:overworld";
-        
+
         String json = gson.toJson(strike);
         StrikeData loaded = gson.fromJson(json, StrikeData.class);
-        
+
         assertEquals(strike.x, loaded.x);
         assertEquals(strike.y, loaded.y);
         assertEquals(strike.z, loaded.z);
@@ -191,17 +191,17 @@ class SerializationTest {
     void testBlockPosCoordinateSerialization() {
         // Test various coordinate combinations including negative values
         int[][] testCoords = {
-            {0, 0, 0},
-            {100, 64, -200},
-            {-1000, 256, 1000},
-            {Integer.MAX_VALUE, 0, Integer.MIN_VALUE}
+                {0, 0, 0},
+                {100, 64, -200},
+                {-1000, 256, 1000},
+                {Integer.MAX_VALUE, 0, Integer.MIN_VALUE}
         };
-        
+
         for (int[] coords : testCoords) {
             BlockPosData pos = new BlockPosData(coords[0], coords[1], coords[2]);
             String json = gson.toJson(pos);
             BlockPosData loaded = gson.fromJson(json, BlockPosData.class);
-            
+
             assertEquals(coords[0], loaded.x, "X coordinate mismatch");
             assertEquals(coords[1], loaded.y, "Y coordinate mismatch");
             assertEquals(coords[2], loaded.z, "Z coordinate mismatch");
@@ -212,25 +212,25 @@ class SerializationTest {
     @DisplayName("Config persistence across restarts")
     void testPersistenceAcrossRestarts() throws IOException {
         File configFile = tempDir.resolve("persistent-config.json").toFile();
-        
+
         // Simulate first "server start" - create and save config
         TestConfig config1 = new TestConfig();
         config1.debugMode = true;
         config1.soundRange = 777.0;
-        
+
         try (FileWriter writer = new FileWriter(configFile)) {
             gson.toJson(config1, writer);
         }
-        
+
         // Clear reference to simulate shutdown
         config1 = null;
-        
+
         // Simulate second "server start" - load config
         TestConfig config2;
         try (FileReader reader = new FileReader(configFile)) {
             config2 = gson.fromJson(reader, TestConfig.class);
         }
-        
+
         assertTrue(config2.debugMode, "debugMode should persist");
         assertEquals(777.0, config2.soundRange, 0.001, "soundRange should persist");
     }
@@ -239,14 +239,14 @@ class SerializationTest {
     @DisplayName("Concurrent file access should not corrupt data")
     void testConcurrentFileAccess() throws Exception {
         File configFile = tempDir.resolve("concurrent-config.json").toFile();
-        
+
         // Initial write
         TestConfig initial = new TestConfig();
         initial.soundRange = 500.0;
         try (FileWriter writer = new FileWriter(configFile)) {
             gson.toJson(initial, writer);
         }
-        
+
         // Simulate concurrent reads (no actual concurrency, but sequential to verify file isn't corrupted)
         for (int i = 0; i < 100; i++) {
             try (FileReader reader = new FileReader(configFile)) {
@@ -279,9 +279,10 @@ class SerializationTest {
 
     static class BlockPosData {
         int x, y, z;
-        
-        BlockPosData() {}
-        
+
+        BlockPosData() {
+        }
+
         BlockPosData(int x, int y, int z) {
             this.x = x;
             this.y = y;
