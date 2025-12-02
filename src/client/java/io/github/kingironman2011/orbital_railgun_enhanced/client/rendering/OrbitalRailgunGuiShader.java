@@ -60,6 +60,9 @@ public class OrbitalRailgunGuiShader extends AbstractOrbitalRailgunShader {
                 case MISS:
                     uniformIsBlockHit.set(0);
                     break;
+                default:
+                    uniformIsBlockHit.set(0);
+                    break;
             }
         }
 
