@@ -161,15 +161,19 @@ public class IrisGuiFallbackProvider implements ShaderProvider {
                         ? COLOR_RED : COLOR_GREEN;
                 drawTextWithBackground(context, textRenderer, statusText, frameX + 10, textY + 40, statusColor);
 
-                // Draw "IRIS COMPAT MODE" indicator
-                drawTextWithBackground(context, textRenderer, "[IRIS COMPAT MODE]",
-                        frameX + frameWidth - 100, textY, 0xFFFFAA00);
+                // Draw "IRIS COMPAT MODE" indicator (positioned dynamically based on text width)
+                String compatModeText = "[IRIS COMPAT MODE]";
+                int compatTextWidth = textRenderer.getWidth(compatModeText);
+                drawTextWithBackground(context, textRenderer, compatModeText,
+                        frameX + frameWidth - compatTextWidth - 14, textY, 0xFFFFAA00);
             }
         } else {
             // No target
             TextRenderer textRenderer = client.textRenderer;
-            drawTextWithBackground(context, textRenderer, "NO TARGET",
-                    centerX - 25, centerY + 30, COLOR_RED);
+            String noTargetText = "NO TARGET";
+            int noTargetWidth = textRenderer.getWidth(noTargetText);
+            drawTextWithBackground(context, textRenderer, noTargetText,
+                    centerX - noTargetWidth / 2, centerY + 30, COLOR_RED);
         }
 
         // Scanline effect simulation (subtle)

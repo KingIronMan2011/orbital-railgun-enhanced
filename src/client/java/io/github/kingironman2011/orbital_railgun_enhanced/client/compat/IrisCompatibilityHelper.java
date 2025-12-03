@@ -57,8 +57,17 @@ public final class IrisCompatibilityHelper {
         } catch (ClassNotFoundException e) {
             // Iris API not available - try alternative detection
             shaderPackActive = tryAlternativeDetection();
+        } catch (NoSuchMethodException e) {
+            // API method signature changed - try alternative detection
+            LOGGER.debug("Iris API method signature changed, trying alternative: {}", e.getMessage());
+            shaderPackActive = tryAlternativeDetection();
         } catch (ReflectiveOperationException e) {
+            // General reflection failure - assume shaders are not active for safety
             LOGGER.debug("Failed to detect Iris shader pack status: {}", e.getMessage());
+            shaderPackActive = false;
+        } catch (Exception e) {
+            // Catch-all for any unexpected issues to prevent crashes
+            LOGGER.warn("Unexpected error detecting Iris shader pack status: {}", e.getMessage());
             shaderPackActive = false;
         }
 
