@@ -4,6 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.github.kingironman2011.orbital_railgun_enhanced.OrbitalRailgun;
+import io.github.kingironman2011.orbital_railgun_enhanced.client.compat.GuiShaderCompatibilityManager;
+import io.github.kingironman2011.orbital_railgun_enhanced.client.compat.IrisCompatibilityHelper;
+import io.github.kingironman2011.orbital_railgun_enhanced.client.compat.ShaderCompatibilityManager;
 import io.github.kingironman2011.orbital_railgun_enhanced.client.item.OrbitalRailgunRenderer;
 import io.github.kingironman2011.orbital_railgun_enhanced.client.rendering.OrbitalRailgunGuiShader;
 import io.github.kingironman2011.orbital_railgun_enhanced.client.rendering.OrbitalRailgunShader;
@@ -32,6 +35,9 @@ public class OrbitalRailgunClient implements ClientModInitializer {
         CONFIG = EnhancedConfigWrapper.createAndLoad();
         LOGGER.info("Client configuration loaded");
 
+        // Log Iris compatibility status
+        LOGGER.info("Shader compatibility: {}", IrisCompatibilityHelper.getStatusString());
+
         SoundsHandler sounds = new SoundsHandler();
         sounds.initializeClient();
 
@@ -50,6 +56,10 @@ public class OrbitalRailgunClient implements ClientModInitializer {
                     }
                 });
 
+        // Initialize shader compatibility managers
+        ShaderCompatibilityManager.getInstance().initialize();
+        GuiShaderCompatibilityManager.getInstance().initialize();
+
         ClientPlayNetworking.registerGlobalReceiver(
                 OrbitalRailgun.CLIENT_SYNC_PACKET_ID,
                 ((minecraftClient, clientPlayNetworkHandler, packetByteBuf, packetSender) -> {
@@ -57,8 +67,15 @@ public class OrbitalRailgunClient implements ClientModInitializer {
 
                     minecraftClient.execute(
                             () -> {
+                                // Update both the legacy shader and the compatibility manager
                                 OrbitalRailgunShader.INSTANCE.BlockPosition = blockPos.toCenterPos().toVector3f();
                                 OrbitalRailgunShader.INSTANCE.Dimension = minecraftClient.world.getRegistryKey();
+
+                                // Trigger strike through the compatibility manager
+                                ShaderCompatibilityManager.getInstance().triggerStrike(
+                                        blockPos.toCenterPos().toVector3f(),
+                                        minecraftClient.world.getRegistryKey()
+                                );
                                 LOGGER.debug("[CLIENT] Synced strike position: {}", blockPos);
                             });
                 }));
@@ -82,17 +99,30 @@ public class OrbitalRailgunClient implements ClientModInitializer {
         ClientPlayNetworking.registerGlobalReceiver(OrbitalRailgun.STOP_ANIMATION_PACKET_ID,
                 (client, handler, buf, responseSender) -> {
                     client.execute(() -> {
-                        // Stop the orbital railgun shader animation
+                        // Stop both legacy and compatibility manager animations
                         OrbitalRailgunShader.INSTANCE.stopAnimation();
+                        ShaderCompatibilityManager.getInstance().stopAnimation();
                         LOGGER.debug("[CLIENT] Stopped animation due to leaving range");
                     });
                 });
 
+        // Register legacy shaders (for backwards compatibility)
         ClientTickEvents.END_CLIENT_TICK.register(OrbitalRailgunGuiShader.INSTANCE);
         PostWorldRenderCallback.EVENT.register(OrbitalRailgunGuiShader.INSTANCE);
 
         ClientTickEvents.END_CLIENT_TICK.register(OrbitalRailgunShader.INSTANCE);
         PostWorldRenderCallback.EVENT.register(OrbitalRailgunShader.INSTANCE);
+
+        // Register compatibility managers
+        ClientTickEvents.END_CLIENT_TICK.register(ShaderCompatibilityManager.getInstance());
+        PostWorldRenderCallback.EVENT.register(ShaderCompatibilityManager.getInstance());
+
+        ClientTickEvents.END_CLIENT_TICK.register(GuiShaderCompatibilityManager.getInstance());
+        PostWorldRenderCallback.EVENT.register(GuiShaderCompatibilityManager.getInstance());
+
+        LOGGER.info("Shader provider active: {} (Strike), {} (GUI)",
+                ShaderCompatibilityManager.getInstance().getActiveProviderName(),
+                GuiShaderCompatibilityManager.getInstance().isUsingSatinShaders() ? "Satin" : "Fallback");
 
         LOGGER.info("Orbital Railgun Enhanced client initialization complete!");
     }
