@@ -32,8 +32,8 @@ public class OrbitalRailgunGuiShader extends AbstractOrbitalRailgunShader {
 
     @Override
     public void onEndTick(MinecraftClient minecraftClient) {
-        // Only hide HUD when using Satin shaders (not when Iris fallback is active)
-        if (shouldRender() && canUseSatinShaders()) {
+        // Hide HUD when rendering the targeting shader
+        if (shouldRender()) {
             this.client.options.hudHidden = true;
         } else if (ticks != 0) {
             this.client.options.hudHidden = false;
@@ -44,11 +44,6 @@ public class OrbitalRailgunGuiShader extends AbstractOrbitalRailgunShader {
 
     @Override
     public void onWorldRendered(Camera camera, float tickDelta, long nanoTime) {
-        // Skip processing when Iris shaderpack is active
-        if (!canUseSatinShaders()) {
-            return;
-        }
-
         if (shouldRender()) {
             hitResult = client.player.raycast(300f, tickDelta, false);
             switch (hitResult.getType()) {

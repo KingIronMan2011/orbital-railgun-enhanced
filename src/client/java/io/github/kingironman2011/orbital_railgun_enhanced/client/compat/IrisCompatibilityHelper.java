@@ -45,7 +45,9 @@ public final class IrisCompatibilityHelper {
             return false;
         }
 
-        // Cache the result per check - shader pack status can change at runtime
+        // Always check fresh - shader pack status can change at runtime
+        boolean previousStatus = shaderPackActive != null ? shaderPackActive : false;
+
         try {
             // Try to access Iris's IrisApi to check shader pack status
             Class<?> irisApiClass = Class.forName("net.irisshaders.iris.api.v0.IrisApi");
@@ -67,6 +69,11 @@ public final class IrisCompatibilityHelper {
             // Catch-all for any unexpected issues to prevent crashes
             LOGGER.warn("Unexpected error detecting Iris shader pack status: {}", e.getMessage());
             shaderPackActive = false;
+        }
+
+        // Log when status changes
+        if (previousStatus != shaderPackActive) {
+            LOGGER.info("Iris shader pack status changed: {} -> {}", previousStatus, shaderPackActive);
         }
 
         return shaderPackActive;

@@ -225,13 +225,15 @@ public final class ShaderCompatibilityManager
             return;
         }
 
-        // Periodically check if Iris status has changed
+        // Check Iris status every tick for responsive switching
         ticksSinceLastCheck++;
         if (ticksSinceLastCheck >= IRIS_CHECK_INTERVAL) {
             ticksSinceLastCheck = 0;
             IrisCompatibilityHelper.resetCache();
-            selectActiveProvider();
         }
+
+        // Always check and potentially switch providers
+        selectActiveProvider();
 
         // Tick both providers to keep state in sync
         satinProvider.onTick();
