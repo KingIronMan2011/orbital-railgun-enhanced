@@ -113,7 +113,9 @@ public class SatinShaderProvider implements ShaderProvider {
             dimension = null;
         }
 
-        if (shouldRender()) {
+        // Only count ticks if we have an active animation (blockPosition set)
+        // regardless of whether we're currently available to render
+        if (blockPosition != null && client.world != null && client.world.getRegistryKey() == dimension) {
             ticks++;
         } else {
             ticks = 0;
