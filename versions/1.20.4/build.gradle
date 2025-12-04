@@ -15,7 +15,7 @@ def cfgOwoLibVersion = project.owolib_version
 def cfgArchivesBaseName = rootProject.archives_base_name
 
 base {
-    archivesName = "${rootProject.archives_base_name}-${project.minecraft_version}"
+    archivesName = "${rootProject.archives_base_name}-${project.show_minecraft_version}"
 }
 
 loom {
