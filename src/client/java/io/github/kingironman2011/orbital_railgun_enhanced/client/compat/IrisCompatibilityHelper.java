@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 public final class IrisCompatibilityHelper {
     private static final Logger LOGGER = LoggerFactory.getLogger("OrbitalRailgunEnhanced");
     private static final String IRIS_MOD_ID = "iris";
-    private static final String OCULUS_MOD_ID = "oculus"; // Forge version of Iris
 
     private static Boolean irisPresent = null;
     private static Boolean shaderPackActive = null;
@@ -21,16 +20,15 @@ public final class IrisCompatibilityHelper {
     }
 
     /**
-     * Checks if Iris (or Oculus on Forge) is installed.
+     * Checks if Iris is installed.
      *
-     * @return true if Iris or Oculus is present
+     * @return true if Iris is present
      */
     public static boolean isIrisPresent() {
         if (irisPresent == null) {
-            irisPresent = FabricLoader.getInstance().isModLoaded(IRIS_MOD_ID)
-                    || FabricLoader.getInstance().isModLoaded(OCULUS_MOD_ID);
+            irisPresent = FabricLoader.getInstance().isModLoaded(IRIS_MOD_ID);
             if (irisPresent) {
-                LOGGER.info("Iris/Oculus detected - shader compatibility mode enabled");
+                LOGGER.info("Iris detected - shader compatibility mode enabled");
             }
         }
         return irisPresent;
