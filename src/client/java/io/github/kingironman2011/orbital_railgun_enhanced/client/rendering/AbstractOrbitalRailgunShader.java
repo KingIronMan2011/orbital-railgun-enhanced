@@ -1,5 +1,6 @@
 package io.github.kingironman2011.orbital_railgun_enhanced.client.rendering;
 
+import io.github.kingironman2011.orbital_railgun_enhanced.client.compat.IrisCompatibilityHelper;
 import ladysnake.satin.api.event.PostWorldRenderCallback;
 import ladysnake.satin.api.experimental.ReadableDepthFramebuffer;
 import ladysnake.satin.api.managed.ManagedShaderEffect;
@@ -41,9 +42,19 @@ public abstract class AbstractOrbitalRailgunShader
 
     protected abstract boolean shouldRender();
 
+    /**
+     * Checks if Satin shaders can be used (Iris shaderpack not active).
+     * When Iris has an active shaderpack, Satin rendering is disabled to prevent conflicts.
+     *
+     * @return true if Satin rendering is allowed
+     */
+    protected boolean canUseSatinShaders() {
+        return !IrisCompatibilityHelper.shouldDisableSatinShaders();
+    }
+
     @Override
     public void onEndTick(MinecraftClient minecraftClient) {
-        if (shouldRender()) {
+        if (shouldRender() && canUseSatinShaders()) {
             ticks++;
         } else {
             ticks = 0;
@@ -52,6 +63,11 @@ public abstract class AbstractOrbitalRailgunShader
 
     @Override
     public void onWorldRendered(Camera camera, float tickDelta, long nanoTime) {
+        // Skip Satin rendering when Iris shaderpack is active
+        if (!canUseSatinShaders()) {
+            return;
+        }
+
         if (shouldRender()) {
             uniformInverseTransformMatrix.set(GlMatrices.getInverseTransformMatrix(projectionMatrix));
             uniformCameraPosition.set(camera.getPos().toVector3f());
