@@ -27,5 +27,6 @@
   "command.orbital_railgun_enhanced.particles.current": "Cząsteczki są obecnie: %s",
   "command.orbital_railgun_enhanced.particles.set": "Cząsteczki włączone: %s",
   "command.orbital_railgun_enhanced.config.reloaded": "Konfiguracja serwera przeładowana",
-  "command.orbital_railgun_enhanced.config.saved": "Konfiguracja serwera zapisana"
+  "command.orbital_railgun_enhanced.config.saved": "Konfiguracja serwera zapisana",
+  "itemGroup.orbital-railgun-enhanced": "Orbitalne Działo Szynowe Ulepszone"
 }

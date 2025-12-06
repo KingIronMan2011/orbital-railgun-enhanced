@@ -27,5 +27,6 @@
   "command.orbital_railgun_enhanced.particles.current": "파티클은 현재: %s",
   "command.orbital_railgun_enhanced.particles.set": "파티클 활성화: %s",
   "command.orbital_railgun_enhanced.config.reloaded": "서버 설정이 다시 로드되었습니다",
-  "command.orbital_railgun_enhanced.config.saved": "서버 설정이 저장되었습니다"
+  "command.orbital_railgun_enhanced.config.saved": "서버 설정이 저장되었습니다",
+  "itemGroup.orbital-railgun-enhanced": "오비탈 레일건 강화판"
 }

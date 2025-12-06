@@ -27,5 +27,6 @@
   "command.orbital_railgun_enhanced.particles.current": "الجسيمات حاليا: %s",
   "command.orbital_railgun_enhanced.particles.set": "الجسيمات مفعلة: %s",
   "command.orbital_railgun_enhanced.config.reloaded": "تم إعادة تحميل تكوين الخادم",
-  "command.orbital_railgun_enhanced.config.saved": "تم حفظ تكوين الخادم"
+  "command.orbital_railgun_enhanced.config.saved": "تم حفظ تكوين الخادم",
+  "itemGroup.orbital-railgun-enhanced": "المدفع المداري المحسن"
 }

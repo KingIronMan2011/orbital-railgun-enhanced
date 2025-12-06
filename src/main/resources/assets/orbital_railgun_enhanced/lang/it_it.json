@@ -27,5 +27,6 @@
   "command.orbital_railgun_enhanced.particles.current": "Le particelle sono attualmente: %s",
   "command.orbital_railgun_enhanced.particles.set": "Particelle abilitate: %s",
   "command.orbital_railgun_enhanced.config.reloaded": "Configurazione del server ricaricata",
-  "command.orbital_railgun_enhanced.config.saved": "Configurazione del server salvata"
+  "command.orbital_railgun_enhanced.config.saved": "Configurazione del server salvata",
+  "itemGroup.orbital-railgun-enhanced": "Cannone Orbitale Potenziato"
 }

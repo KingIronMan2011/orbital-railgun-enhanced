@@ -27,5 +27,6 @@
   "command.orbital_railgun_enhanced.particles.current": "粒子效果当前为: %s",
   "command.orbital_railgun_enhanced.particles.set": "粒子效果已启用: %s",
   "command.orbital_railgun_enhanced.config.reloaded": "服务器配置已重新加载",
-  "command.orbital_railgun_enhanced.config.saved": "服务器配置已保存"
+  "command.orbital_railgun_enhanced.config.saved": "服务器配置已保存",
+  "itemGroup.orbital-railgun-enhanced": "轨道轨道炮增强版"
 }

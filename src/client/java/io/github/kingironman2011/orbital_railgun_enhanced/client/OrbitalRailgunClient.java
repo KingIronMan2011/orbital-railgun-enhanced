@@ -1,5 +1,7 @@
 package io.github.kingironman2011.orbital_railgun_enhanced.client;
 
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

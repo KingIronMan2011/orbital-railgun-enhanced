@@ -27,5 +27,6 @@
   "command.orbital_railgun_enhanced.particles.current": "Particles are currently: %s",
   "command.orbital_railgun_enhanced.particles.set": "Particles enabled: %s",
   "command.orbital_railgun_enhanced.config.reloaded": "Server configuration reloaded",
-  "command.orbital_railgun_enhanced.config.saved": "Server configuration saved"
+  "command.orbital_railgun_enhanced.config.saved": "Server configuration saved",
+  "itemGroup.orbital-railgun-enhanced": "Orbital Railgun Enhanced"
 }

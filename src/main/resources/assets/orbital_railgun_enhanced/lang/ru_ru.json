@@ -27,5 +27,6 @@
   "command.orbital_railgun_enhanced.particles.current": "Частицы в настоящее время: %s",
   "command.orbital_railgun_enhanced.particles.set": "Частицы включены: %s",
   "command.orbital_railgun_enhanced.config.reloaded": "Конфигурация сервера перезагружена",
-  "command.orbital_railgun_enhanced.config.saved": "Конфигурация сервера сохранена"
+  "command.orbital_railgun_enhanced.config.saved": "Конфигурация сервера сохранена",
+  "itemGroup.orbital-railgun-enhanced": "Улучшенная Орбитальная Пушка"
 }

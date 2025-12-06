@@ -27,5 +27,6 @@
   "command.orbital_railgun_enhanced.particles.current": "Las partículas están actualmente: %s",
   "command.orbital_railgun_enhanced.particles.set": "Partículas activadas: %s",
   "command.orbital_railgun_enhanced.config.reloaded": "Configuración del servidor recargada",
-  "command.orbital_railgun_enhanced.config.saved": "Configuración del servidor guardada"
+  "command.orbital_railgun_enhanced.config.saved": "Configuración del servidor guardada",
+  "itemGroup.orbital-railgun-enhanced": "Cañón Orbital Mejorado"
 }

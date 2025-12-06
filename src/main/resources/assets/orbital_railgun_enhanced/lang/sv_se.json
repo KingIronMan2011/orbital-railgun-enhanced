@@ -27,5 +27,6 @@
   "command.orbital_railgun_enhanced.particles.current": "Partiklar är för närvarande: %s",
   "command.orbital_railgun_enhanced.particles.set": "Partiklar aktiverade: %s",
   "command.orbital_railgun_enhanced.config.reloaded": "Serverkonfiguration omladdad",
-  "command.orbital_railgun_enhanced.config.saved": "Serverkonfiguration sparad"
+  "command.orbital_railgun_enhanced.config.saved": "Serverkonfiguration sparad",
+  "itemGroup.orbital-railgun-enhanced": "Orbital Railgun Förbättrad"
 }

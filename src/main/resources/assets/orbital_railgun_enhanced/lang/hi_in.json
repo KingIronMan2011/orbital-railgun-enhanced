@@ -27,5 +27,6 @@
   "command.orbital_railgun_enhanced.particles.current": "कण वर्तमान में: %s",
   "command.orbital_railgun_enhanced.particles.set": "कण सक्षम: %s",
   "command.orbital_railgun_enhanced.config.reloaded": "सर्वर कॉन्फ़िगरेशन पुनः लोड किया गया",
-  "command.orbital_railgun_enhanced.config.saved": "सर्वर कॉन्फ़िगरेशन सहेजा गया"
+  "command.orbital_railgun_enhanced.config.saved": "सर्वर कॉन्फ़िगरेशन सहेजा गया",
+  "itemGroup.orbital-railgun-enhanced": "कक्षीय रेलगन संवर्धित"
 }

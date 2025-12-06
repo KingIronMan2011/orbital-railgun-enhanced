@@ -27,5 +27,6 @@
   "command.orbital_railgun_enhanced.particles.current": "パーティクルは現在: %s",
   "command.orbital_railgun_enhanced.particles.set": "パーティクル有効: %s",
   "command.orbital_railgun_enhanced.config.reloaded": "サーバー設定をリロードしました",
-  "command.orbital_railgun_enhanced.config.saved": "サーバー設定を保存しました"
+  "command.orbital_railgun_enhanced.config.saved": "サーバー設定を保存しました",
+  "itemGroup.orbital-railgun-enhanced": "オービタルレールガン強化版"
 }
