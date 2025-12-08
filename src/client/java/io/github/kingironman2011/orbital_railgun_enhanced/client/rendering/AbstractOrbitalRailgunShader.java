@@ -1,5 +1,6 @@
 package io.github.kingironman2011.orbital_railgun_enhanced.client.rendering;
 
+import io.github.kingironman2011.orbital_railgun_enhanced.client.utils.ModDetector;
 import ladysnake.satin.api.event.PostWorldRenderCallback;
 import ladysnake.satin.api.experimental.ReadableDepthFramebuffer;
 import ladysnake.satin.api.managed.ManagedShaderEffect;
@@ -14,6 +15,11 @@ import net.minecraft.client.render.Camera;
 import net.minecraft.util.Identifier;
 import org.joml.Matrix4f;
 
+/**
+ * Base class for Orbital Railgun post-processing shader effects.
+ * Automatically disables Satin shaders when Iris shader packs are active
+ * to prevent conflicts and ensure compatibility.
+ */
 public abstract class AbstractOrbitalRailgunShader
         implements PostWorldRenderCallback, ClientTickEvents.EndTick {
     protected final MinecraftClient client = MinecraftClient.getInstance();
@@ -52,6 +58,12 @@ public abstract class AbstractOrbitalRailgunShader
 
     @Override
     public void onWorldRendered(Camera camera, float tickDelta, long nanoTime) {
+        // Skip Satin shader rendering if Iris shader packs are active
+        // This prevents conflicts between Satin post-processing and Iris shaders
+        if (ModDetector.isShaderPackActive()) {
+            return;
+        }
+        
         if (shouldRender()) {
             uniformInverseTransformMatrix.set(GlMatrices.getInverseTransformMatrix(projectionMatrix));
             uniformCameraPosition.set(camera.getPos().toVector3f());
