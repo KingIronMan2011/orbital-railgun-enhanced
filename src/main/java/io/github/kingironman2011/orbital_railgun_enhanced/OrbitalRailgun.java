@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import io.github.kingironman2011.orbital_railgun_enhanced.item.OrbitalRailgunItem;
 import io.github.kingironman2011.orbital_railgun_enhanced.item.OrbitalRailgunItems;
-import io.github.kingironman2011.orbital_railgun_enhanced.util.OrbitalRailgunStrikeManager;
+import io.github.kingironman2011.orbital_railgun_enhanced.utils.OrbitalRailgunStrikeManager;
 import io.github.kingironman2011.orbital_railgun_enhanced.registry.SoundsRegistry;
 import io.github.kingironman2011.orbital_railgun_enhanced.registry.CommandRegistry;
 import io.github.kingironman2011.orbital_railgun_enhanced.logger.SoundLogger;

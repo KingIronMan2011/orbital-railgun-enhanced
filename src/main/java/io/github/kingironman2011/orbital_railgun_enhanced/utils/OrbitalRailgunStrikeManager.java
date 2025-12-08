@@ -1,4 +1,4 @@
-package io.github.kingironman2011.orbital_railgun_enhanced.util;
+package io.github.kingironman2011.orbital_railgun_enhanced.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

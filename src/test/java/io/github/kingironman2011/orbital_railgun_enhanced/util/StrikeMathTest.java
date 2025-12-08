@@ -1,4 +1,4 @@
-package io.github.kingironman2011.orbital_railgun_enhanced.util;
+package io.github.kingironman2011.orbital_railgun_enhanced.utils;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

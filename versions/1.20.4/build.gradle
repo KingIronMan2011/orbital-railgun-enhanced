@@ -72,6 +72,13 @@ repositories {
         name = 'Wispforest'
         url = 'https://maven.wispforest.io'
     }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
 
 dependencies {
@@ -89,6 +96,8 @@ dependencies {
     implementation("com.eliotlash.mclib:mclib:20")
 
     modImplementation "org.ladysnake:satin:${satin_version}"
+
+    modCompileOnly "maven.modrinth:iris:${iris_version}+${minecraft_version}"
 
     implementation "com.google.code.gson:gson:2.10.1"
 
