@@ -2,7 +2,7 @@
 
 ## Overview
 
-Orbital Railgun Enhanced now includes full compatibility with Iris Shaders. The mod automatically detects when Iris shader packs are active and adjusts its rendering pipeline to prevent conflicts.
+Orbital Railgun Enhanced now includes compatibility with Iris Shaders for its post-processing shader effects. The mod automatically detects when Iris shader packs are active and disables custom Satin shaders to prevent conflicts.
 
 ## How It Works
 
@@ -16,54 +16,65 @@ The mod uses the `ModDetector` utility to check if:
 
 #### When Iris Shader Packs Are Active
 
-- **Item Rendering**: Switches to standard Minecraft `RenderLayer.getCutout()` for maximum compatibility
 - **Post-Processing Effects**: Disables custom Satin post-processing shaders to prevent conflicts
-- **Visual Quality**: Maintains visual quality while ensuring stability with shader packs
+- **Visual Quality**: Maintains gameplay functionality while ensuring stability with shader packs
+- **Compatibility**: Prevents rendering conflicts between Satin and Iris shader pipelines
 
 #### When Iris Shader Packs Are NOT Active
 
-- **Item Rendering**: Uses custom GeckoLib rendering with advanced effects
 - **Post-Processing Effects**: Enables full Satin shader effects for orbital strikes
 - **Visual Quality**: Maximum visual fidelity with custom shader effects
+- **Full Features**: Complete orbital strike visual effects with custom shaders
 
 ## Technical Details
 
 ### Modified Components
 
-1. **OrbitalRailgunRenderer**
-   - Overrides `getRenderType()` method
-   - Returns `RenderLayer.getCutout()` when Iris is active
-   - Returns default GeckoLib render layer otherwise
-
-2. **AbstractOrbitalRailgunShader**
+**AbstractOrbitalRailgunShader**
    - Checks `ModDetector.isShaderPackActive()` in `onWorldRendered()`
    - Skips Satin shader rendering early when Iris is active
    - Prevents conflicts between Satin and Iris shader pipelines
+   - Affects both `OrbitalRailgunShader` and `OrbitalRailgunGuiShader`
 
 ### Code Example
 
 ```java
 @Override
-public RenderLayer getRenderType(OrbitalRailgunItem animatable, Identifier texture) {
-    // Check if Iris shader pack is active
+public void onWorldRendered(Camera camera, float tickDelta, long nanoTime) {
+    // Skip Satin shader rendering if Iris shader packs are active
+    // This prevents conflicts between Satin post-processing and Iris shaders
     if (ModDetector.isShaderPackActive()) {
-        // Use standard cutout layer for shader pack compatibility
-        return RenderLayer.getCutout();
+        return;
     }
     
-    // Use default GeckoLib rendering when no shader pack is active
-    return super.getRenderType(animatable, texture);
+    if (shouldRender()) {
+        // ... normal shader rendering logic
+        SHADER.render(tickDelta);
+    }
 }
 ```
 
 ## For Mod Developers
 
-If you're extending this mod or using similar patterns:
+If you're extending this mod or implementing similar patterns:
 
-1. **Always check shader pack status** before applying custom rendering
-2. **Use standard RenderLayers** as fallbacks for compatibility
+1. **Always check shader pack status** before applying custom post-processing shaders
+2. **Use early returns** to prevent shader conflicts
 3. **Disable conflicting post-processing** when third-party shaders are active
 4. **Test with popular shader packs** to ensure compatibility
+
+## Affected Features
+
+When Iris shader packs are active, the following visual effects are disabled:
+- Orbital strike post-processing effects (chromatic aberration, distortion)
+- GUI shader effects when aiming the railgun
+- Custom depth-based rendering effects
+
+The core gameplay functionality remains fully operational:
+- Orbital railgun item works normally
+- Strike damage and mechanics unchanged
+- Sound effects play correctly
+- Particle effects render normally
 
 ## Compatibility
 
