@@ -86,22 +86,35 @@ public class OrbitalRailgunShader extends AbstractOrbitalRailgunShader {
         Matrix4f positionMatrix = matrices.peek().getPositionMatrix();
         
         // Render a simple pulsing effect using vertex format POSITION_COLOR_TEXTURE_LIGHT_NORMAL
-        // This provides a basic visual indicator when Satin shaders are disabled
         float time = (ticks + tickDelta) / 20f;
         float pulse = (float) (Math.sin(time * 2) * 0.5 + 0.5);
-        
-        // Simple quad rendering with standard vertex format for Iris compatibility
-        // Color indicates strike effect (red/orange for orbital strike)
         float size = 2.0f + pulse * 0.5f;
+        
+        // Color indicates strike effect (red/orange for orbital strike)
         int color = 0xFF6600; // Orange
         int r = (color >> 16) & 0xFF;
         int g = (color >> 8) & 0xFF;
         int b = color & 0xFF;
         int a = (int) (pulse * 255);
         
-        // Note: Actual vertex calls would need texture coordinates and proper format
-        // This is a simplified version showing the concept
-        // In production, you'd render proper geometry with textures
+        // Render a simple quad billboard facing the camera
+        // Using POSITION_COLOR_TEXTURE_LIGHT_NORMAL format
+        int light = 0xF000F0; // Full brightness
+        
+        // Simple cross pattern (vertical and horizontal lines)
+        float halfSize = size / 2;
+        
+        // Vertical line (4 vertices for a thin quad)
+        buffer.vertex(positionMatrix, -0.1f, -halfSize, 0).color(r, g, b, a).texture(0, 0).light(light).normal(0, 0, 1).next();
+        buffer.vertex(positionMatrix, 0.1f, -halfSize, 0).color(r, g, b, a).texture(1, 0).light(light).normal(0, 0, 1).next();
+        buffer.vertex(positionMatrix, 0.1f, halfSize, 0).color(r, g, b, a).texture(1, 1).light(light).normal(0, 0, 1).next();
+        buffer.vertex(positionMatrix, -0.1f, halfSize, 0).color(r, g, b, a).texture(0, 1).light(light).normal(0, 0, 1).next();
+        
+        // Horizontal line (4 vertices for a thin quad)
+        buffer.vertex(positionMatrix, -halfSize, -0.1f, 0).color(r, g, b, a).texture(0, 0).light(light).normal(0, 0, 1).next();
+        buffer.vertex(positionMatrix, halfSize, -0.1f, 0).color(r, g, b, a).texture(1, 0).light(light).normal(0, 0, 1).next();
+        buffer.vertex(positionMatrix, halfSize, 0.1f, 0).color(r, g, b, a).texture(1, 1).light(light).normal(0, 0, 1).next();
+        buffer.vertex(positionMatrix, -halfSize, 0.1f, 0).color(r, g, b, a).texture(0, 1).light(light).normal(0, 0, 1).next();
         
         matrices.pop();
     }

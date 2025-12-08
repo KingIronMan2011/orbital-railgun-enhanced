@@ -103,21 +103,45 @@ public class OrbitalRailgunGuiShader extends AbstractOrbitalRailgunShader {
         Matrix4f positionMatrix = matrices.peek().getPositionMatrix();
         
         // Render a simple targeting reticle using vertex format POSITION_COLOR_TEXTURE_LIGHT_NORMAL
-        // This provides a basic visual indicator when Satin shaders are disabled
         float time = (ticks + tickDelta) / 20f;
         float pulse = (float) (Math.sin(time * 4) * 0.3 + 0.7);
         
-        // Simple crosshair rendering with standard vertex format for Iris compatibility
-        // Color indicates lock-on status (green for locked, yellow for tracking)
+        // Color indicates lock-on status (green for locked)
         int color = hitResult.getType() == HitResult.Type.MISS ? 0xFFFF00 : 0x00FF00;
         int r = (color >> 16) & 0xFF;
         int g = (color >> 8) & 0xFF;
         int b = color & 0xFF;
         int a = (int) (pulse * 255);
         
-        // Note: Actual vertex calls would need texture coordinates and proper format
-        // This is a simplified version showing the concept
-        // In production, you'd render proper crosshair geometry with textures
+        // Render targeting reticle with POSITION_COLOR_TEXTURE_LIGHT_NORMAL format
+        int light = 0xF000F0; // Full brightness
+        float size = 1.5f;
+        float thickness = 0.08f;
+        float gap = 0.3f;
+        
+        // Top line
+        buffer.vertex(positionMatrix, -thickness, gap, 0).color(r, g, b, a).texture(0, 0).light(light).normal(0, 0, 1).next();
+        buffer.vertex(positionMatrix, thickness, gap, 0).color(r, g, b, a).texture(1, 0).light(light).normal(0, 0, 1).next();
+        buffer.vertex(positionMatrix, thickness, gap + size, 0).color(r, g, b, a).texture(1, 1).light(light).normal(0, 0, 1).next();
+        buffer.vertex(positionMatrix, -thickness, gap + size, 0).color(r, g, b, a).texture(0, 1).light(light).normal(0, 0, 1).next();
+        
+        // Bottom line
+        buffer.vertex(positionMatrix, -thickness, -gap - size, 0).color(r, g, b, a).texture(0, 0).light(light).normal(0, 0, 1).next();
+        buffer.vertex(positionMatrix, thickness, -gap - size, 0).color(r, g, b, a).texture(1, 0).light(light).normal(0, 0, 1).next();
+        buffer.vertex(positionMatrix, thickness, -gap, 0).color(r, g, b, a).texture(1, 1).light(light).normal(0, 0, 1).next();
+        buffer.vertex(positionMatrix, -thickness, -gap, 0).color(r, g, b, a).texture(0, 1).light(light).normal(0, 0, 1).next();
+        
+        // Left line
+        buffer.vertex(positionMatrix, -gap - size, -thickness, 0).color(r, g, b, a).texture(0, 0).light(light).normal(0, 0, 1).next();
+        buffer.vertex(positionMatrix, -gap, -thickness, 0).color(r, g, b, a).texture(1, 0).light(light).normal(0, 0, 1).next();
+        buffer.vertex(positionMatrix, -gap, thickness, 0).color(r, g, b, a).texture(1, 1).light(light).normal(0, 0, 1).next();
+        buffer.vertex(positionMatrix, -gap - size, thickness, 0).color(r, g, b, a).texture(0, 1).light(light).normal(0, 0, 1).next();
+        
+        // Right line
+        buffer.vertex(positionMatrix, gap, -thickness, 0).color(r, g, b, a).texture(0, 0).light(light).normal(0, 0, 1).next();
+        buffer.vertex(positionMatrix, gap + size, -thickness, 0).color(r, g, b, a).texture(1, 0).light(light).normal(0, 0, 1).next();
+        buffer.vertex(positionMatrix, gap + size, thickness, 0).color(r, g, b, a).texture(1, 1).light(light).normal(0, 0, 1).next();
+        buffer.vertex(positionMatrix, gap, thickness, 0).color(r, g, b, a).texture(0, 1).light(light).normal(0, 0, 1).next();
         
         matrices.pop();
     }
