@@ -48,8 +48,9 @@ jobs:
     # This ensures CodeQL can analyze with full type information
     - name: Build with Gradle
       run: |
-        # Build all version subprojects
-        ./gradlew :versions:1.20.4:compileJava :versions:1.20.4:compileClientJava --no-daemon
+        # Compile all Java sources in all version subprojects
+        # This compiles both main and client source sets for all versions
+        ./gradlew compileJava compileClientJava --no-daemon
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
