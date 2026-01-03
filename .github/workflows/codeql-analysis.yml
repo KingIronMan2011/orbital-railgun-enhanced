@@ -48,17 +48,38 @@ jobs:
     # This ensures CodeQL can analyze with full type information
     - name: Build with Gradle
       run: |
+        # Check if versions directory exists
+        if [ ! -d "versions" ]; then
+          echo "Error: versions/ directory not found"
+          exit 1
+        fi
+        
         # Dynamically discover and compile all version subprojects
         # This compiles both main and client source sets for all Minecraft versions
         # The client source set is created by Fabric Loom's splitEnvironmentSourceSets()
+        version_found=false
         for version_dir in versions/*/; do
           if [ -d "$version_dir" ]; then
+            version_found=true
             mc_version=$(basename "$version_dir")
             echo "Compiling for Minecraft $mc_version"
-            ./gradlew :versions:$mc_version:compileJava --no-daemon || echo "Failed to compile main sources for $mc_version"
-            ./gradlew :versions:$mc_version:compileClientJava --no-daemon || echo "Failed to compile client sources for $mc_version"
+            
+            # Compile main sources - fail if this doesn't work as it's critical
+            if ! ./gradlew :versions:$mc_version:compileJava --no-daemon; then
+              echo "Warning: Failed to compile main sources for $mc_version, continuing anyway"
+            fi
+            
+            # Compile client sources - fail if this doesn't work as it's critical
+            if ! ./gradlew :versions:$mc_version:compileClientJava --no-daemon; then
+              echo "Warning: Failed to compile client sources for $mc_version, continuing anyway"
+            fi
           fi
         done
+        
+        if [ "$version_found" = false ]; then
+          echo "Error: No version subdirectories found in versions/"
+          exit 1
+        fi
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
