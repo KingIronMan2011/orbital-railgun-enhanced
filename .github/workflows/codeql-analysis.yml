@@ -56,12 +56,8 @@ jobs:
             mc_version=$(basename "$version_dir")
             echo "Compiling for Minecraft $mc_version"
             
-            if ! ./gradlew :versions:$mc_version:compileJava --no-daemon; then
-              echo "Warning: Failed to compile main sources for $mc_version, continuing anyway"
-            fi
-            
-            if ! ./gradlew :versions:$mc_version:compileClientJava --no-daemon; then
-              echo "Warning: Failed to compile client sources for $mc_version, continuing anyway"
+            if ! ./gradlew :versions:$mc_version:build --no-daemon; then
+              echo "Warning: Failed to run full build for $mc_version, continuing anyway"
             fi
           fi
         done
