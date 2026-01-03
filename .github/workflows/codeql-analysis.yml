@@ -64,12 +64,12 @@ jobs:
             mc_version=$(basename "$version_dir")
             echo "Compiling for Minecraft $mc_version"
             
-            # Compile main sources - fail if this doesn't work as it's critical
+            # Compile main sources - continue even if it fails to allow partial analysis
             if ! ./gradlew :versions:$mc_version:compileJava --no-daemon; then
               echo "Warning: Failed to compile main sources for $mc_version, continuing anyway"
             fi
             
-            # Compile client sources - fail if this doesn't work as it's critical
+            # Compile client sources - continue even if it fails to allow partial analysis
             if ! ./gradlew :versions:$mc_version:compileClientJava --no-daemon; then
               echo "Warning: Failed to compile client sources for $mc_version, continuing anyway"
             fi
