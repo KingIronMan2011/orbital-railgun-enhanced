@@ -50,20 +50,29 @@ jobs:
         fi
         
         version_found=false
+        compilation_success=false
         for version_dir in versions/*/; do
           if [ -d "$version_dir" ]; then
             version_found=true
             mc_version=$(basename "$version_dir")
             echo "Compiling for Minecraft $mc_version"
             
-            if ! ./gradlew :versions:$mc_version:build --no-daemon; then
-              echo "Warning: Failed to run full build for $mc_version, continuing anyway"
+            if ./gradlew :versions:$mc_version:build --no-daemon; then
+              echo "Successfully built $mc_version"
+              compilation_success=true
+            else
+              echo "Error: Failed to build $mc_version"
             fi
           fi
         done
         
         if [ "$version_found" = false ]; then
           echo "Error: No version subdirectories found in versions/"
+          exit 1
+        fi
+        
+        if [ "$compilation_success" = false ]; then
+          echo "Error: All version builds failed. Cannot proceed with CodeQL analysis."
           exit 1
         fi
 
