@@ -50,11 +50,13 @@ jobs:
       run: |
         # Dynamically discover and compile all version subprojects
         # This compiles both main and client source sets for all Minecraft versions
+        # The client source set is created by Fabric Loom's splitEnvironmentSourceSets()
         for version_dir in versions/*/; do
           if [ -d "$version_dir" ]; then
             mc_version=$(basename "$version_dir")
             echo "Compiling for Minecraft $mc_version"
-            ./gradlew :versions:$mc_version:compileJava :versions:$mc_version:compileClientJava --no-daemon || true
+            ./gradlew :versions:$mc_version:compileJava --no-daemon || echo "Failed to compile main sources for $mc_version"
+            ./gradlew :versions:$mc_version:compileClientJava --no-daemon || echo "Failed to compile client sources for $mc_version"
           fi
         done
 
