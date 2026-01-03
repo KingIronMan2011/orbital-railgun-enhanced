@@ -48,9 +48,15 @@ jobs:
     # This ensures CodeQL can analyze with full type information
     - name: Build with Gradle
       run: |
-        # Compile all Java sources in all version subprojects
-        # This compiles both main and client source sets for all versions
-        ./gradlew compileJava compileClientJava --no-daemon
+        # Dynamically discover and compile all version subprojects
+        # This compiles both main and client source sets for all Minecraft versions
+        for version_dir in versions/*/; do
+          if [ -d "$version_dir" ]; then
+            mc_version=$(basename "$version_dir")
+            echo "Compiling for Minecraft $mc_version"
+            ./gradlew :versions:$mc_version:compileJava :versions:$mc_version:compileClientJava --no-daemon || true
+          fi
+        done
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
