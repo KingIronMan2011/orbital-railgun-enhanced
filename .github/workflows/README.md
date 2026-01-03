@@ -16,7 +16,7 @@ The `codeql-analysis.yml` workflow performs automated security and code quality 
 - **Analysis Process:**
   1. Sets up JDK 21 (required by the project)
   2. Initializes CodeQL with manual build mode for Java
-  3. Compiles the project with Gradle to resolve all dependencies
+  3. Compiles the Java source code with Gradle to resolve required dependencies
   4. Performs CodeQL analysis with full type information
   5. Uploads results to GitHub Security tab
 
