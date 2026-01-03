@@ -1,6 +1,34 @@
-# Build and Release Workflow
+# Workflows
 
-This workflow automatically builds and releases the Orbital Railgun mod for all supported Minecraft versions when the mod version changes.
+This directory contains GitHub Actions workflows for the Orbital Railgun Enhanced mod.
+
+## CodeQL Analysis Workflow
+
+The `codeql-analysis.yml` workflow performs automated security and code quality scanning using GitHub CodeQL.
+
+### How It Works
+
+- **Triggers:**
+  - On every push to main/master branches
+  - On every pull request to main/master branches
+  - Weekly on Sundays at 1:30 AM UTC (scheduled scan)
+
+- **Analysis Process:**
+  1. Sets up JDK 21 (required by the project)
+  2. Initializes CodeQL with manual build mode for Java
+  3. Compiles the Java source code with Gradle to resolve required dependencies
+  4. Performs CodeQL analysis with full type information
+  5. Uploads results to GitHub Security tab
+
+- **Why Manual Build Mode?**
+  - The project uses Fabric Loom with complex dependencies (GeckoLib, owo-lib, Satin)
+  - Manual build mode ensures all dependencies are resolved before analysis
+  - This achieves >85% call target resolution and >85% type information accuracy
+  - Without building, CodeQL defaults to "none" mode with lower quality metrics
+
+## Build and Release Workflow
+
+The `build-and-release.yml` workflow automatically builds and releases the Orbital Railgun mod for all supported Minecraft versions when the mod version changes.
 
 ## How It Works
 
