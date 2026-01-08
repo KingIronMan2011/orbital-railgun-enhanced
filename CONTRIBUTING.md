@@ -69,24 +69,27 @@ Thank you for your interest in contributing to Orbital Railgun Enhanced! This do
 
 ## Project Structure
 
-The mod uses Fabric's split source sets:
+The mod uses a multi-module structure with version-specific source code:
 
-- `src/main/` - Server-side and shared code
-  - `java/` - Java source files
-  - `resources/` - Shared resources (lang files, etc.)
-- `src/client/` - Client-only code
-  - `java/` - Client Java source files
-  - `resources/` - Client resources (shaders, models, textures)
+- `versions/<minecraft_version>/` - Each Minecraft version has its own directory
+  - `src/main/` - Server-side and shared code
+    - `java/` - Java source files
+    - `resources/` - Shared resources (lang files, etc.)
+  - `src/client/` - Client-only code
+    - `java/` - Client Java source files
+    - `resources/` - Client resources (shaders, models, textures)
+  - `build.gradle` - Version-specific build configuration
+  - `gradle.properties` - Version-specific dependency versions
 
 ### Key Directories
 
 | Directory | Purpose |
 |-----------|---------|
-| `src/main/java/.../orbital_railgun_enhanced/` | Core mod initialization, items, commands |
-| `src/client/java/.../client/` | Client-side rendering, shaders, handlers |
-| `src/main/resources/assets/` | Language files |
-| `src/client/resources/assets/` | Textures, models, shaders |
-| `src/main/resources/data/` | Recipes, damage types, data packs |
+| `versions/<mc_version>/src/main/java/.../orbital_railgun_enhanced/` | Core mod initialization, items, commands |
+| `versions/<mc_version>/src/client/java/.../client/` | Client-side rendering, shaders, handlers |
+| `versions/<mc_version>/src/main/resources/assets/` | Language files |
+| `versions/<mc_version>/src/client/resources/assets/` | Textures, models, shaders |
+| `versions/<mc_version>/src/main/resources/data/` | Recipes, damage types, data packs |
 
 ## Coding Guidelines
 
@@ -101,14 +104,14 @@ The mod uses Fabric's split source sets:
 
 - Follow standard Java naming conventions
 - Use meaningful variable and method names
-- Client-only code goes in `src/client/`
-- Server/shared code goes in `src/main/`
+- Client-only code goes in `versions/<mc_version>/src/client/`
+- Server/shared code goes in `versions/<mc_version>/src/main/`
 
 ### Resources
 
-- Language files: JSON format in `src/main/resources/assets/orbital_railgun_enhanced/lang/`
-- Shaders: GLSL files in `src/client/resources/assets/orbital_railgun_enhanced/shaders/`
-- Models: JSON in `src/client/resources/assets/orbital_railgun_enhanced/models/`
+- Language files: JSON format in `versions/<mc_version>/src/main/resources/assets/orbital_railgun_enhanced/lang/`
+- Shaders: GLSL files in `versions/<mc_version>/src/client/resources/assets/orbital_railgun_enhanced/shaders/`
+- Models: JSON in `versions/<mc_version>/src/client/resources/assets/orbital_railgun_enhanced/models/`
 
 ## Translations
 
@@ -116,7 +119,7 @@ We welcome translation contributions! The mod currently supports multiple langua
 
 ### Adding a New Language
 
-1. Create a new JSON file in `src/main/resources/assets/orbital_railgun_enhanced/lang/`
+1. Create a new JSON file in `versions/<mc_version>/src/main/resources/assets/orbital_railgun_enhanced/lang/`
 2. Name it using the Minecraft language code (e.g., `fr_fr.json` for French)
 3. Copy the contents of `en_us.json` as a template
 4. Translate all strings

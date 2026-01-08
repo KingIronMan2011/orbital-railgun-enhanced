@@ -56,8 +56,7 @@ The workflow runs automatically when:
 - Code is pushed to the `main` or `master` branch
 - Changes are made to:
   - `gradle.properties` (version changes)
-  - `versions/**` (version-specific configuration changes)
-  - `src/**` (source code changes)
+  - `versions/**` (version-specific configuration or source code changes)
   - `build.gradle` (build configuration changes)
   - `settings.gradle` (project structure changes)
   - `.github/workflows/build-and-release.yml` (workflow changes)

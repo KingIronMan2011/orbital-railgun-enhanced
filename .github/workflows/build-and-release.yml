@@ -8,7 +8,6 @@ on:
     paths:
       - "gradle.properties"
       - "versions/**"
-      - "src/**"
       - "build.gradle"
       - "settings.gradle"
       - ".github/workflows/build-and-release.yml"

@@ -143,19 +143,20 @@ The project uses Gradle multi-module architecture:
 **Version Subprojects** (`versions/<mc_version>/`):
 - Each subproject is a complete Fabric mod build for a specific Minecraft version
 - Currently: `versions/1.20.4/` (supports MC 1.20.1-1.20.4)
-- Each has its own `build.gradle` and `gradle.properties`
-- All reference shared source code from root `src/` directory
+- Each has its own `build.gradle`, `gradle.properties`, and `src/` directory
+- Source code is version-specific to allow modifications across versions
 
-**Shared Source Code** (Root `src/` directory):
+**Version-Specific Source Code** (In each `versions/<mc_version>/src/` directory):
 - `src/main/` - Server-side and shared code
 - `src/client/` - Client-only code
-- Version subprojects configure their source sets to reference these directories
+- `src/test/` - Test code
+- Each version can have different source code to support version-specific features
 
 ### Source Layout
 
 The mod uses Fabric's split source sets (configured in version subprojects):
 
-**Main Source Set** (`src/main/`):
+**Main Source Set** (in each `versions/<mc_version>/src/main/`):
 
 - `java/io/github/kingironman2011/orbital_railgun_enhanced/` - Server-side and shared code
   - `OrbitalRailgun.java` - Main mod initializer (ModInitializer entrypoint)
@@ -173,7 +174,7 @@ The mod uses Fabric's split source sets (configured in version subprojects):
   - `assets/orbital_railgun_enhanced/lang/` - Language files (15 languages)
   - `data/orbital_railgun_enhanced/` - Data packs (recipes, damage types)
 
-**Client Source Set** (`src/client/`):
+**Client Source Set** (in each `versions/<mc_version>/src/client/`):
 
 - `java/io/github/kingironman2011/orbital_railgun_enhanced/client/` - Client-only code
   - `OrbitalRailgunClient.java` - Client initializer
@@ -203,6 +204,7 @@ The mod uses Fabric's split source sets (configured in version subprojects):
 **Version Subprojects** (`versions/<mc_version>/`):
 - `build.gradle` - Version-specific build configuration (dependencies, Fabric Loom setup)
 - `gradle.properties` - Version-specific properties (Minecraft version, dependency versions)
+- `src/` - Version-specific source code directory
 
 **Checkstyle:**
 - `config/checkstyle/checkstyle.xml` - Checkstyle configuration for code style enforcement
@@ -230,7 +232,7 @@ The mod uses custom network packets (defined in `OrbitalRailgun.java`):
 **Triggers:**
 
 - Push to main/master branches
-- Changes to: `gradle.properties`, `versions/**`, `src/**`, `build.gradle`, `settings.gradle`, workflow file
+- Changes to: `gradle.properties`, `versions/**`, `build.gradle`, `settings.gradle`, workflow file
 - Manual workflow_dispatch
 
 **Build Process:**
@@ -266,7 +268,7 @@ Use automated translation tools (Google Translate, DeepL, etc.) for new translat
 
 ### Making Code Changes
 
-1. **Source organization:** Server code in `src/main/`, client code in `src/client/`
+1. **Source organization:** Server code in `versions/<mc_version>/src/main/`, client code in `versions/<mc_version>/src/client/`
 2. **Mixins:** Use appropriate mixin JSON file (client vs server)
 3. **Configuration:** Server config in `ServerConfig.java`, client in `EnhancedConfig.java` (uses owo-lib)
 4. **Sound events:** Register in `SoundsRegistry.java`, implement handlers in client code
@@ -274,10 +276,10 @@ Use automated translation tools (Google Translate, DeepL, etc.) for new translat
 
 ### Resource Modifications
 
-- **Language files:** JSON in `src/main/resources/assets/orbital_railgun_enhanced/lang/`
-- **Shaders:** GLSL files in `src/client/resources/assets/orbital_railgun_enhanced/shaders/`
-- **Models/Textures:** In `src/client/resources/assets/orbital_railgun_enhanced/`
-- **Data packs:** In `src/main/resources/data/orbital_railgun_enhanced/`
+- **Language files:** JSON in `versions/<mc_version>/src/main/resources/assets/orbital_railgun_enhanced/lang/`
+- **Shaders:** GLSL files in `versions/<mc_version>/src/client/resources/assets/orbital_railgun_enhanced/shaders/`
+- **Models/Textures:** In `versions/<mc_version>/src/client/resources/assets/orbital_railgun_enhanced/`
+- **Data packs:** In `versions/<mc_version>/src/main/resources/data/orbital_railgun_enhanced/`
 
 ### Version Management
 
@@ -300,7 +302,7 @@ The mod version is automatically substituted into `fabric.mod.json` during build
 
 **Adding a new sound:**
 
-1. Add `.ogg` file to `src/main/resources/assets/orbital_railgun_enhanced/sounds/`
+1. Add `.ogg` file to `versions/<mc_version>/src/main/resources/assets/orbital_railgun_enhanced/sounds/`
 2. Register in `SoundsRegistry.java`
 3. Add localization to `lang/en_us.json` (subtitle key)
 4. Implement playback in appropriate handler
@@ -309,8 +311,8 @@ The mod version is automatically substituted into `fabric.mod.json` during build
 
 1. Create item class in `item/` package
 2. Register in `OrbitalRailgunItems.java`
-3. Add model JSON to `resources/assets/.../models/item/`
-4. Add texture to `resources/assets/.../textures/item/`
+3. Add model JSON to `versions/<mc_version>/src/client/resources/assets/.../models/item/`
+4. Add texture to `versions/<mc_version>/src/client/resources/assets/.../textures/item/`
 5. Add localization keys
 
 **Modifying strike behavior:**
@@ -337,8 +339,11 @@ gradlew.bat             - Gradle wrapper script (Windows)
 gradle.properties       - Root project properties (mod version, maven group)
 settings.gradle         - Gradle settings (subproject includes)
 config/                 - Configuration files (Checkstyle)
-src/                    - Shared source code (main/ and client/)
 versions/               - Version-specific subprojects (e.g., versions/1.20.4/)
+  └── <mc_version>/     - Each version has its own src/ directory with version-specific code
+      ├── build.gradle
+      ├── gradle.properties
+      └── src/          - Version-specific source code
 ```
 
 ## Trust These Instructions
@@ -358,7 +363,7 @@ For build issues, ALWAYS check:
 
 For code changes:
 
-1. Respect the split source sets (main vs client) in shared `src/` directory
+1. Respect the split source sets (main vs client) in each version's `src/` directory
 2. Follow existing patterns in similar files
 3. Test with an actual Minecraft instance when possible
-4. When adding support for new Minecraft versions, create a new subproject in `versions/`
+4. When adding support for new Minecraft versions, create a new subproject in `versions/` with its own `src/` directory
