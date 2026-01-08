@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.github.kingironman2011.orbital_railgun_enhanced.client.OrbitalRailgunClient;
+import io.github.kingironman2011.orbital_railgun_enhanced.network.PlaySoundPayload;
 import io.github.kingironman2011.orbital_railgun_enhanced.registry.SoundsRegistry;
-import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
@@ -13,7 +13,6 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.item.Item;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
@@ -51,8 +50,7 @@ public class SoundsHandler {
         handleRailgunCooldown(player, volumeShoot);
         handleHotbarSwitch(player, volumeEquip);
 
-        PacketByteBuf areaBuf = new PacketByteBuf(Unpooled.buffer());
-        ClientPlayNetworking.send(SoundsRegistry.AREA_CHECK_PACKET_ID, areaBuf);
+        // Note: AREA_CHECK_PACKET_ID removed as it's not handled by server
     }
 
     private void handleRailgunUsage(
@@ -94,13 +92,12 @@ public class SoundsHandler {
             float pitchShoot = 1.0f;
 
             if (!lastCooldownActive && cooldownNow && OrbitalRailgunClient.CONFIG.enableShootSound()) {
-                PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-                buf.writeIdentifier(Registries.SOUND_EVENT.getId(SoundsRegistry.RAILGUN_SHOOT));
-                buf.writeBlockPos(player.getBlockPos());
-                buf.writeFloat(volumeShoot);
-                buf.writeFloat(pitchShoot);
-
-                ClientPlayNetworking.send(SoundsRegistry.PLAY_SOUND_PACKET_ID, buf);
+                ClientPlayNetworking.send(new PlaySoundPayload(
+                        Registries.SOUND_EVENT.getId(SoundsRegistry.RAILGUN_SHOOT),
+                        player.getBlockPos(),
+                        volumeShoot,
+                        pitchShoot
+                ));
             }
 
             lastCooldownActive = cooldownNow;
