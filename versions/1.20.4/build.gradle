@@ -51,9 +51,6 @@ afterEvaluate {
             java {
                 srcDirs = [file('src/test/java')]
             }
-            resources {
-                srcDirs = [file('src/test/resources')]
-            }
         }
     }
 }
