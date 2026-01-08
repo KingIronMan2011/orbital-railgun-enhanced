@@ -33,18 +33,26 @@ afterEvaluate {
     sourceSets {
         main {
             java {
-                srcDirs = [rootProject.file('src/main/java')]
+                srcDirs = [file('src/main/java')]
             }
             resources {
-                srcDirs = [rootProject.file('src/main/resources')]
+                srcDirs = [file('src/main/resources')]
             }
         }
         client {
             java {
-                srcDirs = [rootProject.file('src/client/java')]
+                srcDirs = [file('src/client/java')]
             }
             resources {
-                srcDirs = [rootProject.file('src/client/resources')]
+                srcDirs = [file('src/client/resources')]
+            }
+        }
+        test {
+            java {
+                srcDirs = [file('src/test/java')]
+            }
+            resources {
+                srcDirs = [file('src/test/resources')]
             }
         }
     }
