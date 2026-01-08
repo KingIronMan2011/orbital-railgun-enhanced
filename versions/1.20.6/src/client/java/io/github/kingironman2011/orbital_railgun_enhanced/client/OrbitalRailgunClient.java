@@ -18,7 +18,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.render.item.BuiltinModelItemRenderer;
 import net.minecraft.util.math.BlockPos;
-import software.bernie.geckolib.animatable.client.RenderProvider;
+import software.bernie.geckolib.animatable.client.GeoRenderProvider;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
@@ -38,7 +38,7 @@ public class OrbitalRailgunClient implements ClientModInitializer {
         sounds.initializeClient();
 
         OrbitalRailgunItems.ORBITAL_RAILGUN.renderProviderHolder.setValue(
-                new RenderProvider() {
+                new GeoRenderProvider() {
                     private OrbitalRailgunRenderer renderer;
 
                     @Override
