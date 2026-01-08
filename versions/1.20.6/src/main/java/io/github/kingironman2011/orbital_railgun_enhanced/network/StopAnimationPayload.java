@@ -3,7 +3,6 @@ package io.github.kingironman2011.orbital_railgun_enhanced.network;
 import io.github.kingironman2011.orbital_railgun_enhanced.OrbitalRailgun;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.network.packet.CustomPayload;
 
 public record StopAnimationPayload() implements CustomPayload {
