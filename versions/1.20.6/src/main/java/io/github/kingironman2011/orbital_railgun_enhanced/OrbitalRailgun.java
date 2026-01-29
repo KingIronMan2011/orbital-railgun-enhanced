@@ -68,6 +68,11 @@ public class OrbitalRailgun implements ModInitializer {
         OrbitalRailgunStrikeManager.initialize();
         LOGGER.info("Strike manager initialized");
 
+        // Register C2S (Client-to-Server) payload types
+        PayloadTypeRegistry.playC2S().register(PlaySoundPayload.ID, PlaySoundPayload.CODEC);
+        PayloadTypeRegistry.playC2S().register(ShootPayload.ID, ShootPayload.CODEC);
+        LOGGER.info("Client-to-server network payloads registered");
+
         // Register S2C (Server-to-Client) payload types
         PayloadTypeRegistry.playS2C().register(ClientSyncPayload.ID, ClientSyncPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(StopAreaSoundPayload.ID, StopAreaSoundPayload.CODEC);

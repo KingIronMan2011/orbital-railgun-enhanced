@@ -48,6 +48,12 @@ public class OrbitalRailgunClient implements ClientModInitializer {
         PayloadTypeRegistry.playC2S().register(ShootPayload.ID, ShootPayload.CODEC);
         LOGGER.info("Client-to-server network payloads registered");
 
+        // Register S2C (Server-to-Client) payload types
+        PayloadTypeRegistry.playS2C().register(ClientSyncPayload.ID, ClientSyncPayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(StopAreaSoundPayload.ID, StopAreaSoundPayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(StopAnimationPayload.ID, StopAnimationPayload.CODEC);
+        LOGGER.info("Server-to-client network payloads registered");
+
         OrbitalRailgunItems.ORBITAL_RAILGUN.renderProviderHolder.setValue(
                 new GeoRenderProvider() {
                     private OrbitalRailgunRenderer renderer;
